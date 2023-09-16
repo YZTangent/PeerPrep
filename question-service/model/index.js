@@ -8,6 +8,6 @@ const db = {};
 db.mongoose = mongoose;
 db.url = dbConfig.url;
 
-db.users = require("./user.model.js")(mongoose);
+db.questions = require("./question.model.js")(mongoose);
 
 module.exports = db;

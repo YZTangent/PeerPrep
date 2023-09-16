@@ -11,7 +11,7 @@ app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const PORT = 8003;
+const PORT = 8002;
 
 const db = require("./model");
 db.mongoose
@@ -28,10 +28,10 @@ db.mongoose
   });
 
 app.get('/', (_, res) => {
-  res.json({ message: 'Hello World from user-service.' });
+  res.json({ message: 'Hello World from question-service.' });
 });
 
-require('./route/user.routes')(app);
+require('./route/question.routes')(app);
 
 app.listen(PORT, () => {
   console.log(`user-service listening on port ${PORT}`);
