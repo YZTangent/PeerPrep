@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 
 const PORT = 8002;
 
-const db = require("./model");
+const db = require("./models");
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -31,8 +31,8 @@ app.get('/', (_, res) => {
   res.json({ message: 'Hello World from question-service.' });
 });
 
-require('./route/question.routes')(app);
+require('./routes/question.routes')(app);
 
 app.listen(PORT, () => {
-  console.log(`user-service listening on port ${PORT}`);
+  console.log(`question-service listening on port ${PORT}`);
 });
