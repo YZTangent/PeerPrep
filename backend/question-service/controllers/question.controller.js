@@ -2,22 +2,18 @@ const db = require('../models');
 const Question = db.questions;
 
 exports.create = (req, res) => {
-  if (!req.body.questionId
-    || !req.body.questionTitle
-    || !req.body.questionDescription
-    || !req.body.questionCategory
-    || !req.body.questionComplexity) {
+  if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     res.status(400).send({message: 'Question details missing.'});
     return;
   }
 
-  const question = new Question({
-    questionId: req.body.questionId,
-    questionTitle: req.body.questionTitle,
-    questionDescription: req.body.questionDescription,
-    questionCategory: req.body.questionCategory.split(',').map(category => category.trim()),
-    questionComplexity: req.body.questionComplexity
-  });
+  const question = Question.create(
+    req.body.questionId,
+    req.body.questionTitle,
+    req.body.questionDescription,
+    req.body.questionCategory.split(',').map(category => category.trim()),
+    req.body.questionComplexity
+  );
 
   question
     .save(question)

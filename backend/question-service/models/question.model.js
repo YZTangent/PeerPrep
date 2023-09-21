@@ -29,5 +29,15 @@ module.exports = mongoose => {
     )
   );
 
+  Question.statics.create = function(questionId, questionTitle, questionDescription, questionCategory, questionComplexity) {
+    return new Question({
+      questionId,
+      questionTitle,
+      questionDescription,
+      questionCategory,
+      questionComplexity
+    });
+  }
+
   return Question;
 };
