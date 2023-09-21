@@ -7,13 +7,13 @@ exports.create = (req, res) => {
     return;
   }
 
-  const question = Question.create(
-    req.body.questionId,
-    req.body.questionTitle,
-    req.body.questionDescription,
-    req.body.questionCategory.split(',').map(category => category.trim()),
-    req.body.questionComplexity
-  );
+  const question = new Question({
+    questionId: req.body.questionId,
+    questionTitle: req.body.questionTitle,
+    questionDescription: req.body.questionDescription,
+    questionCategory: req.body.questionCategory.split(',').map(category => category.trim()),
+    questionComplexity: req.body.questionComplexity
+  });
 
   question
     .save(question)
