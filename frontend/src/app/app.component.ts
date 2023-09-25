@@ -9,8 +9,10 @@ export class AppComponent implements OnInit{
   title = 'frontend';
   questions: any[] = [];
   currentIndex: Number = 0;
+  counter!: number;
   
   ngOnInit(): void {
+    this.counter = 0;
   }
 
   saveQuestions() {
@@ -22,7 +24,10 @@ export class AppComponent implements OnInit{
   }
 
   addItem(formData: any) {
-      this.questions?.push(formData.value)
+      let obj = Object.assign({}, formData.value);
+      obj["id"] = this.counter.valueOf() + 1
+      this.counter++;
+      this.questions?.push(obj)
       this.saveQuestions();
   }
 
@@ -31,7 +36,7 @@ export class AppComponent implements OnInit{
   }
 
   deleteItem(i: number) {
-    this.questions.splice(i);
+    this.questions.splice(i, 1);
   }
   
 }
