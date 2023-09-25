@@ -8,8 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit{
   title = 'frontend';
   questions: any[] = [];
-  currentIndex: Number = 0;
+  currentIndex: number = -1;
+  currentQuestion: any = null;
   counter!: number;
+  bottomView = true;
+selector: any;
   
   ngOnInit(): void {
     this.counter = 0;
@@ -23,6 +26,12 @@ export class AppComponent implements OnInit{
       this.currentIndex = i;
   }
 
+  toggleView(i: number) {
+    this.bottomView = !this.bottomView;
+    this.currentIndex = i;
+    this.currentQuestion = this.questions[i]
+  }
+
   addItem(formData: any) {
       let obj = Object.assign({}, formData.value);
       obj["id"] = this.counter.valueOf() + 1
@@ -32,7 +41,9 @@ export class AppComponent implements OnInit{
   }
 
   editItem(index: number, formData: any) {
-    this.questions[index] = formData;
+    let obj = Object.assign({}, formData.value);
+    obj["id"] = index + 1;
+    this.questions[index] = obj;
   }
 
   deleteItem(i: number) {
