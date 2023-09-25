@@ -8,7 +8,7 @@ import { Component, OnInit } from '@angular/core';
 export class AppComponent implements OnInit{
   title = 'frontend';
   questions: any[] = [];
-  currentIndex: number = -1;
+  currentIndex: number = -2;
   currentQuestion: any = null;
   counter!: number;
   bottomView = true;
@@ -26,10 +26,15 @@ selector: any;
       this.currentIndex = i;
   }
 
-  toggleView(i: number) {
+  toggleView(i: any) {
     this.bottomView = !this.bottomView;
-    this.currentIndex = i;
-    this.currentQuestion = this.questions[i]
+    if (i) {
+      this.currentIndex = i;
+      this.currentQuestion = this.questions[i]
+    } else {
+      this.currentIndex = -1;
+    }
+    console.log(this.currentIndex, this.currentQuestion);
   }
 
   addItem(formData: any) {
