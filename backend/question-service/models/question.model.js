@@ -17,7 +17,7 @@ module.exports = mongoose => {
           required: true
         },
         questionCategory: {
-          type: [String],
+          type: String,
           required: true
         },
         questionComplexity: {

@@ -12,7 +12,7 @@ exports.create = (req, res) => {
     questionId: req.body.questionId,
     questionTitle: req.body.questionTitle,
     questionDescription: req.body.questionDescription,
-    questionCategory: req.body.questionCategory.split(',').map(category => category.trim()),
+    questionCategory: req.body.questionCategory,
     questionComplexity: req.body.questionComplexity
   });
 
