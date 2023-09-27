@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { QuestionService } from './question.service';
 
 @Component({
   selector: 'app-root',
@@ -13,9 +14,22 @@ export class AppComponent implements OnInit{
   counter!: number;
   bottomView = true;
 selector: any;
+
+  constructor(private questionService: QuestionService) {}
   
   ngOnInit(): void {
-    this.counter = 0;
+    this.getQuestions();
+    if (!this.questions) {
+      this.questions = [];
+    }
+    this.counter = this.questions.length;
+  }
+
+  getQuestions() {
+    this.questionService.getAllQuestions().subscribe((res) => {
+      console.log(res);
+      this.questions = res;
+    })
   }
 
   saveQuestions() {
@@ -39,10 +53,15 @@ selector: any;
 
   addItem(formData: any) {
       let obj = Object.assign({}, formData.value);
+      console.log(obj)
+      this.questionService.saveQuestion(this.counter, obj).subscribe((res) => {
+        console.log(res)
+      })
       obj["id"] = this.counter.valueOf() + 1
       this.counter++;
       this.questions?.push(obj)
       this.saveQuestions();
+      
   }
 
   editItem(index: number, formData: any) {

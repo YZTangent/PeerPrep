@@ -2,6 +2,7 @@ const db = require('../models');
 const Question = db.questions;
 
 exports.create = (req, res) => {
+  console.log(req.body)
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     res.status(400).send({message: 'Question details missing.'});
     return;
@@ -28,6 +29,20 @@ exports.create = (req, res) => {
   
   return;
 };
+
+exports.find = (req, res) => {
+  Question.find()
+  .then(data => {
+    res.send(data);
+    return;
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "An error occurred while retrieving all questions"
+    })
+    return;
+  })
+}
 
 exports.findOne = (req, res) => {
   const questionId = req.params.questionId;
