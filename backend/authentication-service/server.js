@@ -7,13 +7,13 @@ const dbConfig = require("./app/config/db.config");
 
 //cors is a middleware
 var corsOptions = {
-    origin:"http://localhost:8081"
+    origin:"http://localhost:4200"
 };
 
 app.use(
   cors({
     credentials: true,
-    origin: ["http://localhost:8081"],
+    origin: ["http://localhost:4200"],
   })
 );
 app.use(express.json());

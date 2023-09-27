@@ -9,6 +9,7 @@ import { AuthService } from './_services/auth.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
+  name = "angular-auth"
   private roles: string[] = [];
   isLoggedIn = false;
   showAdminBoard = false;
