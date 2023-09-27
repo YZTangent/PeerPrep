@@ -1,58 +1,47 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { StorageService } from './_services/storage.service';
+import { AuthService } from './_services/auth.service';
+
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
-  title = 'frontend';
-  questions: any[] = [];
-  currentIndex: number = -2;
-  currentQuestion: any = null;
-  counter!: number;
-  bottomView = true;
-selector: any;
-  
+export class AppComponent {
+  name = "frontend"
+  private roles: string[] = [];
+  isLoggedIn = false;
+  showAdminBoard = false;
+  showModeratorBoard = false;
+  username?: string;
+
+  constructor(private storageService: StorageService, private authService: AuthService) { }
+
   ngOnInit(): void {
-    this.counter = 0;
-  }
+    this.isLoggedIn = this.storageService.isLoggedin();
 
-  saveQuestions() {
-      localStorage.setItem("qs", JSON.stringify(this.questions));
-  }
+    if (this.isLoggedIn) {
+      const user = this.storageService.getUser();
+      this.roles = user.roles;
 
-  view(i: number) {
-      this.currentIndex = i;
-  }
+      this.showAdminBoard = this.roles.includes('ROLE_ADMIN');
+      this.showModeratorBoard = this.roles.includes('ROLE_MODERATOR');
 
-  toggleView(i: any) {
-    this.bottomView = !this.bottomView;
-    if (i) {
-      this.currentIndex = i;
-      this.currentQuestion = this.questions[i]
-    } else {
-      this.currentIndex = -1;
+      this.username = user.username;
     }
-    console.log(this.currentIndex, this.currentQuestion);
   }
 
-  addItem(formData: any) {
-      let obj = Object.assign({}, formData.value);
-      obj["id"] = this.counter.valueOf() + 1
-      this.counter++;
-      this.questions?.push(obj)
-      this.saveQuestions();
+  signout(): void {
+    this.authService.signout().subscribe({
+      next: res => {
+        this.storageService.clean();
+        this.isLoggedIn = false;
+        window.location.reload();
+      },
+      error: err => {
+        console.log(err);
+      }
+    });
   }
-
-  editItem(index: number, formData: any) {
-    let obj = Object.assign({}, formData.value);
-    obj["id"] = index + 1;
-    this.questions[index] = obj;
-  }
-
-  deleteItem(i: number) {
-    this.questions.splice(i, 1);
-  }
-  
 }
