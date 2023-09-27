@@ -2,7 +2,6 @@ const db = require('../models');
 const Question = db.questions;
 
 exports.create = (req, res) => {
-  console.log(req.body)
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     res.status(400).send({message: 'Question details missing.'});
     return;
@@ -30,8 +29,8 @@ exports.create = (req, res) => {
   return;
 };
 
-exports.find = (req, res) => {
-  Question.find()
+exports.findAll = (req, res) => {
+  Question.find({})
   .then(data => {
     res.send(data);
     return;
@@ -96,12 +95,12 @@ exports.delete = (req, res) => {
 
   Question.findOneAndDelete(condition, req.body, { new: true })
     .then(data => {
-      if (!data) {
-        res.status(404).send({
-          message: `Unable to delete Question with questionId ${questionId}. Not found.`
-        });
-        return;
-      }
+      // if (!data) {
+      //   res.status(404).send({
+      //     message: `Unable to delete Question with questionId ${questionId}. Not found.`
+      //   });
+      //   return;
+      // } why do we need btw
       res.send({ message: 'Question deleted successfully.'});
       return;
     })

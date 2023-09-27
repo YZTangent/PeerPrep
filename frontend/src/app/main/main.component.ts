@@ -21,17 +21,18 @@ selector: any;
     this.getQuestions();
     if (!this.questions) {
       this.questions = [];
+      this.counter = 0;
     }
-    this.counter = this.questions.length;
   }
 
   getQuestions() {
     this.questionService.getAllQuestions().subscribe((res) => {
-      console.log(res);
       this.questions = res;
+      this.counter = this.questions.length;
     })
   }
 
+  //to delete
   saveQuestions() {
       localStorage.setItem("qs", JSON.stringify(this.questions));
   }
@@ -41,6 +42,7 @@ selector: any;
   }
 
   toggleView(i: any) {
+    // to improve
     this.bottomView = !this.bottomView;
     if (i) {
       this.currentIndex = i;
@@ -53,25 +55,31 @@ selector: any;
 
   addItem(formData: any) {
       let obj = Object.assign({}, formData.value);
-      console.log(obj)
-      this.questionService.saveQuestion(this.counter, obj).subscribe((res) => {
-        console.log(res)
+      obj["questionId"] = this.counter;
+      this.questionService.saveQuestion(obj).subscribe((res) => {
+        // log error
       })
-      obj["id"] = this.counter.valueOf() + 1
       this.counter++;
       this.questions?.push(obj)
       this.saveQuestions();
       
   }
 
-  editItem(index: number, formData: any) {
+  editItem(index: number, qid: number, formData: any) {
     let obj = Object.assign({}, formData.value);
-    obj["id"] = index + 1;
+    obj["questionId"] = qid;
+    console.log(obj)
     this.questions[index] = obj;
+    this.questionService.editQuestion(obj).subscribe((res) => {
+      // log error
+    })
   }
 
-  deleteItem(i: number) {
-    this.questions.splice(i, 1);
+  deleteItem(index:number, i: number) {
+    this.questions.splice(index, 1);
+    this.questionService.deleteQuestion(i).subscribe((res) => {
+      // log error
+    })
   }
   
 }

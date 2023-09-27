@@ -15,19 +15,34 @@ export class QuestionService {
 
   getAllQuestions(): Observable<any> {
     return this.http.get(
-      api + '/all', httpOptions
+      api + '/all', 
+      httpOptions
     );
   }
 
-  saveQuestion(id: number, question: any): Observable<any> {
-    let newobj = {questionId: id.toString(), questionTitle: question.name, questionDescription: question.description,
-        questionCategory: question.category, questionComplexity: question.complexity}
+  saveQuestion(question: any): Observable<any> {
+    let newobj = Object.assign({}, question);
     return this.http.post(
         api,
         newobj,
         httpOptions
     )
+  }
 
+  editQuestion(question: any): Observable<any> {
+    let newobj = Object.assign({}, question);
+    return this.http.put(
+        api + "/" + newobj.questionId.toString(),
+        newobj,
+        httpOptions
+    )
+  }
+
+  deleteQuestion(id: number): Observable<any> {
+    return this.http.delete(
+      api + "/" + id.toString(),
+        httpOptions
+    )
   }
 
 }

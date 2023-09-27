@@ -5,12 +5,12 @@ module.exports = app => {
   
     // Create a new question
     router.post("/", questions.create);
+
+    // Retrieve all questions
+    router.get("/all", questions.findAll);
   
     // Retrieve a question using questionId
     router.get("/:questionId", questions.findOne);
-
-    // Retrieve all questions
-    router.get("/all", questions.find);
   
     // Update a question using questionId
     router.put("/:questionId", questions.update);
