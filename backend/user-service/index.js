@@ -1,8 +1,9 @@
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
+
 const app = express();
-const dbConfig = require("./app/config/db.config");
+const dbConfig = require("./config/db.config.js");
 
 
 //cors is a middleware
@@ -29,12 +30,11 @@ app.use(cookieSession({
 app.get("/", (req, res) => {
     res.json({message:"route_message says hi!"});
 });
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
+require('./routes/auth.routes')(app);
+require('./routes/user.routes')(app);
 
 //db
-
-const db = require("./app/models");
+const db = require("./models");
 const Role = db.role;
 db.mongoose.connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser:true,
