@@ -19,7 +19,7 @@ FROM nginx:alpine
 
 RUN rm -rf /usr/share/nginx/html/*
 
-COPY --from=build /usr/src/frontend/dist /usr/share/nginx/html/
+COPY --from=build /usr/src/frontend/dist/* /usr/share/nginx/html/
 
 EXPOSE 8000
 

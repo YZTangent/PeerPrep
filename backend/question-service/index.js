@@ -4,8 +4,11 @@ const cors = require('cors');
 const app = express();
 
 var corsOptions = {
-  credentials: true, 
-  origin: 'http://localhost:4200'
+  origin: 'http://127.0.0.1:8000',
+  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+  allowedHeaders: 'Origin, Authorization, Content-Type, Accept',
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 
 app.use(cors(corsOptions));
@@ -15,15 +18,15 @@ app.use(express.urlencoded({ extended: true }));
 const PORT = 8002;
 
 const db = require("./models");
+const dbConfig = require("./config/db.config.js");
+
 db.mongoose
-  .connect(db.url, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-  })
-  .then(() => {
+  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+    useNewUrlParser:true,
+    useUnifiedTopology:true
+  }).then(() => {
     console.log('Connected to the database.');
-  })
-  .catch(err => {
+  }).catch(err => {
     console.log('Connection failed.', err);
     process.exit();
   });
