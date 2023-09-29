@@ -49,7 +49,7 @@ db.mongoose.connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`
 
 
 //set port & listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {console.log(`Server is running on port ${PORT}.`);});
 
 function initial() {

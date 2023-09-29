@@ -1,13 +1,23 @@
 version: "3"
 services:
-#  user:
-#    build: ./backend/user-service
-#    container_name: user-service
-#    restart: unless-stopped
-#    ports:
-#      - 8001:8001
-#    links:
-#      - mongodb
+  frontend:
+    build: ./frontend
+    container_name: 
+    restart: unless-stopped
+    ports:
+     - 8000:8000
+    links:
+     - user
+     - question
+
+  user:
+    build: ./backend/user-service
+    container_name: user-service
+    restart: unless-stopped
+    ports:
+      - 8001:8001
+    links:
+      - user-db
 
   question:
     build: ./backend/question-service
@@ -16,9 +26,19 @@ services:
     ports:
       - 8002:8002
     links:
-      - mongodb
+      - question-db
 
-  mongodb:
+  user-db:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    container_name: mongodb
+    volumes:
+      - type: bind
+        source: ./data
+        target: /data/db
+    ports:
+      - 27017:27017
+  
+  question-db:
     image: mongodb/mongodb-community-server:6.0-ubi8
     container_name: mongodb
     volumes:
