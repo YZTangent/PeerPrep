@@ -40,9 +40,7 @@ services:
     image: mongodb/mongodb-community-server:6.0-ubi8
     container_name: user-db
     volumes:
-      - type: bind
-        source: ./data
-        target: /data/user_db
+      - user-db-data:/data/db
     ports:
       - 27001:27017
     networks:
@@ -52,9 +50,7 @@ services:
     image: mongodb/mongodb-community-server:6.0-ubi8
     container_name: question-db
     volumes:
-      - type: bind
-        source: ./data
-        target: /data/question_db
+      - question-db-data:/data/db
     ports:
       - 27002:27017
     networks:
@@ -65,3 +61,7 @@ networks:
     driver: bridge
   backend:
     driver: bridge
+
+volumes:
+  user-db-data:
+  question-db-data:
