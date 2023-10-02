@@ -7,7 +7,6 @@ class matchingQueue {
 
     enqueue(match) {
         const checkedMatch = this.checkMatch(match); //check if match exists, return match if it does
-        console.log(checkedMatch);
         if (typeof(checkedMatch) == "undefined") {
             this.queue.push(match);
         }  
@@ -28,6 +27,10 @@ class matchingQueue {
 
     checkUser(match) {
         return lodash.find(this.queue, {userid: match.userid});
+    }
+
+    checkUserId(userid) {
+        return lodash.find(this.queue, {userid: userid});
     }
     
     getQueueLen() {

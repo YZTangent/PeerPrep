@@ -34,7 +34,7 @@ exports.enqueue = (req, res) => {
 
 exports.dequeue = (req, res) => {
     try {
-        let existingMatch = mQueue.checkUser(match);
+        let existingMatch = mQueue.checkUserId(req.body.userid);
         if(typeof(existingMatch) == 'undefined') { //check if user is already in queue
             res.send({ message: 'User is not in queue.'});
         } else {
