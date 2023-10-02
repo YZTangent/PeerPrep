@@ -25,10 +25,6 @@ class matchingQueue {
         });
     }
 
-    checkUser(match) {
-        return lodash.find(this.queue, {userid: match.userid});
-    }
-
     checkUserId(userid) {
         return lodash.find(this.queue, {userid: userid});
     }

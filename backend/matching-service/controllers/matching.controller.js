@@ -3,17 +3,16 @@ const mQueue = new queue();
 const matchObject = require('../models/match.object.js');
 
 exports.enqueue = (req, res) => {
-    try {
-        match = new matchObject(
-            req.body.userid,
-            req.body.difficulty,
-            req.body.language,
-            res
-        );
-        
-        if(typeof(mQueue.checkUser(match)) != 'undefined') { //check if user is already in queue
+    try {    
+        if(typeof(mQueue.checkUserId(req.body.userid)) != 'undefined') { //check if user is already in queue
             res.send({ message: 'User already in queue.'});
         } else {
+            let match = new matchObject(
+                req.body.userid,
+                req.body.difficulty,
+                req.body.language,
+                res
+            );
             let exsitingMatch = mQueue.enqueue(match);
             if (typeof(exsitingMatch) != "undefined") {
                 let firstUserRes = exsitingMatch.firstUserRes;
