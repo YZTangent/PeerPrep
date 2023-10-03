@@ -33,6 +33,16 @@ services:
     networks:
       - frontend
       - backend
+
+  matching:
+    build: ./backend/matching-service
+    container_name: matching-service
+    restart: unless-stopped
+    ports:
+      - 8003:8003
+    networks:
+      - frontend
+      - backend
     depends_on:
       - question-db
 
@@ -41,6 +51,7 @@ services:
     container_name: user-db
     volumes:
       - user-db-data:/data/db
+      - user-db-data:/data/configdb
     ports:
       - 27001:27017
     networks:
@@ -51,6 +62,8 @@ services:
     container_name: question-db
     volumes:
       - question-db-data:/data/db
+      - question-db-data:/data/configdb
+
     ports:
       - 27002:27017
     networks:
