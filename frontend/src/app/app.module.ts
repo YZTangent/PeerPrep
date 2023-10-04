@@ -14,6 +14,7 @@ import { UserComponent } from './user/user.component';
 
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { MainComponent } from './main/main.component';
+import { MatchingComponent } from './matching/matching.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { MainComponent } from './main/main.component';
     ProfileComponent,
     AdminComponent,
     UserComponent,
-    MainComponent
+    MainComponent,
+    MatchingComponent
   ],
   imports: [
     BrowserModule,

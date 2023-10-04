@@ -51,7 +51,7 @@ exports.dequeue = (req, res) => {
 
 exports.getLength = (req, res) => {
     try {
-        res.send("Queue: " + mQueue.getQueueLen());
+        res.send({length: mQueue.getQueueLen()});
     } catch (error) {
         res.status(500).send({
             message: error.message || 'Error retrieving queue.'
