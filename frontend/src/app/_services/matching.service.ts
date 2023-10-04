@@ -18,6 +18,10 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/js
         return this.http.post(api + "/enqueue", obj, httpOptions)
     }
 
+    dequeue(id: any): Observable<any> {
+        return this.http.post(api + "/dequeue", {userid: id}, httpOptions)
+    }
+
     getQueueLength(): Observable<any> {
         return this.http.get(api + "/getLength", httpOptions)
     }
