@@ -1,0 +1,23 @@
+<div class="container mt-3">
+    <h1>Matching Machine</h1>
+    <h3 style="color: darkcyan;" *ngIf="queueLength > -1">Current Number of Users in Queue: {{ queueLength }}</h3>
+    <form id="matchingForm" #matchingForm="ngForm" (submit)="submitMatchingForm(matchingForm)">
+        <label for="difficulty" class="mb-3">Question Difficulty :</label>
+                <select name="difficulty" id="difficulty" class="form-select" ngModel required>
+                    <option value="Easy" selected>Easy</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Hard">Hard</option>
+                </select>
+        <label for="language" class="mb-3">Programming Language :</label>
+                <select name="language" id="language" class="form-select" ngModel required>
+                    <option value="Python" selected>Python</option>
+                    <option value="Javascript">Javascript</option>
+                    <option value="Java">Java</option>
+                    <option value="C">C</option>
+                </select>
+        <button class="btn btn-primary mt-3" type="submit" [disabled]="!matchingForm.valid">Match me</button>
+    </form>
+    <div *ngIf="requested">
+        <h2 class="mt-3">{{ match ? match : "We're trying to match you right now..."}}</h2>
+    </div>
+</div>

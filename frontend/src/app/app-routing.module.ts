@@ -7,6 +7,7 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
+import { MatchingComponent } from './matching/matching.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -15,6 +16,7 @@ const routes: Routes = [
   { path: 'profile', component: ProfileComponent },
   { path: 'user', component: UserComponent },
   { path: 'admin', component: AdminComponent },
+  { path: 'match', component: MatchingComponent},
   { path: '', redirectTo: 'home', pathMatch: 'full' }
 ];
 
