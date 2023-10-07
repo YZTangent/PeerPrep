@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { MatchingService } from '../_services/matching.service';
-import { NgForm } from '@angular/forms';
-import { StorageService } from '../_services/storage.service';
-import { timeoutWith, throwError } from 'rxjs';
+import { Component } from '@angular/core'
+import { MatchingService } from '../_services/matching.service'
+import { NgForm } from '@angular/forms'
+import { StorageService } from '../_services/storage.service'
+import { timeoutWith, throwError } from 'rxjs'
 
 @Component({
   selector: 'app-matching',
@@ -20,23 +20,33 @@ export class MatchingComponent {
   constructor(private matchingService: MatchingService, private storageService: StorageService){}
 
   ngOnInit() {
-    this.getQueueLength();
+    this.getQueueLength()
   }
 
   getMatch(userDetails: any) {
     this.matchingService.enqueue(userDetails).pipe(timeoutWith(2000, throwError(() => {
       this.matchingService.dequeue(userDetails["userid"]).subscribe((res) => {
-        this.match = "You're request timed out!"
+        this.match = "Your request timed out!"
+        this.requested = false
         this.getQueueLength()
       })
     }))).subscribe((res) => {
       console.log(res)
       if (res.message.includes("Matched users:")) {
-        this.match = res.message;
+        this.match = res.message
         this.getQueueLength()
       }
     })
     this.getQueueLength()
+  }
+
+  cancelMatch() {
+    let userid = this.storageService.getUser()["id"]
+    this.matchingService.dequeue(userid).subscribe((res) => {
+      this.getQueueLength()
+      this.requested = false
+      this.match = undefined
+    })
   }
 
   getQueueLength() {
@@ -49,7 +59,7 @@ export class MatchingComponent {
     let obj = Object.assign({}, form.value)
     obj["userid"] = this.storageService.getUser()["id"]
     this.getMatch(obj)
-    this.requested = true;
+    this.requested = true
     if (this.match == "You're request timed out!") {
       this.match = "We're trying to match you..."
     }

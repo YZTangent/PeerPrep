@@ -51,7 +51,7 @@
               <th>Question Complexity</th>
               <th>Actions</th>
           </tr>
-          <tr *ngFor="let question of questions; index as index" (click)="view(index)">
+          <tr *ngFor="let question of questions; index as index">
                   <td>{{question.questionId}}</td>
                   <td>{{question.questionTitle}}</td>
                   <td>{{question.questionDescription}}</td>
@@ -65,7 +65,7 @@
                     <div class="modal-dialog">
                       <div class="modal-content">
                         <div class="modal-header">
-                          <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                          <h5 class="modal-title" id="exampleModalLabel">Edit Question</h5>
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <form id="questionEditForm" #questionEditForm="ngForm">

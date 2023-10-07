@@ -1,5 +1,5 @@
 module.exports = {
-  HOST: "user-db",
+  HOST: "user_db",
   PORT: 27017,
   DB: "user_db"
 };
