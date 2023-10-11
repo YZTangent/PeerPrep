@@ -2,6 +2,7 @@
   <ngx-monaco-editor 
     style="height: 100%"
     [options]="editorOptions"
-    [(ngModel)]="code">
+    [(ngModel)]="code"
+    (ngModelChange)="emitChange()">
   </ngx-monaco-editor>
 </div>
