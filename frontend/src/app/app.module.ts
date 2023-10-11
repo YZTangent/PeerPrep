@@ -11,10 +11,12 @@ import { HomeComponent } from './home/home.component';
 import { ProfileComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { MainComponent } from './main/main.component';
 import { MatchingComponent } from './matching/matching.component';
+import { CollabComponent } from './collab/collab.component';
 
 @NgModule({
   declarations: [
@@ -26,13 +28,15 @@ import { MatchingComponent } from './matching/matching.component';
     AdminComponent,
     UserComponent,
     MainComponent,
-    MatchingComponent
+    MatchingComponent,
+    CollabComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-    HttpClientModule
+    HttpClientModule,
+    MonacoEditorModule.forRoot()
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]
