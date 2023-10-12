@@ -33,16 +33,23 @@ httpServer.listen(PORT, () => {
 io.on("connection", (socket) => {
   console.log(`${socket.id} connected.`);
 
-  socket.on("join", (event) => {
-    console.log(`${socket.id} joined room ${event.roomId}`)
-    socket.join(event.roomId);
+  let matchedRoomId;
+
+  socket.on("join", (roomId) => {
+    console.log(`${socket.id} joining room ${roomId}`)
+    matchedRoomId = roomId
+    socket.join(matchedRoomId);
   })
 
-  socket.on("codeChange", (event) => {
-    console.log(`Emitting ${event}.`);
-    io.to(event.roomId).emit("codeChange", event);
+  socket.on("codeChange", (code) => {
+    console.log(`Emitting ${code} to ${matchedRoomId}.`);
+    socket.broadcast.to(matchedRoomId).emit("codeChange", code);
   })
 
+  socket.on("message", (message) => {
+    console.log(`Emitting ${message} to ${matchedRoomId}`);
+    socket.broadcast.to(matchedRoomId).emit("message", message);
+  })
 });
 
 require('./routes/collab.routes')(app);

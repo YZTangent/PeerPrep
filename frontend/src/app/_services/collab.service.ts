@@ -1,6 +1,6 @@
 import { Injectable, OnInit } from "@angular/core";
-import { BehaviorSubject, Observable } from "rxjs";
-import { io, Socket } from 'socket.io-client';
+import { BehaviorSubject } from "rxjs";
+import { io } from 'socket.io-client';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +11,7 @@ export class CollabService implements OnInit {
   private socket = io('http://127.0.0.1:8004');
 
   public code$: BehaviorSubject<string> = new BehaviorSubject('');
+  public message$: BehaviorSubject<string> = new BehaviorSubject('');
 
   ngOnInit(): void {
     this.socket.on("connect", () => {
@@ -22,25 +23,33 @@ export class CollabService implements OnInit {
 
   public joinRoom(roomId: string) {
     console.log(`Joining room ${roomId}`);
-    this.socket.emit("join", {
-      roomId: roomId
-    });
+    this.socket.emit("join", roomId);
   }
 
-  public emitCode(roomId: string, code: string) {
-    console.log(`Emitting codeChange:\n${code}\nto room ${roomId}.`);
-    this.socket.emit("codeChange", {
-      roomId: roomId,
-      code: code
-    })
-    this.code$.next(code);
+  public emitCode(code: string) {
+    console.log(`Emitting codeChange:\n${code}\n`);
+    this.socket.emit("codeChange", code)
   }
 
   public getCode = () => {
-    this.socket.on("codeChange", (event) => {
-      this.code$.next(event.code);
+    this.socket.on("codeChange", (code) => {
+      this.code$.next(code);
     })
 
     return this.code$.asObservable();
+  }
+
+  public emitMessage(message: string) {
+    console.log(`Emitting message:\n${message}\n`);
+    this.socket.emit("message", message);
+    this.message$.next(message);
+  }
+
+  public getMessage = () => {
+    this.socket.on("message", (message) => {
+      this.message$.next(message);
+    })
+
+    return this.message$.asObservable();
   }
 }

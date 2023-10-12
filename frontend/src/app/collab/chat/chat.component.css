@@ -1,0 +1,16 @@
+.chat-box {
+  width: 25vh;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.scrollable-container {
+  height: 25vh;
+  overflow: auto;
+}
+
+.message {
+  overflow: hidden;
+  word-wrap: break-word;
+}

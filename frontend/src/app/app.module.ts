@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { MaterialModule } from './shared/material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { MainComponent } from './main/main.component';
 import { MatchingComponent } from './matching/matching.component';
 import { CollabComponent } from './collab/collab.component';
+import { ChatComponent } from './collab/chat/chat.component';
 
 @NgModule({
   declarations: [
@@ -29,14 +31,16 @@ import { CollabComponent } from './collab/collab.component';
     UserComponent,
     MainComponent,
     MatchingComponent,
-    CollabComponent
+    CollabComponent,
+    ChatComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    MonacoEditorModule.forRoot()
+    MaterialModule,
+    MonacoEditorModule.forRoot(),
   ],
   providers: [httpInterceptorProviders],
   bootstrap: [AppComponent]

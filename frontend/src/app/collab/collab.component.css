@@ -1,3 +1,19 @@
+.flex-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.question-container {
+  height: calc(100vh - 75px);
+  flex: 1;
+  overflow: auto;
+}
+
+.column {
+  position: relative;
+  flex: 3;
+}
+
 .editor-container {
-    height: calc(100vh - 100px);
+  height: calc(100vh - 75px);
 }

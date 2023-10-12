@@ -13,7 +13,6 @@ import { timeoutWith, throwError } from 'rxjs';
 export class MatchingComponent {
 
   match: any = undefined
-  roomId?: string;
 
   requested: boolean = false
 
@@ -38,9 +37,8 @@ export class MatchingComponent {
       console.log(res)
       if (res.message.includes("Matched users:")) {
         this.match = res.message;
-        this.roomId = res.roomId;
         this.getQueueLength()
-        this.router.navigate(['/collab', { roomId: this.roomId }]);
+        this.router.navigate(['/collab', { roomId: res.roomId, language: res.language }]);
       }
     })
     this.getQueueLength()

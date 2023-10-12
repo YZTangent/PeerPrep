@@ -1,0 +1,20 @@
+<mat-card class="chat-box">
+  <mat-card-header>
+    <mat-card-title>Room Chat</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <div class="scrollable-container" id="scrollable-container">
+      <div *ngFor="let message of messageLog">
+        <mat-card class="message">{{message}}</mat-card>
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-actions>
+    <textarea
+      style="resize: none; height: 40px;"
+      [(ngModel)]="message"
+      (keyup)="$event.keyCode == 13 && emitMessage()"
+    ></textarea>
+    <button mat-button (click)="emitMessage()"><mat-icon>send</mat-icon></button>
+  </mat-card-actions>
+</mat-card>
