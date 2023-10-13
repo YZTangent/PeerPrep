@@ -11,6 +11,8 @@ export class ChatComponent implements OnInit {
   public message: string = '';
   public messageLog: string[] = [];
 
+  public isCollapsed: boolean = false;
+
   constructor(
     private collabService: CollabService
   ) {}
@@ -22,9 +24,23 @@ export class ChatComponent implements OnInit {
     })
   }
 
+  onKeydown(event: KeyboardEvent) {
+    if (event.key === "Enter" && !event.shiftKey) {
+      event.preventDefault();
+      this.emitMessage();
+    }
+  }
+
   emitMessage(): void {
-    this.collabService.emitMessage(this.message);
-    this.message = '';
+    if (this.message.length !== 0) {
+      this.collabService.emitMessage(this.message);
+      this.message = '';
+    }
+  }
+
+  toggleCollapsed(): void {
+    console.log(this.isCollapsed);
+    this.isCollapsed = !this.isCollapsed;
   }
 
   scrollChat(): void {

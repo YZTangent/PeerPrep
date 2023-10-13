@@ -3,6 +3,12 @@
   position: absolute;
   bottom: 0;
   right: 0;
+  background-color: lightgrey;
+}
+
+.chat-header {
+  justify-content: left;
+  background-color: white;
 }
 
 .scrollable-container {
@@ -10,7 +16,18 @@
   overflow: auto;
 }
 
+.message-input {
+  resize: none;
+  height: 40px;
+}
+
 .message {
   overflow: hidden;
   word-wrap: break-word;
+  width: max-content;
+  max-width: 100%;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-bottom: 5px;
+  white-space: pre-line;
 }

@@ -53,8 +53,7 @@
   </div>
   <div class="column">
     <div class="editor-container">
-      <ngx-monaco-editor
-        style="height: 100%"
+      <ngx-monaco-editor class ="monaco-editor"
         [options]="editorOptions"
         [(ngModel)]="code"
         (onInit)="onInit($event)">

@@ -1,19 +1,18 @@
 <mat-card class="chat-box">
-  <mat-card-header>
+  <button class="chat-header" mat-button (click)="toggleCollapsed()">
     <mat-card-title>Room Chat</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
+  </button>
+  <mat-card-content *ngIf="isCollapsed">
     <div class="scrollable-container" id="scrollable-container">
       <div *ngFor="let message of messageLog">
         <mat-card class="message">{{message}}</mat-card>
       </div>
     </div>
   </mat-card-content>
-  <mat-card-actions>
-    <textarea
-      style="resize: none; height: 40px;"
+  <mat-card-actions *ngIf="isCollapsed">
+    <textarea class="message-input"
       [(ngModel)]="message"
-      (keyup)="$event.keyCode == 13 && emitMessage()"
+      (keydown)="onKeydown($event)"
     ></textarea>
     <button mat-button (click)="emitMessage()"><mat-icon>send</mat-icon></button>
   </mat-card-actions>
