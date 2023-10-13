@@ -56,6 +56,12 @@ selector: any;
   addItem(formData: any) {
       let obj = Object.assign({}, formData.value);
       obj["questionId"] = this.counter;
+      this.questions.forEach((q) => {
+        if (q["questionTitle"] == obj["questionTitle"]) {
+          alert("Duplicate Question! Please try again")
+          return
+        }
+      })
       this.questionService.saveQuestion(obj).subscribe((res) => {
         // log error
       })
