@@ -33,13 +33,14 @@ export class ChatComponent implements OnInit {
 
   emitMessage(): void {
     if (this.message.length !== 0) {
-      this.collabService.emitMessage(this.message);
+      if (this.message.trim().length !== 0) {
+        this.collabService.emitMessage(this.message);
+      }
       this.message = '';
     }
   }
 
   toggleCollapsed(): void {
-    console.log(this.isCollapsed);
     this.isCollapsed = !this.isCollapsed;
   }
 

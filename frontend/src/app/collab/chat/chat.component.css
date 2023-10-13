@@ -11,14 +11,14 @@
   background-color: white;
 }
 
+.chat-log {
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
 .scrollable-container {
   height: 25vh;
   overflow: auto;
-}
-
-.message-input {
-  resize: none;
-  height: 40px;
 }
 
 .message {
@@ -30,4 +30,20 @@
   padding-right: 5px;
   margin-bottom: 5px;
   white-space: pre-line;
+}
+
+.chat-input {
+  padding-left: 5px;
+  padding-right: 5px;
+  display: flex;
+  justify-content: space-around;
+}
+
+.message-input {
+  resize: none;
+  height: 40px;
+}
+
+.chat-send {
+  padding: 5px;
 }
