@@ -41,9 +41,9 @@ io.on("connection", (socket) => {
     socket.join(matchedRoomId);
   })
 
-  socket.on("codeChange", (code) => {
+  socket.on("change", (code) => {
     console.log(`Emitting ${code} to ${matchedRoomId}.`);
-    socket.broadcast.to(matchedRoomId).emit("codeChange", code);
+    socket.broadcast.to(matchedRoomId).emit("change", code);
   })
 
   socket.on("message", (message) => {

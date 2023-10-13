@@ -13,16 +13,16 @@ exports.enqueue = (req, res) => {
                 req.body.language,
                 res
             );
-            let exsitingMatch = mQueue.enqueue(match);
-            if (typeof(exsitingMatch) != "undefined") {
-                let firstUserRes = exsitingMatch.firstUserRes;
-                let userid = exsitingMatch.userid;
+            let existingMatch = mQueue.enqueue(match);
+            if (typeof(existingMatch) != "undefined") {
+                let firstUserRes = existingMatch.firstUserRes;
+                let userid = existingMatch.userid;
                 let msg = "Matched users: " + userid + " and " + match.userid;
                 let roomId = `${userid}&${match.userid}&${Date.now()}` // to improve roomId generation
                 console.log(`${msg} with roomId ${roomId}`)
                 mQueue.deleteMatch(userid);
-                res.send({ message: msg, roomId: roomId, language: match.language });
-                firstUserRes.send({ message: msg, roomId: roomId, language: match.language });
+                res.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language });
+                firstUserRes.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language });
             }
         }
     } catch (error) {

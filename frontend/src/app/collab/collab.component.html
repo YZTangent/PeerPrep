@@ -57,7 +57,7 @@
         style="height: 100%"
         [options]="editorOptions"
         [(ngModel)]="code"
-        (ngModelChange)="emitChange()">
+        (onInit)="onInit($event)">
       </ngx-monaco-editor>
     </div>
     <app-chat></app-chat>
