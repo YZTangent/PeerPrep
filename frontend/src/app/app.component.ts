@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StorageService } from './_services/storage.service';
 import { AuthService } from './_services/auth.service';
+import { MatchingService } from './_services/matching.service';
 
 
 @Component({
@@ -16,7 +17,7 @@ export class AppComponent {
   showModeratorBoard = false;
   username?: string;
 
-  constructor(private storageService: StorageService, private authService: AuthService) { }
+  constructor(private storageService: StorageService, private authService: AuthService, private matchService: MatchingService) { }
 
   ngOnInit(): void {
     this.isLoggedIn = this.storageService.isLoggedin();
@@ -33,6 +34,7 @@ export class AppComponent {
   }
 
   signout(): void {
+    this.matchService.dequeue(this.storageService.getUser()["username"]).subscribe({});
     this.authService.signout().subscribe({
       next: res => {
         this.storageService.clean();

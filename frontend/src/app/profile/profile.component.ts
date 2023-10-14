@@ -1,5 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit} from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { StorageService } from '../_services/storage.service';
+import { AuthService } from '../_services/auth.service';
+import { UserService } from '../_services/user.service';
 
 @Component({
   selector: 'app-profile',
@@ -7,11 +10,89 @@ import { StorageService } from '../_services/storage.service';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit{
+  form: any = {
+    password: null
+  }
   currentUser: any;
-
-  constructor(private storageService: StorageService) { }
+  constructor(private storageService: StorageService, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.currentUser = this.storageService.getUser();
+  }
+
+  openChangePwDialog(): void {
+    const dialogRef = this.dialog.open(ChangePasswordComponent, { 
+      minWidth: '25vw',
+      minHeight: '25vh',
+      hasBackdrop: true, 
+      data: this.currentUser.username });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
+  openDeleteAccDialog(): void {
+    const dialogRef = this.dialog.open(DeleteAccountComponent, { 
+      minWidth: '25vw',
+      minHeight: '15vh',
+      hasBackdrop: true, 
+      data: this.currentUser.username });
+    dialogRef.afterClosed().subscribe(() => {
+      console.log('The dialog was closed');
+    });
+  }
+
+}
+
+
+@Component({
+  selector: 'change-password-form',
+  templateUrl: './change-password-form.html',  
+  styleUrls: ['./dialog-form.css']
+})
+export class ChangePasswordComponent {
+  newPassword = '';
+  response = '';
+  isError = false;
+  constructor(public dialogRef: MatDialogRef<ChangePasswordComponent>,
+    @Inject(MAT_DIALOG_DATA) private data: string,
+    private userService: UserService) {}
+  
+  changePw() {
+    this.userService.changePw(this.newPassword).subscribe({
+      next: (res) => this.response = res.message,
+      error: (err) => {
+        this.response = err.error.message
+        this.isError = true;
+      }
+    });
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
+  }
+}
+
+@Component({
+  selector: 'delete-account-form',
+  templateUrl: './delete-account-form.html',
+  styleUrls: ['./dialog-form.css']  
+})
+export class DeleteAccountComponent {
+  constructor(public dialogRef: MatDialogRef<DeleteAccountComponent>,
+    @Inject(MAT_DIALOG_DATA) private username: string,
+    private userService: UserService,
+    private authService: AuthService) {}
+
+  deleteAcc() {
+    this.userService.deleteAcc().subscribe((res) => {
+      console.log(res);
+    });
+    this.authService.signout().subscribe((res) => {
+      sessionStorage.clear();
+      window.location.reload();
+      window.location.href = '/';
+    });
+  }
+  onNoClick(): void {
+    this.dialogRef.close();
   }
 }

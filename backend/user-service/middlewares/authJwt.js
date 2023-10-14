@@ -1,42 +1,47 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models/index.js");
-const User = db.user;
-const Role = db.role;
 
 verifyToken = (req,res,next) => {
-    let token = req.session.token;
-
+    let token = req.body.token || req.session.token; //Uses req.session.token if its called locally from user-service
     if (!token) {
         return res.status(403).send({message:"No token provided!"});
     }
-    
-    jwt.verify(token, config.secret, (err,decoded) => {
+    jwt.verify(token, config.secret, (err, decoded) => {
         if(err) {
-            return res.status(401).send({message:"sir stop sir, u are unauthorized!"});
+            return res.status(401).send({message:"Authorization Failed!"});
         }
-        req.userId = decoded.id;
-        next();
+        if (req.session.token) {
+            req.userId = decoded.id; // set userId for delete/update user
+            next();
+            return;
+        }
+        return res.status(200).send({message:"Authorized!"});
     });
 };
 
 isAdmin = (req,res,next) => {
-    User.findById(req.userId).exec().then((user) => {
-        Role.find({_id:{$in:user.roles}}).then((roles) => {
-            for(let i=0; i<roles.length; i++) {
-                if(roles[i].name === "admin") {
-                    next();
-                    return;
-                }
+    let token = req.body.token || req.session.token; //Uses req.session.token if its called locally from user-service
+    if (!token) {
+        return res.status(403).send({message:"No token provided!"});
+    }
+    jwt.verify(token, config.secret, (err,decoded) => {
+        if(err) {
+            return res.status(401).send({message:"Authorization Failed!"});
+        }
+        if(decoded.isAdmin) {
+            if (!req.session.token) {
+                req.userId = decoded.id;
+                next();
+                return;
             }
-            res.status(403).send({message:"sir stop sir, you require admin role!"});
-            return;
-        }).catch((err) => { res.status(500).send({message:err});});
-    }).catch((err) => { res.status(500).send({message:err});});
+            return res.status(200).send({message:"Authorized!"});
+        }
+    });
 };
 
 const authJwt = {
     verifyToken,
-    isAdmin
+    isAdmin,
 }; 
 module.exports = authJwt;

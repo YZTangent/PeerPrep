@@ -24,7 +24,7 @@ export class MatchingComponent {
   }
 
   getMatch(userDetails: any) {
-    this.matchingService.enqueue(userDetails).pipe(timeoutWith(2000, throwError(() => {
+    this.matchingService.enqueue(userDetails).pipe(timeoutWith(30000, throwError(() => {
       this.matchingService.dequeue(userDetails["userid"]).subscribe((res) => {
         this.match = "You're request timed out!"
         this.getQueueLength()
@@ -47,7 +47,7 @@ export class MatchingComponent {
 
   submitMatchingForm(form: NgForm) {
     let obj = Object.assign({}, form.value)
-    obj["userid"] = this.storageService.getUser()["id"]
+    obj["userid"] = this.storageService.getUser()["username"]
     this.getMatch(obj)
     this.requested = true;
     if (this.match == "You're request timed out!") {
