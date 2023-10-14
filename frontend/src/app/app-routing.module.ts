@@ -9,6 +9,7 @@ import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import { MatchingComponent } from './matching/matching.component';
 import { CollabComponent } from './collab/collab.component';
+import { PageNotFoundComponentComponent } from './shared/page-not-found-component/page-not-found-component.component';
 
 const routes: Routes = [
   { path: 'home', component: HomeComponent },
@@ -18,8 +19,9 @@ const routes: Routes = [
   { path: 'user', component: UserComponent },
   { path: 'admin', component: AdminComponent },
   { path: 'match', component: MatchingComponent},
-  { path: 'collab', component: CollabComponent},
-  { path: '', redirectTo: 'home', pathMatch: 'full' }
+  { path: 'collab/:roomId/:difficulty/:language', component: CollabComponent},
+  { path: '', redirectTo: 'home', pathMatch: 'full' },
+  { path: '**', component: PageNotFoundComponentComponent }
 ];
 
 @NgModule({

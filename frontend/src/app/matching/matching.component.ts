@@ -37,8 +37,7 @@ export class MatchingComponent {
       if (res.message.includes("Matched users:")) {
         this.match = res.message;
         this.getQueueLength()
-        console.log(`Routing to room:\n\t${res.roomId}\nwith language:\n\t${res.language}\nand question difficulty:\n\t ${res.difficulty}`)
-        this.router.navigate(['/collab', { roomId: res.roomId, difficulty: res.difficulty, language: res.language }]);
+        this.router.navigate(["/collab", res.roomId, res.difficulty, res.language]);
       }
     })
     this.getQueueLength()

@@ -41,14 +41,25 @@ io.on("connection", (socket) => {
     socket.join(matchedRoomId);
   })
 
-  socket.on("change", (code) => {
-    console.log(`Emitting ${code} to ${matchedRoomId}.`);
-    socket.broadcast.to(matchedRoomId).emit("change", code);
+  socket.on("leave", () => {
+    console.log(`${socket.id} leaving room ${matchedRoomId}`);
+    socket.leave(matchedRoomId);
+    console.log(`Existing rooms: ${Array.from(io.sockets.adapter.rooms.keys())}.`);
+  })
+
+  socket.on("change", (change) => {
+    console.log(`${socket.id} emitting change ${change} to ${matchedRoomId}.`);
+    socket.broadcast.to(matchedRoomId).emit("change", change);
   })
 
   socket.on("message", (message) => {
-    console.log(`Emitting ${message} to ${matchedRoomId}`);
+    console.log(`${socket.id} emitting message ${message} to ${matchedRoomId}`);
     socket.broadcast.to(matchedRoomId).emit("message", message);
+  })
+
+  socket.on("disconnect", () => {
+    console.log(`${socket.id} disconnected.`);
+    console.log(`Existing rooms: ${Array.from(io.sockets.adapter.rooms.keys())}.`);
   })
 });
 

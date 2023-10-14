@@ -1,14 +1,12 @@
-import { Injectable, OnInit } from "@angular/core";
-import { BehaviorSubject, Observable, of } from "rxjs";
+import { Injectable, OnInit, OnDestroy } from "@angular/core";
+import { BehaviorSubject } from "rxjs";
 import { io } from 'socket.io-client';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 
-export class CollabService implements OnInit {
+export class CollabService implements OnInit, OnDestroy {
 
-  private socket = io('http://127.0.0.1:8004');
+  private socket = io('http://127.0.0.1:8004', {'forceNew': true});
 
   public isLocalEvent$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   public change$: BehaviorSubject<any> = new BehaviorSubject(null);
@@ -16,14 +14,20 @@ export class CollabService implements OnInit {
 
   ngOnInit(): void {
     this.socket.on("connect", () => {
-      console.log("socket connected");
-    })    
+      console.log(`${this.socket.id} connected`);
+    })
   }
 
+  ngOnDestroy(): void {
+    this.socket.emit("leave");
+    console.log("Leaving room.");
+    this.socket.disconnect();
+  }
+  
   constructor() {}
 
   public joinRoom(roomId: string) {
-    console.log(`Joining room ${roomId}`);
+    console.log(`Joining room ${roomId}.`);
     this.socket.emit("join", roomId);
   }
 
@@ -33,7 +37,7 @@ export class CollabService implements OnInit {
       this.socket.emit("change", change);
     } else {
       // Stop supressing emission of change event
-      console.log("Ignoring local change");
+      console.log("Suprressed reemission of change event");
       this.isLocalEvent$.next(true);
     }
   }

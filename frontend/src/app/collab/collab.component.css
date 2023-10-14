@@ -3,13 +3,55 @@
   flex-direction: row;
 }
 
-.question-container {
-  height: calc(99vh - 56px);
+.question-column {
+  display: flex;
+  flex-direction: column;
+  position: relative;
   flex: 1;
-  overflow: auto;
+  justify-content: center;
+  align-items: center;
 }
 
-.column {
+.question-container {
+  height: calc(94vh - 56px);
+  overflow: auto;
+
+  /* ref: css-scroll-shadows.vercel.app */
+  background: 
+    linear-gradient(#ffffff 33%, rgba(255,255,255, 0)),
+    linear-gradient(rgba(255,255,255, 0), #ffffff 66%) 0 100%,
+    radial-gradient(farthest-side at 50% 0, rgba(34,34,34, 0.5), rgba(0,0,0,0)),
+    radial-gradient(farthest-side at 50% 100%, rgba(34,34,34, 0.5), rgba(0,0,0,0)) 0 100%;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  background-attachment: local, local, scroll, scroll;
+  background-size: 100% 24px, 100% 24px, 100% 8px, 100% 8px;
+}
+
+.question-container::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollGradient {
+  background: 
+    linear-gradient(#ffffff 33%, rgba(255,255,255, 0)),
+    linear-gradient(rgba(255,255,255, 0), #ffffff 66%) 0 100%,
+    radial-gradient(farthest-side at 50% 0, rgba(34,34,34, 0.5), rgba(0,0,0,0)),
+    radial-gradient(farthest-side at 50% 100%, rgba(34,34,34, 0.5), rgba(0,0,0,0)) 0 100%;
+  background-color: #ffffff;
+  background-repeat: no-repeat;
+  background-attachment: local, local, scroll, scroll;
+  background-size: 100% 24px, 100% 24px, 100% 8px, 100% 8px;
+}
+
+.leave-room {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.editor-column {
   position: relative;
   flex: 3;
 }

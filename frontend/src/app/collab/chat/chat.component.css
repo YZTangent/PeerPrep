@@ -1,5 +1,5 @@
 .chat-box {
-  width: 25vh;
+  width: 18vw;
   position: absolute;
   bottom: 0;
   right: 0;
@@ -45,5 +45,7 @@
 }
 
 .chat-send {
-  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
