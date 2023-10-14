@@ -4,17 +4,23 @@
 }
 
 .question-column {
-  display: flex;
-  flex-direction: column;
+  height: calc(99vh - 56px);
+  width: 25vw;
   position: relative;
   flex: 1;
   justify-content: center;
   align-items: center;
 }
 
-.question-container {
-  height: calc(94vh - 56px);
+.question-title {
+  align-items: start;
+}
+
+.question-description {
+  height: calc(99vh - 86px);
+  width: 100%;
   overflow: auto;
+  white-space: pre-line;
 
   /* ref: css-scroll-shadows.vercel.app */
   background: 
@@ -28,7 +34,7 @@
   background-size: 100% 24px, 100% 24px, 100% 8px, 100% 8px;
 }
 
-.question-container::-webkit-scrollbar {
+.question-description::-webkit-scrollbar {
   display: none;
 }
 
@@ -44,14 +50,18 @@
   background-size: 100% 24px, 100% 24px, 100% 8px, 100% 8px;
 }
 
-.leave-room {
+.collab-actions {
+  height: 20px;
+}
+
+.mat-icon-button {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative;
 }
 
 .editor-column {
+  width: 75vw;
   position: relative;
   flex: 3;
 }

@@ -60,6 +60,30 @@ exports.findOne = (req, res) => {
     });
 };
 
+exports.findRandomByComplexity = (req, res) => {
+  const questionComplexity = req.params.questionComplexity;
+  var condition = questionComplexity ? { questionComplexity } : {};
+
+  Question.find(condition)
+  .then(data => {
+    if (data.length > 0) {
+      randomQuestion = data[Math.floor(Math.random() * data.length)];
+      res.send(randomQuestion);
+    } else {
+      res.status(404).send({
+        message: err.message || `No questions with complexity ${questionComplexity} found.`
+      })  
+    }
+    return;
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || `An error occurred while retrieving a random question with complexity ${questionComplexity}.`
+    })
+    return;
+  })
+};
+
 exports.update = (req, res) => {
   if (!req.body) {
     return res.status(400).send({

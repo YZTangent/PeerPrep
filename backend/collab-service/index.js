@@ -47,6 +47,11 @@ io.on("connection", (socket) => {
     console.log(`Existing rooms: ${Array.from(io.sockets.adapter.rooms.keys())}.`);
   })
 
+  socket.on("question", (question) => {
+    console.log(`${socket.id} emitting question ${question} to ${matchedRoomId}.`);
+    io.to(matchedRoomId).emit("question", question);
+  })
+
   socket.on("change", (change) => {
     console.log(`${socket.id} emitting change ${change} to ${matchedRoomId}.`);
     socket.broadcast.to(matchedRoomId).emit("change", change);

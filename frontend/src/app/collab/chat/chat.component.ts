@@ -11,7 +11,7 @@ export class ChatComponent implements OnInit {
   public message: string = '';
   public messageLog: string[] = [];
 
-  public isCollapsed: boolean = false;
+  public isCollapsed: boolean = true;
 
   constructor(
     private collabService: CollabService
@@ -19,6 +19,7 @@ export class ChatComponent implements OnInit {
 
   ngOnInit(): void {
     this.collabService.getMessage().subscribe((message: string) => {
+      console.log(`Pushing message\n${message}`)
       this.messageLog.push(message);
       setTimeout(() => this.scrollChat(), 10);
     })

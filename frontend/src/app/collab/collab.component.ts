@@ -11,8 +11,9 @@ import { CollabService } from '../_services/collab.service';
 export class CollabComponent implements OnInit {
 
   private roomId: any;
-  private difficulty: any;
+  private complexity: any;
   private language: any;
+  public question: any;
 
   private editor: any;
   public editorOptions = { theme: 'vs-dark', language: '' };
@@ -20,19 +21,24 @@ export class CollabComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private collabService: CollabService
+    private collabService: CollabService,
   ) {}
 
   ngOnInit(): void {
-    this.difficulty = this.route.snapshot.paramMap.get('difficulty');
-    console.log(`Set difficulty to ${this.difficulty}.`)
+    console.log(`Set complexity to ${this.complexity}.`);
+    this.complexity = this.route.snapshot.paramMap.get('difficulty');
+    console.log(`Set language to ${this.language}`);
     this.language = this.route.snapshot.paramMap.get('language');
     this.language = this.language.toLowerCase();
-    console.log(`Set language to ${this.language}`);
     this.editorOptions.language = this.language;
     console.log(`Joining room ${this.roomId}.`)
     this.roomId = this.route.snapshot.paramMap.get('roomId');
     this.collabService.joinRoom(this.roomId);
+    this.collabService.getQuestion().subscribe((question: any) => {
+      console.log(`Updating question ${question}`);
+      this.question = question;
+    })
+    this.getQuestion();
   }
 
   // Expose editor interface
@@ -50,8 +56,8 @@ export class CollabComponent implements OnInit {
     this.collabService.getChange().subscribe((change: any) => {
       if (change) {
         console.log(`Applying change ${change}`);
-        this.editor.getModel().applyEdits(change.changes);        
-      }
+        this.editor.getModel().applyEdits(change.changes);
+      }        
     })
 
     this.editor.onDidDispose((e: any) => {
@@ -59,7 +65,11 @@ export class CollabComponent implements OnInit {
     })
   }
 
-  leaveRoom(): void {
+  public getQuestion() {
+    this.collabService.emitRandomQuestion(this.complexity);
+  }
+
+  public leaveRoom(): void {
     this.router.navigate(["/home"])
   }
 }
