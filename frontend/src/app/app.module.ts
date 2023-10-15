@@ -39,10 +39,7 @@ import { MatchingComponent } from './matching/matching.component';
     FormsModule,
     HttpClientModule,
     MatFormFieldModule,
-    MatInputModule,
     MatDialogModule,
-    OverlayModule,
-    ReactiveFormsModule
   ],
   providers: [
     httpInterceptorProviders, 
