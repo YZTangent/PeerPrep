@@ -1,0 +1,80 @@
+version: "3"
+services:
+  frontend:
+    build: ./frontend
+    container_name: frontend
+    restart: unless-stopped
+    ports:
+      - 8000:80 # map nginx port 80 to port 8000 for frontend
+    networks:
+      - frontend
+    depends_on:
+      - user
+      - question
+
+  user:
+    build: ./backend/user-service
+    container_name: user-service
+    restart: unless-stopped
+    ports:
+      - 8001:8001
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - user-db
+
+  question:
+    build: ./backend/question-service
+    container_name: question-service
+    restart: unless-stopped
+    ports:
+      - 8002:8002
+    networks:
+      - frontend
+      - backend
+
+  matching:
+    build: ./backend/matching-service
+    container_name: matching-service
+    restart: unless-stopped
+    ports:
+      - 8003:8003
+    networks:
+      - frontend
+      - backend
+    depends_on:
+      - question-db
+
+  user-db:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    container_name: user-db
+    volumes:
+      - user-db-data:/data/db
+      - user-db-data:/data/configdb
+    ports:
+      - 27001:27017
+    networks:
+      - backend
+
+  question-db:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    container_name: question-db
+    volumes:
+      - question-db-data:/data/db
+      - question-db-data:/data/configdb
+
+    ports:
+      - 27002:27017
+    networks:
+      - backend
+
+networks:
+  frontend:
+    driver: bridge
+  backend:
+    driver: bridge
+
+volumes:
+  user-db-data:
+  question-db-data:

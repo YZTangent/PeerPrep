@@ -1,21 +1,18 @@
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
+
 const app = express();
-const dbConfig = require("./app/config/db.config");
 
-
-//cors is a middleware
 var corsOptions = {
-    origin:"http://localhost:8081"
+  origin: 'http://127.0.0.1:8000',
+  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+  allowedHeaders: 'Origin, Authorization, Content-Type, Accept',
+  credentials: true,
+  optionsSuccessStatus: 200
 };
 
-app.use(
-  cors({
-    credentials: true,
-    origin: ["http://localhost:8081"],
-  })
-);
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
@@ -29,27 +26,29 @@ app.use(cookieSession({
 app.get("/", (req, res) => {
     res.json({message:"route_message says hi!"});
 });
-require('./app/routes/auth.routes')(app);
-require('./app/routes/user.routes')(app);
+require('./routes/auth.routes')(app);
+require('./routes/user.routes')(app);
 
 //db
+const db = require("./models");
+const dbConfig = require("./config/db.config.js");
 
-const db = require("./app/models");
 const Role = db.role;
-db.mongoose.connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-    useNewUrlParser:true,
-    useUnifiedTopology:true
-}).then(() => {
-    console.log("Successfully connected to MongoDB.");
-    initial();
-}).catch(err => {
-    console.error("Connection error", err);
-    process.exit();
-});
+db.mongoose
+  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+      useNewUrlParser:true,
+      useUnifiedTopology:true
+  }).then(() => {
+      console.log("Successfully connected to MongoDB.");
+      initial();
+  }).catch(err => {
+      console.error("Connection error", err);
+      process.exit();
+  });
 
 
 //set port & listen for requests
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8001;
 app.listen(PORT, () => {console.log(`Server is running on port ${PORT}.`);});
 
 function initial() {

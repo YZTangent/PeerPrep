@@ -13,6 +13,8 @@ import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
+import { MainComponent } from './main/main.component';
+import { MatchingComponent } from './matching/matching.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +24,9 @@ import { httpInterceptorProviders } from './_helpers/http.interceptor';
     HomeComponent,
     ProfileComponent,
     AdminComponent,
-    UserComponent
+    UserComponent,
+    MainComponent,
+    MatchingComponent
   ],
   imports: [
     BrowserModule,
