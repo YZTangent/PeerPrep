@@ -5,7 +5,7 @@ import { StorageService } from '../_services/storage.service';
 
 @Injectable()
 export class HttpRequestInterceptor implements HttpInterceptor {
-    constructor(private storageService: StorageService) {}
+    constructor() {}
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         req = req.clone({ withCredentials: true });
         return next.handle(req);

@@ -7,7 +7,7 @@ const USER_KEY = 'auth-user';
   providedIn: 'root'
 })
 export class StorageService {
-  constructor(private http: HttpClient){}
+  constructor(){}
   clean(): void {
     window.localStorage.clear();
     window.sessionStorage.clear();

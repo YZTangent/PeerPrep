@@ -46,8 +46,8 @@ export class ProfileComponent implements OnInit{
 
 @Component({
   selector: 'change-password-form',
-  templateUrl: './change-password-form.html',  
-  styleUrls: ['./dialog-form.css']
+  templateUrl: './profile-dialogs/change-password-form.html',  
+  styleUrls: ['./profile-dialogs/dialog-form.css']
 })
 export class ChangePasswordComponent {
   newPassword = '';
@@ -73,12 +73,12 @@ export class ChangePasswordComponent {
 
 @Component({
   selector: 'delete-account-form',
-  templateUrl: './delete-account-form.html',
-  styleUrls: ['./dialog-form.css']  
+  templateUrl: './profile-dialogs/delete-account-form.html',
+  styleUrls: ['./profile-dialogs/dialog-form.css']  
 })
 export class DeleteAccountComponent {
   constructor(public dialogRef: MatDialogRef<DeleteAccountComponent>,
-    @Inject(MAT_DIALOG_DATA) private username: string,
+    @Inject(MAT_DIALOG_DATA) data: string,
     private userService: UserService,
     private authService: AuthService) {}
 

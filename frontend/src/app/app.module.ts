@@ -1,18 +1,15 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule } from '@angular/material/dialog';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { OverlayModule } from '@angular/cdk/overlay';
+import { MaterialModule } from './shared/material.module';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
-import { ChangePasswordComponent, ProfileComponent } from './profile/profile.component';
+import { ChangePasswordComponent, ProfileComponent, DeleteAccountComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 
@@ -31,20 +28,18 @@ import { MatchingComponent } from './matching/matching.component';
     UserComponent,
     MainComponent,
     MatchingComponent,
-    ChangePasswordComponent
+    ChangePasswordComponent,
+    DeleteAccountComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    MatFormFieldModule,
-    MatDialogModule,
+    MaterialModule
   ],
   providers: [
-    httpInterceptorProviders, 
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
-  ],
+    httpInterceptorProviders ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
