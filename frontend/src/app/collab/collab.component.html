@@ -1,0 +1,35 @@
+<div class="flex-container">
+  <mat-card class="question-column">
+    <mat-card-header class="question-title">
+      <mat-card-title>
+        {{ question.questionTitle }}
+      </mat-card-title>
+      <mat-card-subtitle>
+        {{ question.complexity }}<br>
+        {{ question.questionCategory }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content class="question-description">
+      {{ question.questionDescription }}
+    </mat-card-content>
+    <mat-card-actions class="collab-actions">
+      <a mat-icon-button (click)="getQuestion()">
+        <mat-icon>refresh</mat-icon>
+      </a>
+      <a
+        class="leave-room"
+        mat-icon-button (click)="leaveRoom()">
+        <mat-icon>exit_to_app</mat-icon>
+      </a>  
+    </mat-card-actions>
+  </mat-card>
+  <div class="editor-column">
+    <div class="editor-container">
+      <ngx-monaco-editor class ="monaco-editor"
+        [options]="editorOptions"
+        (onInit)="onInit($event)">
+      </ngx-monaco-editor>
+    </div>
+    <app-chat></app-chat>
+  </div>
+</div>

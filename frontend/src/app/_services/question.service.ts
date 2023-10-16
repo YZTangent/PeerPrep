@@ -20,6 +20,13 @@ export class QuestionService {
     );
   }
 
+  getRandomQuestionWithComplexity(questionComplexity: string): Observable<any> {
+    return this.http.get(
+      api + '/random/' + questionComplexity, 
+      httpOptions
+    );
+  }
+
   saveQuestion(question: any): Observable<any> {
     let newobj = Object.assign({}, question);
     return this.http.post(
