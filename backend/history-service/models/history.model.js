@@ -1,9 +1,9 @@
 const mongoose = require('mongoose');
 
 const historySchema = new mongoose.Schema({
-    solution: String,
-    language: String,
     question_id: String,
+    language: String,
+    solution: String,
     authors: [
         {
             user_id: String,

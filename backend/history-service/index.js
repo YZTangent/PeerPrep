@@ -20,12 +20,14 @@ db.mongoose
 
 app.get('/', (_, res) => { res.json({ message: 'History-service online and reporting.' }); });
 
+require('./routes/history.routes')(app);
+
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
 
 
-// require('./routes/matching.routes')(app);
+
 
 // const cors = require('cors');
 
