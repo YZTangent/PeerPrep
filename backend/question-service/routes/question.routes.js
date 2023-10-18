@@ -1,66 +1,28 @@
-const { default: axios } = require("axios");
-
 module.exports = app => {
   const questions = require("../controllers/question.controller.js");
 
   var router = require("express").Router();
 
-  verifySession = async (req, res, next) => {
-    if (!req.session || !req.session.username) {
-      return res.status(403).send({message:"No session found! Please login!"});
-    }
-    try {
-      const authorization = await axios.post('http://127.0.0.1:8001/api/auth/verify', { token: req.session.token });
-      if (authorization.status === 200){
-        next();
-        return;
-      } else{
-        return res.status(403).send({message:"Token is invalid!"});
-      }
-    }
-    catch (err) {
-      return res.status(500).send({message:"Authentication Server Timedout!"});
-    }
-  }
-
-  verifyAdmin = async (req, res, next) => {
-    if (!req.session || !req.session.username) {
-      return res.status(403).send({message:"No session found! Please login!"});
-    }
-    try {
-      const authorization = await axios.post('http://127.0.0.1:8001/api/auth/verifyAdmin', { token: req.session.token });
-      if (authorization.status === 200){
-        next();
-        return;
-      } else{
-        return res.status(403).send({message:"Token is invalid!"});
-      }
-    }
-    catch (err) {
-      return res.status(500).send({message:"Authentication Server Timedout!"});
-    }
-  }
-
   // Create a new question
-  router.post("/", verifyAdmin, questions.create);
+  router.post("/", questions.create);
 
   // Retrieve all questions
-  router.get("/all", verifySession, questions.findAll);
+  router.get("/all", questions.findAll);
 
   // Retrieve a question using questionId
-  router.get("/:questionId", verifySession, questions.findOne);
+  router.get("/:questionId", questions.findOne);
 
   // Retrieve a random question with complexity questionComplexity
   router.get("/random/:questionComplexity", questions.findRandomByComplexity);
 
   // Update a question using questionId
-  router.put("/:questionId", verifyAdmin, questions.update);
+  router.put("/:questionId", questions.update);
 
   // Delete a question using questionId
-  router.delete("/:questionId", verifyAdmin, questions.delete);
+  router.delete("/:questionId", questions.delete);
 
   // Delete all questions
-  router.delete("/", verifyAdmin, questions.deleteAll);
+  router.delete("/", questions.deleteAll);
 
   app.use('/question', router);
 };
