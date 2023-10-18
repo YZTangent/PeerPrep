@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const cookieSession = require("cookie-session");
 
 const app = express();
 
@@ -14,6 +15,13 @@ var corsOptions = {
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(cookieSession({
+  maxAge:24*60*60,
+  name:"a_session",
+  keys:["COOKIE_SECRET"],
+  httpOnly:true
+}));
 
 const PORT = 8002;
 

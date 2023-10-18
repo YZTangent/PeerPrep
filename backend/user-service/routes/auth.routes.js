@@ -1,9 +1,13 @@
 const { verifySignUp } = require("../middlewares");
+const { authJwt } = require("../middlewares");
+
 const controller = require("../controllers/auth.controller");
 
 module.exports = function(app) {
-  app.post(
-    "/api/auth/signup",
+  var router = require("express").Router();
+
+  router.post(
+    "/signup",
     [
       verifySignUp.checkDuplicateUsernameOrEmail,
       verifySignUp.checkRolesExisted
@@ -11,6 +15,10 @@ module.exports = function(app) {
     controller.signup
   );
 
-  app.post("/api/auth/signin", controller.signin);
-  app.post("/api/auth/signout", controller.signout);
+  router.post("/signin", controller.signin);
+  router.post("/signout", controller.signout);
+  router.post("/verify", [authJwt.verifyToken]);
+  router.post("/verifyAdmin", [authJwt.isAdmin]);
+
+  app.use('/api/auth', router);
 };

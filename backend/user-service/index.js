@@ -26,6 +26,7 @@ app.use(cookieSession({
 app.get("/", (req, res) => {
     res.json({message:"route_message says hi!"});
 });
+
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 

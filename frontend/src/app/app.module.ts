@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import { HomeComponent } from './home/home.component';
-import { ProfileComponent } from './profile/profile.component';
+import { ChangePasswordComponent, ProfileComponent, DeleteAccountComponent } from './profile/profile.component';
 import { AdminComponent } from './admin/admin.component';
 import { UserComponent } from './user/user.component';
 import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
@@ -32,7 +32,9 @@ import { ChatComponent } from './collab/chat/chat.component';
     MainComponent,
     MatchingComponent,
     CollabComponent,
-    ChatComponent
+    ChatComponent,
+    ChangePasswordComponent,
+    DeleteAccountComponent
   ],
   imports: [
     BrowserModule,
@@ -40,9 +42,10 @@ import { ChatComponent } from './collab/chat/chat.component';
     FormsModule,
     HttpClientModule,
     MaterialModule,
-    MonacoEditorModule.forRoot(),
+    MonacoEditorModule.forRoot()
   ],
-  providers: [httpInterceptorProviders],
+  providers: [
+    httpInterceptorProviders ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

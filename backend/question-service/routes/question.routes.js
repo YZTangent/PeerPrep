@@ -24,5 +24,5 @@ module.exports = app => {
   // Delete all questions
   router.delete("/", questions.deleteAll);
 
-  app.use('/questions', router);
+  app.use('/question', router);
 };
