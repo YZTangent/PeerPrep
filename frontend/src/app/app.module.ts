@@ -15,6 +15,8 @@ import { UserComponent } from './user/user.component';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { MainComponent } from './main/main.component';
 import { MatchingComponent } from './matching/matching.component';
+import { AuthGuard } from './_guards/auth.guard';
+import { RoleGuard } from './_guards/role.guard';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,7 @@ import { MatchingComponent } from './matching/matching.component';
     FormsModule,
     HttpClientModule
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, AuthGuard, RoleGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

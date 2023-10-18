@@ -56,6 +56,7 @@ selector: any;
   addItem(formData: any) {
       let obj = Object.assign({}, formData.value);
       obj["questionId"] = this.counter;
+      // this is not right below
       this.questions.forEach((q) => {
         if (q["questionTitle"] == obj["questionTitle"]) {
           alert("Duplicate Question! Please try again")
