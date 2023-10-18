@@ -33,7 +33,6 @@ export class LoginComponent implements OnInit {
     this.authService.login(username, password).subscribe({
       next:data => {
         this.storageService.saveUser(data);
-        
         this.isLoginFailed = false;
         this.isLoggedIn = true;
         this.roles = this.storageService.getUser().roles;
