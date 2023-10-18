@@ -12,14 +12,23 @@ services:
       - user
       - question
 
+  nginx:
+    image: nginx:alpine
+    ports:
+      - 8080:80
+    networks:
+      - frontend
+      - backend
+    volumes:
+      -./api-gateway/nginx.conf:/etc/nginx/nginx.conf:ro
+
   user:
     build: ./backend/user-service
     container_name: user-service
     restart: unless-stopped
-    ports:
-      - 8001:8001
+    expose:
+      - "8001"
     networks:
-      - frontend
       - backend
     depends_on:
       - user-db
@@ -28,20 +37,18 @@ services:
     build: ./backend/question-service
     container_name: question-service
     restart: unless-stopped
-    ports:
-      - 8002:8002
+    expose:
+      - "8002"
     networks:
-      - frontend
       - backend
 
   matching:
     build: ./backend/matching-service
     container_name: matching-service
     restart: unless-stopped
-    ports:
-      - 8003:8003
+    expose:
+      - "8003"
     networks:
-      - frontend
       - backend
     depends_on:
       - question-db
@@ -50,10 +57,10 @@ services:
     build: ./backend/collab-service
     container_name: collab-service
     restart: unless-stopped
-    ports:
-      - 8004:8004
+    expose:
+      - "8004"
     networks:
-      - frontend
+      - backend
 
   user-db:
     image: mongodb/mongodb-community-server:6.0-ubi8
