@@ -17,6 +17,8 @@ import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 import { httpInterceptorProviders } from './_helpers/http.interceptor';
 import { MainComponent } from './main/main.component';
 import { MatchingComponent } from './matching/matching.component';
+import { AuthGuard } from './_guards/auth.guard';
+import { RoleGuard } from './_guards/role.guard';
 import { CollabComponent } from './collab/collab.component';
 import { ChatComponent } from './collab/chat/chat.component';
 
@@ -42,7 +44,7 @@ import { ChatComponent } from './collab/chat/chat.component';
     MaterialModule,
     MonacoEditorModule.forRoot(),
   ],
-  providers: [httpInterceptorProviders],
+  providers: [httpInterceptorProviders, AuthGuard, RoleGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
