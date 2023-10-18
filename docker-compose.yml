@@ -61,8 +61,8 @@ services:
     volumes:
       - user-db-data:/data/db
       - user-db-data:/data/configdb
-    ports:
-      - 27001:27017
+    expose:
+      - "27001"
     networks:
       - backend
 
@@ -72,9 +72,8 @@ services:
     volumes:
       - question-db-data:/data/db
       - question-db-data:/data/configdb
-
-    ports:
-      - 27002:27017
+    expose:
+      - "27001"
     networks:
       - backend
 
