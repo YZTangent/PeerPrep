@@ -3,6 +3,13 @@ import { MatchingService } from '../_services/matching.service'
 import { NgForm } from '@angular/forms'
 import { StorageService } from '../_services/storage.service'
 import { timeoutWith, throwError } from 'rxjs'
+import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { MatchingService } from '../_services/matching.service';
+import { StorageService } from '../_services/storage.service';
+import { timeoutWith, throwError } from 'rxjs';
+
 
 @Component({
   selector: 'app-matching',
@@ -17,7 +24,10 @@ export class MatchingComponent {
 
   queueLength: number = -1
 
-  constructor(private matchingService: MatchingService, private storageService: StorageService){}
+  constructor(
+    private router: Router,
+    private matchingService: MatchingService,
+    private storageService: StorageService){}
 
   ngOnInit() {
     this.getQueueLength()
@@ -31,10 +41,10 @@ export class MatchingComponent {
         this.getQueueLength()
       })
     }))).subscribe((res) => {
-      console.log(res)
       if (res.message.includes("Matched users:")) {
         this.match = res.message
         this.getQueueLength()
+        this.router.navigate(["/collab", res.roomId, res.difficulty, res.language]);
       }
     })
     this.getQueueLength()

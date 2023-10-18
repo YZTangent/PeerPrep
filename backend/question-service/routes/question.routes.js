@@ -12,6 +12,9 @@ module.exports = app => {
   // Retrieve a question using questionId
   router.get("/:questionId", questions.findOne);
 
+  // Retrieve a random question with complexity questionComplexity
+  router.get("/random/:questionComplexity", questions.findRandomByComplexity);
+
   // Update a question using questionId
   router.put("/:questionId", questions.update);
 

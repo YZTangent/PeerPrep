@@ -46,6 +46,15 @@ services:
     depends_on:
       - question-db
 
+  collab:
+    build: ./backend/collab-service
+    container_name: collab-service
+    restart: unless-stopped
+    ports:
+      - 8004:8004
+    networks:
+      - frontend
+
   user-db:
     image: mongodb/mongodb-community-server:6.0-ubi8
     container_name: user-db
