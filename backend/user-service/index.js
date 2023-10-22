@@ -1,21 +1,20 @@
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
-
 const app = express();
+var bcrypt = require('bcryptjs');
 
 var corsOptions = {
   origin: 'http://127.0.0.1:8000',
   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
-  allowedHeaders: 'Origin, Authorization, Content-Type, Accept',
+  allowedHeaders: 'Origin, Authorization, Content-Type, Accept, Cookie',
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
 app.use(cookieSession({
     name:"a_session",
     keys:["COOKIE_SECRET"],
@@ -27,6 +26,9 @@ app.get("/", (req, res) => {
     res.json({message:"route_message says hi!"});
 });
 
+app.options('/api/auth/verify', cors(corsOptions)); // to enable pre-flight requests for verify
+app.options('/api/auth/verifyAdmin', cors(corsOptions)); // to enable pre-flight requests for verifyAdmin
+
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 
@@ -35,6 +37,7 @@ const db = require("./models");
 const dbConfig = require("./config/db.config.js");
 
 const Role = db.role;
+const User = db.user;
 db.mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
       useNewUrlParser:true,
@@ -77,4 +80,20 @@ function initial() {
       });
     }
   });
+
+  const user = new User({
+      username: "admin",
+      email: "admin@admin.com",
+      password: bcrypt.hashSync("admin123", 8)
+  });
+  User.findOne({ username: "admin" }).exec().then((findAdmin) => {
+    if(!findAdmin) {
+      user.save().then((user) => {
+        Role.findOne({ name: "admin" }).then((role) => {
+          user.roles = [role.id];
+          user.save().then(() => {});
+        }).catch((err) => {console.log(err);}) 
+      })
+    }
+  })
 }
