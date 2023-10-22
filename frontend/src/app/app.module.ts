@@ -19,6 +19,7 @@ import { MainComponent } from './main/main.component';
 import { MatchingComponent } from './matching/matching.component';
 import { CollabComponent } from './collab/collab.component';
 import { ChatComponent } from './collab/chat/chat.component';
+import { HistoryComponent } from './history/history.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ChatComponent } from './collab/chat/chat.component';
     MainComponent,
     MatchingComponent,
     CollabComponent,
-    ChatComponent
+    ChatComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,
