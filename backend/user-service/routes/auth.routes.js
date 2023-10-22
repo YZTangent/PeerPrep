@@ -20,5 +20,5 @@ module.exports = function(app) {
   router.get("/verify", [authJwt.verifyToken]);
   router.get("/verifyAdmin", [authJwt.isAdmin]);
 
-  app.use('/api/auth', router);
+  app.use('/auth', router);
 };
