@@ -17,8 +17,8 @@ module.exports = function(app) {
 
   router.post("/signin", controller.signin);
   router.post("/signout", controller.signout);
-  router.post("/verify", [authJwt.verifyToken]);
-  router.post("/verifyAdmin", [authJwt.isAdmin]);
+  router.get("/verify", [authJwt.verifyToken]);
+  router.get("/verifyAdmin", [authJwt.isAdmin]);
 
   app.use('/api/auth', router);
 };
