@@ -3,49 +3,49 @@ const config = require("../config/auth.config.js");
 const db = require("../models/index.js");
 
 verifyToken = (req,res,next) => {
-    console.log(req.headers);
-    console.log("hello from verifyToken!");
-    let token = req.body.token || req.session.token; //Uses req.session.token if its called locally from user-service
+    console.log("Authenticating with verifyToken.")
+    console.log("Request headers:\n" + req.headers);
+    console.log("Request body:\n" + req.body);
+    let token = req.session.token || req.headers.cookie; // req.session.token used if called locally from user-service
     if (!token) {
-        return res.status(403).send({message:"No token provided!"});
+        console.log("No token found.");
+        return res.status(403).send({ message: "No token provided." });
     }
     jwt.verify(token, config.secret, (err, decoded) => {
-        if(err) {
-            return res.status(401).send({message:"Authorization Failed!"});
+        if (err) {
+            console.log(err.message);
+            return res.status(401).send({ message: "Authorization failed." });
         }
         if (req.session.token) {
             req.userId = decoded.id; // set userId for delete/update user
-            next();
-            return;
         }
-        return res.status(200).send({message:"Authorized!"});
+        return res.status(200).send({ message: "Authorization succeeded." });
     });
 };
 
 
 isAdmin = (req,res,next) => {
-    console.log(req.headers);
-    console.log("hello from verifyAdmin!");
-    let token = req.body.token || req.session.token; //Uses req.session.token if its called locally from user-service
+    console.log("Authenticating with verifyAdmin.")
+    console.log("Request headers:\n" + req.headers);
+    console.log("Request body:\n" + req.body);
+    let token = req.session.token || req.headers.cookie; // req.session.token used if called locally from user-service
     if (!token) {
-        console.log("no token!");
-        return res.status(403).send({message:"No token provided!"});
+        console.log( "No token found." );
+        return res.status(403).send({ message: "No token provided." });
     }
     jwt.verify(token, config.secret, (err,decoded) => {
-        if(err) {
-            console.log("no verify!");
-            return res.status(401).send({message:"Authorization Failed!"});
+        if (err) {
+            console.log(err.message);
+            return res.status(401).send({ message: "Authorization failed." });
         }
-        if(decoded.isAdmin) {
+        if (decoded.isAdmin) {
             if (!req.session.token) {
                 req.userId = decoded.id;
-                next();
-                return;
             }
-            return res.status(200).send({message:"Authorized!"});
+            return res.status(200).send({ message: "Admin authorization succeeded." });
         }
-        console.log("no admin!");
-        return res.status(403).send({message:"Only admins can do this!"});
+        console.log("No admin authorization. Forbidden.");
+        return res.status(403).send({ message: "Admin authorization needed. Forbidden." });
     });
 };
 
