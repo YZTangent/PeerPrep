@@ -6,7 +6,7 @@ var bcrypt = require('bcryptjs');
 
 var corsOptions = {
   origin: 'http://127.0.0.1:8000',
-  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+  methods: 'PUT, PATCH, POST, DELETE',
   allowedHeaders: 'Origin, Authorization, Content-Type, Accept, Cookie',
   credentials: true,
   optionsSuccessStatus: 200,
@@ -25,9 +25,6 @@ app.use(cookieSession({
 app.get("/", (req, res) => {
     res.json({message:"route_message says hi!"});
 });
-
-app.options('/api/auth/verify', cors(corsOptions)); // to enable pre-flight requests for verify
-app.options('/api/auth/verifyAdmin', cors(corsOptions)); // to enable pre-flight requests for verifyAdmin
 
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
@@ -81,6 +78,8 @@ function initial() {
     }
   });
 
+  // Temporary code for creating an admin
+  // To remove: bcrypt, everything below this comment
   const user = new User({
       username: "admin",
       email: "admin@admin.com",

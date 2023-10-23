@@ -6,7 +6,7 @@ const httpServer = createServer();
 const io = new Server(httpServer, {
   cors: {
     origin: 'http://127.0.0.1:8000',
-    methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
+    methods: 'PUT, PATCH, POST, DELETE',
     allowedHeaders: 'Origin, Authorization, Content-Type, Accept',
     credentials: true,
     optionsSuccessStatus: 200
