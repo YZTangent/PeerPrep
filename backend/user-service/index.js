@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
 const app = express();
-var bcrypt = require('bcryptjs');
 
 var corsOptions = {
   origin: 'http://127.0.0.1:8000',
@@ -34,7 +33,6 @@ const db = require("./models");
 const dbConfig = require("./config/db.config.js");
 
 const Role = db.role;
-const User = db.user;
 db.mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
       useNewUrlParser:true,
@@ -77,22 +75,4 @@ function initial() {
       });
     }
   });
-
-  // Temporary code for creating an admin
-  // To remove: bcrypt, everything below this comment
-  const user = new User({
-      username: "admin",
-      email: "admin@admin.com",
-      password: bcrypt.hashSync("admin123", 8)
-  });
-  User.findOne({ username: "admin" }).exec().then((findAdmin) => {
-    if(!findAdmin) {
-      user.save().then((user) => {
-        Role.findOne({ name: "admin" }).then((role) => {
-          user.roles = [role.id];
-          user.save().then(() => {});
-        }).catch((err) => {console.log(err);}) 
-      })
-    }
-  })
 }

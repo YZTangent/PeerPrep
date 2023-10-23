@@ -3,12 +3,8 @@ const config = require("../config/auth.config.js");
 const db = require("../models/index.js");
 
 verifyToken = (req,res,next) => {
-    console.log("Authenticating with verifyToken.")
-    console.log("Request headers:");
-    console.log(req.headers);
-    console.log("Request body:");
-    console.log(req.body);
-    let token = req.session.token || req.headers.cookie; // req.session.token used if called locally from user-service
+    console.log("Authenticating with verifyToken.");
+    let token = req.session.token; 
     if (!token) {
         console.log("No token found.");
         return res.status(403).send({ message: "No token provided." });
@@ -18,10 +14,12 @@ verifyToken = (req,res,next) => {
             console.log(err.message);
             return res.status(401).send({ message: "Authorization failed." });
         }
-        if (req.session.token) {
-            req.userId = decoded.id; // set userId for delete/update user
-        }
+        req.userId = decoded.id; 
         console.log("Authorization success.");
+        if (!req.headers['x-original-uri']) { // if this is not a request from the gateway, i.e. a request from user-service
+            next();                           // note: this implies gateway set an x-original-uri header when routing here from other services
+            return;
+        }
         return res.status(200).send({ message: "Authorization succeeded." });
     });
 };
@@ -29,11 +27,7 @@ verifyToken = (req,res,next) => {
 
 isAdmin = (req,res,next) => {
     console.log("Authenticating with verifyAdmin.")
-    console.log("Request headers:");
-    console.log(req.headers);
-    console.log("Request body:");
-    console.log(req.body);
-    let token = req.session.token || req.headers.cookie; // req.session.token used if called locally from user-service
+    let token = req.session.token; 
     if (!token) {
         console.log("No token found.");
         return res.status(403).send({ message: "No token provided." });
@@ -48,6 +42,10 @@ isAdmin = (req,res,next) => {
                 req.userId = decoded.id;
             }
             console.log("Admin authorization success.");
+            if (!req.headers['x-original-uri']) { // if this is not a request from the gateway, i.e. a request from user-service
+                next();                           // note: this implies gateway set an x-original-uri header when routing here from other services
+                return;
+            }
             return res.status(200).send({ message: "Admin authorization succeeded." });
         }
         console.log("No admin authorization. Forbidden.");

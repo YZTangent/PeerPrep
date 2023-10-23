@@ -2,7 +2,6 @@ const db = require('../models');
 const Question = db.questions;
 
 exports.create = (req, res) => {
-  console.log(req);
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
     res.status(400).send({message: 'Question details missing.'});
     return;
