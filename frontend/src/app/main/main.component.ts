@@ -44,24 +44,35 @@ selector: any;
   toggleView(i: any) {
     // to improve
     this.bottomView = !this.bottomView;
-    if (i) {
+    if (i >= 0) {
       this.currentIndex = i;
       this.currentQuestion = this.questions[i]
     } else {
-      this.currentIndex = -1;
+      this.currentIndex = -1
+      this.currentQuestion = null;
     }
-    console.log(this.currentIndex, this.currentQuestion);
   }
 
   addItem(formData: any) {
       let obj = Object.assign({}, formData.value);
       obj["questionId"] = this.counter;
-      this.questionService.saveQuestion(obj).subscribe((res) => {
-        // log error
+      let dup = false
+      // this is not right below
+      this.questions.forEach((q) => {
+        if (q["questionTitle"] == obj["questionTitle"]) {
+          alert("Duplicate Question! Please try again")
+          dup = true
+          return
+        }
       })
-      this.counter++;
-      this.questions?.push(obj)
-      this.saveQuestions();
+      if (!dup) {
+        this.questionService.saveQuestion(obj).subscribe((res) => {
+          // log error
+        })
+        this.counter++;
+        this.questions?.push(obj)
+        this.saveQuestions();
+      }
       
   }
 
