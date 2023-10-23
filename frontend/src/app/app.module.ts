@@ -46,12 +46,7 @@ import { ChatComponent } from './collab/chat/chat.component';
     MaterialModule,
     MonacoEditorModule.forRoot()
   ],
-<<<<<<< HEAD
-  providers: [
-    httpInterceptorProviders ],
-=======
   providers: [httpInterceptorProviders, AuthGuard, RoleGuard],
->>>>>>> bff7264a680e6ddb5e4bd37a008c57df5c5bac5a
   bootstrap: [AppComponent]
 })
 export class AppModule { }
