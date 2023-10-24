@@ -3,12 +3,8 @@ import { MatchingService } from '../_services/matching.service'
 import { NgForm } from '@angular/forms'
 import { StorageService } from '../_services/storage.service'
 import { timeoutWith, throwError } from 'rxjs'
-import { Component } from '@angular/core';
-import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import { MatchingService } from '../_services/matching.service';
-import { StorageService } from '../_services/storage.service';
-import { timeoutWith, throwError } from 'rxjs';
+
 
 
 @Component({
