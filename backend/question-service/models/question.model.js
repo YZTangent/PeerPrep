@@ -10,7 +10,8 @@ module.exports = mongoose => {
         },
         questionTitle: {
           type: String,
-          required: true
+          required: true,
+          unique: true
         },
         questionDescription: {
           type: String,
