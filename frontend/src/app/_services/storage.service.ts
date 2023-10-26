@@ -1,4 +1,5 @@
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { Injectable } from "@angular/core";
 
 const USER_KEY = 'auth-user';
 
@@ -6,7 +7,7 @@ const USER_KEY = 'auth-user';
   providedIn: 'root'
 })
 export class StorageService {
-  constructor() { }
+  constructor(){}
   clean(): void {
     window.localStorage.clear();
     window.sessionStorage.clear();
@@ -32,4 +33,5 @@ export class StorageService {
     } 
     return false;
   }
+
 }
