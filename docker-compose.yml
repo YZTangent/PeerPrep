@@ -12,14 +12,28 @@ services:
       - user
       - question
 
+  gateway:
+    image: nginx:alpine
+    container_name: api-gateway
+    restart: unless-stopped
+    volumes:
+      - ./api-gateway/nginx.conf:/etc/nginx/nginx.conf
+      - ./api-gateway/default.conf:/etc/nginx/conf.d/default.conf
+
+
+    ports:
+      - 8080:8080
+    networks:
+      - frontend
+      - backend
+
   user:
     build: ./backend/user-service
     container_name: user-service
     restart: unless-stopped
-    ports:
-      - 8001:8001
+    expose:
+      - "8001"
     networks:
-      - frontend
       - backend
     depends_on:
       - user-db
@@ -28,20 +42,18 @@ services:
     build: ./backend/question-service
     container_name: question-service
     restart: unless-stopped
-    ports:
-      - 8002:8002
+    expose:
+      - "8002"
     networks:
-      - frontend
       - backend
 
   matching:
     build: ./backend/matching-service
     container_name: matching-service
     restart: unless-stopped
-    ports:
-      - 8003:8003
+    expose:
+      - "8003"
     networks:
-      - frontend
       - backend
     depends_on:
       - question-db
@@ -50,31 +62,32 @@ services:
     build: ./backend/collab-service
     container_name: collab-service
     restart: unless-stopped
-    ports:
-      - 8004:8004
+    expose:
+      - "8004"
     networks:
-      - frontend
+      - backend
 
   user-db:
     image: mongodb/mongodb-community-server:6.0-ubi8
     container_name: user-db
+    restart: unless-stopped
     volumes:
       - user-db-data:/data/db
       - user-db-data:/data/configdb
-    ports:
-      - 27001:27017
+    expose:
+      - "27001"
     networks:
       - backend
 
   question-db:
     image: mongodb/mongodb-community-server:6.0-ubi8
     container_name: question-db
+    restart: unless-stopped
     volumes:
       - question-db-data:/data/db
       - question-db-data:/data/configdb
-
-    ports:
-      - 27002:27017
+    expose:
+      - "27001"
     networks:
       - backend
 
