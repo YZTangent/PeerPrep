@@ -55,7 +55,6 @@ selector: any;
 
   addItem(formData: any) {
       let obj = Object.assign({}, formData.value);
-      obj["questionId"] = this.counter;
       let dup = false
       // this is not right below
       this.questions.forEach((q) => {
@@ -67,13 +66,13 @@ selector: any;
       })
       if (!dup) {
         this.questionService.saveQuestion(obj).subscribe((res) => {
-          // log error
+          obj["questionId"] = res.questionId;
         })
         this.counter++;
         this.questions?.push(obj)
         this.saveQuestions();
+        formData.reset()
       }
-      
   }
 
   editItem(index: number, qid: number, formData: any) {

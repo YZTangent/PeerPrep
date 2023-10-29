@@ -1,5 +1,6 @@
 const db = require('../models');
 const Question = db.questions;
+const Counter = db.counters;
 
 exports.create = (req, res) => {
   if (req.body.constructor === Object && Object.keys(req.body).length === 0) {
@@ -7,25 +8,30 @@ exports.create = (req, res) => {
     return;
   }
 
-  const question = new Question({
-    questionId: req.body.questionId,
-    questionTitle: req.body.questionTitle,
-    questionDescription: req.body.questionDescription,
-    questionCategory: req.body.questionCategory,
-    questionComplexity: req.body.questionComplexity
-  });
-
-  question
-    .save(question)
-    .then(data => {
-      res.send(data);
-    })
-    .catch(err => {
-      res.status(500).send({
-        message: err.message || 'An error occured while creating the Question.'
-      })
+  Counter.findOneAndUpdate({ id: "questionId" }, { $inc: { seq: 1 } })
+  .then(count => {
+    const question = new Question({
+      questionId: count.seq,
+      questionTitle: req.body.questionTitle,
+      questionDescription: req.body.questionDescription,
+      questionCategory: req.body.questionCategory,
+      questionComplexity: req.body.questionComplexity
     });
   
+    question
+      .save(question)
+      .then(data => {
+        res.send(data);
+      })
+      .catch(err => {
+        res.status(500).send({
+          message: err.message || 'An error occured while creating the Question.'
+        })
+      });
+  }).catch(err => {
+    console.log(err);
+  })
+
   return;
 };
 
