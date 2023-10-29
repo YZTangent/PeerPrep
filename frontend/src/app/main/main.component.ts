@@ -13,7 +13,8 @@ export class MainComponent {
   currentQuestion: any = null;
   counter!: number;
   bottomView = true;
-selector: any;
+  selector: any;
+  tags = ["Algorithms", "Brain Teasers", "Hashing", "Dynamic Programming"]
 
   constructor(private questionService: QuestionService) {}
   
