@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { QuestionService } from '../_services/question.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -14,7 +15,10 @@ export class MainComponent {
   counter!: number;
   bottomView = true;
   selector: any;
-  tags = ["Algorithms", "Brain Teasers", "Hashing", "Dynamic Programming"]
+  tags = new FormControl('')
+  categories = new FormControl('')
+  categoriesList: string[] = ["Algorithms", "Brain Teasers", "Hashing", "Dynamic Programming"]
+  tagsList: string[] = ['Popular', 'NeetCode 150', 'Top 50', 'Top 10']
 
   constructor(private questionService: QuestionService) {}
   

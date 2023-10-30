@@ -8,14 +8,15 @@ exports.create = (req, res) => {
     return;
   }
 
-  Counter.findOneAndUpdate({ id: "questionId" }, { $inc: { seq: 1 } })
+  Counter.findOneAndUpdate({ id: "questionId" }, { $inc: { seq: 1 } }, { upsert: true, new: true, setDefaultsOnInsert: true })
   .then(count => {
     const question = new Question({
       questionId: count.seq,
       questionTitle: req.body.questionTitle,
       questionDescription: req.body.questionDescription,
       questionCategory: req.body.questionCategory,
-      questionComplexity: req.body.questionComplexity
+      questionComplexity: req.body.questionComplexity,
+      questionTags: req.body.questionTags
     });
   
     question
