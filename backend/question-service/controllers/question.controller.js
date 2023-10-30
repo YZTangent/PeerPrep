@@ -50,6 +50,20 @@ exports.findAll = (req, res) => {
   })
 }
 
+exports.findAllByCondition = (req, res) => {
+  Question.find({questionTitle: req.params.questionTitle})
+  .then(data => {
+    res.send(data);
+    return;
+  })
+  .catch(err => {
+    res.status(500).send({
+      message: err.message || "an error occurred while searching"
+    })
+    return;
+  })
+}
+
 exports.findOne = (req, res) => {
   const questionId = req.params.questionId;
   var condition = questionId ? { questionId: questionId } : {};

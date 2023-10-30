@@ -1,8 +1,5 @@
 .chat-box {
   width: 18vw;
-  position: absolute;
-  bottom: 0;
-  right: 0;
   background-color: lightgrey;
 }
 
