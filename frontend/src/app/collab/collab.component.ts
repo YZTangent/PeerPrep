@@ -97,4 +97,9 @@ export class CollabComponent implements OnInit {
   toggleQuestionView() {
     this.questionView = !this.questionView;
   }
+
+  pullUpQuestion(q: Object) {
+    this.collabService.emitQuestion(q);
+    this.toggleQuestionView();
+  }
 }

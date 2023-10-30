@@ -42,6 +42,10 @@ export class CollabService implements OnInit, OnDestroy {
     })
   }
 
+  public emitQuestion(question: Object) {
+    this.socket.emit("question", question);
+  }
+
   public getQuestion = () => {
     this.socket.on("question", (question) => {
       console.log(`Consuming question:\n${question}`);

@@ -1,13 +1,13 @@
-<div class="container">
+<div class="container d-block z-0">
   <h1 class="mt-2">Collaboration Space</h1>
   <div class="flex-container mt-3 p-2 overflow-x-scroll" style="height: 100vh;">
     <div *ngIf="questionView" class="h-100">
     <mat-card class="col h-100">
         <mat-card-title class="m-3">{{question.questionTitle}}</mat-card-title>
-        <mat-card-content>
+        <mat-card-content class="h-75">
           <p style="color: gray">Complexity: {{question.questionComplexity}}</p>
           <p style="color: gray">Category: {{question.questionCategory}}</p>
-          <div class="overflow-scroll p-1">
+          <div class="overflow-scroll p-1 h-75">
             {{question.questionDescription}}
           </div>
         </mat-card-content>
@@ -32,7 +32,8 @@
         <mat-card class="col h-100">
           <mat-card-title class="p-3"><mark (click)="toggleQuestionView()" style="background: none;">&crarr;</mark> Question</mat-card-title>
           <mat-card-content>
-            <input type="text" #search class="form-control mt-2" placeholder="Search by index or title...">
+            <input type="text" #search class="form-control mt-2" placeholder="Search by index or title..." (keydown)="updateSearchResults(search.value)">
+            <button (click)="pullUpQuestion(res)" class="btn btn-outline-secondary mt-2" *ngFor="let res of searchResults">{{res.questionTitle}}</button>
           </mat-card-content>
         </mat-card>
       </div>
@@ -45,4 +46,5 @@
       </div>
     </div>
   </div>
+  <app-chat class="d-block position-fixed z-3" style="right: 0; bottom: 0"></app-chat>
 </div>
