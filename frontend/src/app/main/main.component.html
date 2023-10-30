@@ -25,12 +25,10 @@
             <textarea type="text" name="questionDescription" id="description" class="form-control" ngModel required></textarea>
             <br>
             <label for="questionCategory" class="mb-3">Question Category :</label>
-            <div class="row">
-              <mat-form-field>
+            <div class="row p-3">
                 <mat-select name="questionCategory" multiple class="form-control" ngModel required>
                   <mat-option *ngFor="let category of categoriesList" [value]="category">{{category}}</mat-option>
                 </mat-select>
-              </mat-form-field>
             </div>
             <br>
             <label for="questionComplexity" class="mb-3">Question Complexity :</label>
@@ -40,14 +38,13 @@
                 <option value="Hard">Hard</option>
             </select>
             <label for="questionTags" class="mt-3 mb-3">Tags :</label>
-            <div class="row">
-              <mat-form-field>
-                <mat-select name="questiontTags" multiple class="form-control" ngModel>
+            <div class="row p-3">
+                <mat-select name="questionTags" multiple class="form-control" ngModel>
                   <mat-option *ngFor="let tag of tagsList" [value]="tag">{{tag}}</mat-option>
                 </mat-select>
-              </mat-form-field>
             </div>
             <br>
+            <!-- <div class="alert alert-danger" *ngIf="questionForm.touched && questionForm.invalid">Please fill in the fields in red.</div> -->
             <button type="button" (click)="addItem(questionForm)" class="btn btn-primary" [disabled]="!questionForm.valid">Save Question</button>
         </form>
         <hr>
