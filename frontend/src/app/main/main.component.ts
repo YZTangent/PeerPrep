@@ -90,11 +90,15 @@ export class MainComponent {
     })
   }
 
-  deleteItem(index:number, i: number) {
+  deleteItem(index: number, i: number) {
     this.questions.splice(index, 1);
     this.questionService.deleteQuestion(i).subscribe((res) => {
       // log error
     })
+  }
+
+  addTag(s: string) {
+    this.tagsList.push(s);
   }
   
 }
