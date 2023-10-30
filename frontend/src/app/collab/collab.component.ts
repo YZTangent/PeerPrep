@@ -87,7 +87,6 @@ export class CollabComponent implements OnInit {
 
   updateSearchResults(s: string) {
     this.questionService.searchQuestions(s).subscribe(res => {
-      console.log(res);
       this.searchResults = res;
     }, err => {
       console.log(err);

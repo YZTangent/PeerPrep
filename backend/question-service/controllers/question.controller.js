@@ -51,7 +51,7 @@ exports.findAll = (req, res) => {
 }
 
 exports.findAllByCondition = (req, res) => {
-  Question.find({questionTitle: req.params.questionTitle})
+  Question.find({$text: {"$search": req.params.questionTitle}})
   .then(data => {
     res.send(data);
     return;

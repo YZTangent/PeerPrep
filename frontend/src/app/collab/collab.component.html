@@ -32,8 +32,8 @@
         <mat-card class="col h-100">
           <mat-card-title class="p-3"><mark (click)="toggleQuestionView()" style="background: none;">&crarr;</mark> Question</mat-card-title>
           <mat-card-content>
-            <input type="text" #search class="form-control mt-2" placeholder="Search by index or title..." (keydown)="updateSearchResults(search.value)">
-            <button (click)="pullUpQuestion(res)" class="btn btn-outline-secondary mt-2" *ngFor="let res of searchResults">{{res.questionTitle}}</button>
+            <input type="text" #search class="form-control mt-2" placeholder="Search by index or title..." (keyup)="updateSearchResults(search.value)">
+            <button (click)="pullUpQuestion(res)" class="btn btn-outline-secondary m-1" *ngFor="let res of searchResults">{{res.questionTitle}}</button>
           </mat-card-content>
         </mat-card>
       </div>
