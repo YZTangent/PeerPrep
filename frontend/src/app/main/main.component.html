@@ -89,7 +89,11 @@
                               <textarea type="text" name="questionDescription" id="description" class="form-control" [ngModel]="question.questionDescription"></textarea>
                               <br>
                               <label for="questionCategory" class="mb-3">Question Category :</label>
-                              <input type="text" name="questionCategory" id="qcategory" class="form-control" [ngModel]="question.questionCategory">
+                              <div class="row p-3">
+                                  <mat-select name="questionCategory" multiple class="form-control" [ngModel]="question.questionCategory" required>
+                                    <mat-option *ngFor="let category of categoriesList" [value]="category">{{category}}</mat-option>
+                                  </mat-select>
+                              </div>
                               <br>
                               <label for="questionComplexity" class="mb-3">Question Complexity :</label>
                               <select name="questionComplexity" id="qcomplexity" class="form-select" [ngModel]="question.questionComplexity">
@@ -97,6 +101,12 @@
                                   <option value="Medium">Medium</option>
                                   <option value="Hard">Hard</option>
                               </select>
+                              <label for="questionTags" class="mt-3 mb-3">Tags :</label>
+                              <div class="row p-3">
+                                  <mat-select name="questionTags" multiple class="form-control" [ngModel]="question.questionTags">
+                                    <mat-option *ngFor="let tag of tagsList" [value]="tag" class="d-block z-3">{{tag}}</mat-option>
+                                  </mat-select>
+                              </div>
                               <br>
                       </div>
                       <div class="modal-footer">
