@@ -19,4 +19,5 @@ jobs:
       run: docker-compose up -d
     - name: Test frontend
       working-directory: ./frontend
+      run: npm install
       run: npm test
