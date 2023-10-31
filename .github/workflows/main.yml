@@ -22,4 +22,4 @@ jobs:
       run: npm install
     - name: Test Frontend
       working-directory: ./frontend
-      run: npm test
+      run: xvfb-run -a ng test --browsers=ChromeHeadless
