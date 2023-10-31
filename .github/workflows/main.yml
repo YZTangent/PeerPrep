@@ -22,4 +22,4 @@ jobs:
       run: |
           npm install
           npm install -g @angular/cli
-          xvfb-run -a ng test --browsers=ChromeHeadless
+          xvfb-run -a ng test --watch=false --browsers=ChromeHeadless 
