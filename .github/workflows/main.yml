@@ -19,7 +19,7 @@ jobs:
       run: docker-compose up -d
     - name: Frontend
       working-directory: ./frontend
-      run: npm install
-    - name: Test Frontend
-      working-directory: ./frontend
-      run: xvfb-run -a ng test --browsers=ChromeHeadless
+      run: |
+          npm install
+          npm install -g @angular/cli
+          xvfb-run -a ng test --browsers=ChromeHeadless
