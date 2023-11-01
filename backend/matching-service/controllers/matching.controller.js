@@ -21,8 +21,8 @@ exports.enqueue = (req, res) => {
                 let roomId = `${userid}&${match.userid}&${Date.now()}` // to improve roomId generation
                 console.log(`${msg} with roomId ${roomId}`)
                 mQueue.deleteMatch(userid);
-                res.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language });
-                firstUserRes.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language });
+                res.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language, match: userid});
+                firstUserRes.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language, match: match.userid});
             }
         }
     } catch (error) {

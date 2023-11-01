@@ -1,9 +1,22 @@
 const express = require('express');
+const cors = require("cors");
 const app = express();
-const port = 8004;
+const port = 8005;
 
 const db = require('./models');
 const dbConfig = require('./config/db.config.js');
+
+var corsOptions = {
+  origin: 'http://127.0.0.1:8000',
+  methods: 'PUT, PATCH, POST, DELETE',
+  allowedHeaders: 'Origin, Authorization, Content-Type, Accept, Cookie',
+  credentials: true,
+  optionsSuccessStatus: 200,
+};
+
+app.use(cors(corsOptions));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 db.mongoose.connection.on('error', console.error.bind(console, 'History database connection error:'));
 

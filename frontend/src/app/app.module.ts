@@ -40,7 +40,7 @@ import { HistoryComponent } from './history/history.component';
     MatchingComponent,
     CollabComponent,
     ChatComponent,
-    HistoryComponent
+    HistoryComponent,
     ChangePasswordComponent,
     DeleteAccountComponent,
     MultiSelectComponent

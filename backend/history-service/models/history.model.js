@@ -1,9 +1,10 @@
 const mongoose = require('mongoose');
 
 const historySchema = new mongoose.Schema({
-    question_id: String,
+    questionId: String,
     language: String,
     solution: String,
+    userId: String,
     authors: [
         {
             user_id: String,

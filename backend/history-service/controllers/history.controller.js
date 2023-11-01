@@ -1,12 +1,13 @@
 const db = require('../models');
-const History = db.history;
+const History = db.histories;
 
 exports.findOne = (req, res) => {
   const questionId = req.params.questionId;
   const userId = req.params.userId;
   var condition = questionId ? { questionId: questionId, userId: userId } : {};
 
-  Question.findOne(condition)
+  console.log(condition);
+  History.find(condition)
     .then(data => {
       res.send(data);
       return;
@@ -26,9 +27,10 @@ exports.create = (req, res) => {
   }
 
   const history = new History({
-    question_id: req.body.question_id,
+    questionId: req.body.questionId,
     language: req.body.language,
     solution: req.body.solution,
+    userId: req.body.userId,
     authors: [
       {
         user_id: req.body.user_id1
@@ -63,20 +65,20 @@ exports.update = (req, res) => {
   const questionId = req.params.questionId;
   var condition = questionId ? { questionId: questionId } : {};
 
-  Question.findOneAndUpdate(condition, req.body, { new: true })
+  History.findOneAndUpdate(condition, req.body, { new: true })
     .then(data => {
       if (!data) {
         res.status(404).send({
-          message: `Unable to update Question with questionId ${questionId}. Not found.`
+          message: `Unable to update History with questionId ${questionId}. Not found.`
         });
         return;
       }
-      res.send({ message: 'Question updated successfully.'});
+      res.send({ message: 'History updated successfully.'});
       return;
     })
     .catch(err => {
       res.status(500).send({
-        message: err.message || `Error updating Question with questionId ${questionId}.`
+        message: err.message || `Error updating History with questionId ${questionId}.`
       });
       return;
     });
@@ -86,7 +88,7 @@ exports.delete = (req, res) => {
   const questionId = req.params.questionId;
   var condition = questionId ? { questionId: questionId } : {};
 
-  Question.findOneAndDelete(condition, req.body, { new: true })
+  History.findOneAndDelete(condition, req.body, { new: true })
     .then(data => {
       res.send({ message: `History for question ${questionId} deleted successfully.`});
       return;
@@ -100,7 +102,7 @@ exports.delete = (req, res) => {
 };
 
 exports.findAll = (req, res) => {
-  Question.find({})
+  History.find({})
   .then(data => {
     res.send(data);
     return;
@@ -117,7 +119,7 @@ exports.findUserHistory = (req, res) => {
   const userId = req.params.userId;
   var condition = questionId ? { userId: userId } : {};
 
-  Question.findOne(condition)
+  History.findOne(condition)
     .then(data => {
       res.send(data);
       return;
@@ -134,7 +136,7 @@ exports.findQuestionHistory = (req, res) => {
   const questionId = req.params.questionId;
   var condition = questionId ? { questionId: questionId } : {};
 
-  Question.findOne(condition)
+  History.findOne(condition)
     .then(data => {
       res.send(data);
       return;
@@ -149,7 +151,7 @@ exports.findQuestionHistory = (req, res) => {
 
 
 exports.deleteAll = (req, res) => {
-  Question.deleteMany({})
+  History.deleteMany({})
     .then(data => {
       res.send({ message: `${data.deletedCount} histories deleted successfully.`});
       return;

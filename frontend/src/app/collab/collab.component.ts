@@ -1,7 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CollabService } from '../_services/collab.service';
 import { QuestionService } from '../_services/question.service';
+import { HistoryService } from '../_services/history.service';
+import { StorageService } from '../_services/storage.service';
+import { MatchingService } from '../_services/matching.service';
 
 @Component({
   selector: 'app-collab',
@@ -9,12 +12,13 @@ import { QuestionService } from '../_services/question.service';
   styleUrls: ['./collab.component.css'],
   providers: [ CollabService ]
 })
-export class CollabComponent implements OnInit {
+export class CollabComponent implements OnInit, AfterViewInit {
 
   private roomId: any;
   private complexity: any;
   private language: any;
   public question: any;
+  public attempts: any;
 
   private editor: any;
   public editorOptions = { theme: 'vs-dark', language: '' };
@@ -26,8 +30,13 @@ export class CollabComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private collabService: CollabService,
-    private questionService: QuestionService
+    private questionService: QuestionService,
+    private historyService: HistoryService,
+    private storageService: StorageService,
+    private matchingService: MatchingService
   ) {}
+
+  currUser = JSON.parse(window.sessionStorage.getItem(this.storageService.USER_KEY) || '').username
 
   ngOnInit(): void {
     console.log(`Set complexity to ${this.complexity}.`);
@@ -42,9 +51,24 @@ export class CollabComponent implements OnInit {
     this.collabService.getQuestion().subscribe((question: any) => {
       console.log(`Updating question ${question}`);
       this.question = question;
+      this.getHistory();
     })
     this.getQuestion();
     this.getQuestions();
+  }
+
+  ngAfterViewInit(): void {
+    
+  }
+
+  getHistory() {
+    this.historyService.readHistory({questionId: this.question.questionId, userId: this.currUser}).subscribe(res => {
+      this.attempts = res
+      console.log(res)
+    }, err => {
+      console.log("An error occurred while retrieving past attempts: " + err.message)
+      this.attempts = []
+    })
   }
 
   getQuestions() {
@@ -100,5 +124,28 @@ export class CollabComponent implements OnInit {
   pullUpQuestion(q: Object) {
     this.collabService.emitQuestion(q);
     this.toggleQuestionView();
+  }
+
+  saveAttempt() {
+    console.log(this.editor.getValue());
+    // save code with userId and questionId
+    var currUser = JSON.parse(window.sessionStorage.getItem(this.storageService.USER_KEY) || '').username
+    var attempt = {questionId: this.question.questionId,
+      userId: currUser,
+      solution: this.editor.getValue(),
+      language: this.language,
+      user_id1: currUser,
+      user_id2: this.matchingService.matchId
+    }
+    this.historyService.saveHistory(attempt).subscribe(res => {
+      console.log(res)
+    },
+    err => {
+      console.log("An error occurred while saving attempt: " + err.message)
+    })
+  }
+
+  viewAttempt(attempt: any) {
+    this.editor.getModel().setValue(attempt.solution);
   }
 }

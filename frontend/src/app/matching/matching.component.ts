@@ -39,6 +39,7 @@ export class MatchingComponent {
       if (res.message.includes("Matched users:")) {
         this.match = res.message
         this.getQueueLength()
+        this.matchingService.updateMatchId(res.match);
         this.router.navigate(["/collab", res.roomId, res.difficulty, res.language]);
       }
     }, (err) => {

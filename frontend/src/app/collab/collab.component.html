@@ -1,15 +1,33 @@
 <div class="container d-block z-0">
-  <h1 class="mt-2">Collaboration Space</h1>
+  <h1 class="mt-2 d-inline-block">Collaboration Space</h1>
+  <button class="btn btn-success d-inline-block ms-5" (click)="saveAttempt()">Save Attempt</button>
   <div class="flex-container mt-3 p-2 overflow-x-scroll" style="height: 100vh;">
     <div *ngIf="questionView" class="h-100">
     <mat-card class="col h-100">
         <mat-card-title class="m-3">{{question.questionTitle}}</mat-card-title>
-        <mat-card-content class="h-75">
+        <mat-card-content class="h-75 overflow-y-scroll">
           <p style="color: gray">Complexity: {{question.questionComplexity}}</p>
           <p style="color: gray">Category: {{question.questionCategory}}</p>
-          <div class="overflow-scroll p-1 h-75">
+          <div class="overflow-scroll p-1" style="max-height: 50%;">
             {{question.questionDescription}}
           </div>
+          <h4>Past Attempts:</h4>
+          <table class="table table-dark table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Language</th>
+                <th scope="col">Partner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let attempt of attempts; index as index" (click)="viewAttempt(attempt)">
+                <th scope="row">{{index + 1}}</th>
+                <td>{{attempt.language}}</td>
+                <td>{{attempt.authors[1].user_id}}</td>
+              </tr>
+            </tbody>
+          </table>
         </mat-card-content>
         <mat-card-footer>
           <mat-card-actions class="justify-content-center mb-auto">

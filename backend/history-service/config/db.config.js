@@ -1,5 +1,5 @@
 module.exports = {
-  HOST: "history-db",
+  HOST: "127.0.0.1",
   PORT: 27017,
   DB: "history_db"
 };

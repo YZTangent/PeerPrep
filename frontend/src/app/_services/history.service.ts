@@ -16,7 +16,7 @@ export class HistoryService {
   readHistory(history: any): Observable<any> {
     let newobj = Object.assign({}, history);
     return this.http.get(
-        api + "/" + newobj.questionId.toString() + "/" + newobj.userId.toString(),
+        api + "/" + newobj.questionId + "/" + newobj.userId,
         httpOptions
     );
   }
@@ -24,7 +24,7 @@ export class HistoryService {
   saveHistory(history: any): Observable<any> {
     let newobj = Object.assign({}, history);
     return this.http.post(
-        api + "/" + newobj.questionId.toString() + "/" + newobj.userId.toString(),
+        api + "/" + newobj.questionId + "/" + newobj.userId,
         newobj,
         httpOptions
     )

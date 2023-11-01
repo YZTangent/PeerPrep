@@ -5,6 +5,6 @@ const db = {};
 
 db.mongoose = mongoose;
 
-db.history = require("./history.model.js");
+db.histories = require("./history.model.js");
 
 module.exports = db;
