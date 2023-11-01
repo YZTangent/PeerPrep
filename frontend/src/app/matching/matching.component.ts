@@ -45,7 +45,7 @@ export class MatchingComponent {
   }
 
   cancelMatch() {
-    let userid = this.storageService.getUser()["id"]
+    let userid = this.storageService.getUser()["username"]
     this.matchingService.dequeue(userid).subscribe((res) => {
       this.getQueueLength()
       this.requested = false

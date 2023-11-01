@@ -33,7 +33,22 @@ const db = require("./models");
 const dbConfig = require("./config/db.config.js");
 
 const Role = db.role;
-db.mongoose
+const { MongoMemoryServer } = require('mongodb-memory-server');
+
+if (process.env.JASMINE) {
+  const startMongoStub = async () => {
+    mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
+    await db.mongoose.connect(mongoUri).then(() => {
+      console.log("Successfully connected to Mongo Memory Server.");
+    });
+  }
+
+  startMongoStub();
+  initial();
+
+} else {
+  db.mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
       useNewUrlParser:true,
       useUnifiedTopology:true
@@ -44,6 +59,7 @@ db.mongoose
       console.error("Connection error", err);
       process.exit();
   });
+}
 
 
 //set port & listen for requests
@@ -76,3 +92,4 @@ function initial() {
     }
   });
 }
+module.exports = app;

@@ -27,17 +27,33 @@ const PORT = 8002;
 
 const db = require("./models");
 const dbConfig = require("./config/db.config.js");
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
-db.mongoose
+if (process.env.JASMINE) {
+  const startMongoStub = async () => {
+    mongoServer = await MongoMemoryServer.create();
+    const mongoUri = mongoServer.getUri();
+    await db.mongoose.connect(mongoUri).then(() => {
+      console.log("Successfully connected to Mongo Memory Server.");
+    });
+  }
+
+  startMongoStub();
+
+} else {
+  db.mongoose
   .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-    useNewUrlParser:true,
-    useUnifiedTopology:true
+      useNewUrlParser:true,
+      useUnifiedTopology:true
   }).then(() => {
-    console.log('Connected to the database.');
+      console.log("Successfully connected to MongoDB.");
+      initial();
   }).catch(err => {
-    console.log('Connection failed.', err);
-    process.exit();
+      console.error("Connection error", err);
+      process.exit();
   });
+}
+
 
 app.get('/', (_, res) => {
   res.json({ message: 'Hello World from question-service.' });
@@ -48,3 +64,5 @@ require('./routes/question.routes')(app);
 app.listen(PORT, () => {
   console.log(`question-service listening on port ${PORT}`);
 });
+
+module.exports = app;
