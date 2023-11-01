@@ -25,6 +25,7 @@ import { RoleGuard } from './_guards/role.guard';
 import { CollabComponent } from './collab/collab.component';
 import { ChatComponent } from './collab/chat/chat.component';
 import { MultiSelectComponent } from './main/multi-select/multi-select.component';
+import { HistoryComponent } from './history/history.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { MultiSelectComponent } from './main/multi-select/multi-select.component
     MatchingComponent,
     CollabComponent,
     ChatComponent,
+    HistoryComponent
     ChangePasswordComponent,
     DeleteAccountComponent,
     MultiSelectComponent
