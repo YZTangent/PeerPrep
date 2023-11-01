@@ -1,6 +1,11 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
 import { CollabComponent } from './collab.component';
+import { CollabService } from '../_services/collab.service';
+import { RouterTestingModule } from "@angular/router/testing";
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
 
 describe('CollabComponent', () => {
   let component: CollabComponent;
@@ -8,7 +13,9 @@ describe('CollabComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [CollabComponent]
+      imports: [HttpClientModule, RouterTestingModule, MatCardModule, MatIconModule, MonacoEditorModule],
+      declarations: [CollabComponent],
+      providers: [CollabService]
     });
     fixture = TestBed.createComponent(CollabComponent);
     component = fixture.componentInstance;
