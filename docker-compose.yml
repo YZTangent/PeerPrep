@@ -67,6 +67,16 @@ services:
     networks:
       - backend
 
+  history:
+    build: ./backend/history-service
+    container_name: history-service
+    restart: unless-stopped
+    ports:
+      - 8005:8005
+    networks:
+      - frontend
+      - backend
+
   user-db:
     image: mongodb/mongodb-community-server:6.0-ubi8
     container_name: user-db
@@ -91,6 +101,18 @@ services:
     networks:
       - backend
 
+  history-db:
+    image: mongodb/mongodb-community-server:6.0-ubi8
+    container_name: history-db
+    volumes:
+      - history-db-data:/data/db
+      - history-db-data:/data/configdb
+
+    ports:
+      - 27003:27017
+    networks:
+      - backend
+
 networks:
   frontend:
     driver: bridge
@@ -100,3 +122,4 @@ networks:
 volumes:
   user-db-data:
   question-db-data:
+  history-db-data:
