@@ -2,9 +2,10 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const api = "http://127.0.0.1:8002/questions"
+const API_URL = "http://127.0.0.1:8080/question/"
+const AUTH_API_URL = "http://127.0.0.1:8080/question/auth/"
 
-const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
+const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' })};
 
 @Injectable({
   providedIn: 'root'
@@ -15,14 +16,14 @@ export class QuestionService {
 
   getAllQuestions(): Observable<any> {
     return this.http.get(
-      api + '/all', 
+      API_URL + 'all', 
       httpOptions
     );
   }
 
   getRandomQuestionWithComplexity(questionComplexity: string): Observable<any> {
     return this.http.get(
-      api + '/random/' + questionComplexity, 
+      API_URL + 'random/' + questionComplexity, 
       httpOptions
     );
   }
@@ -30,7 +31,7 @@ export class QuestionService {
   saveQuestion(question: any): Observable<any> {
     let newobj = Object.assign({}, question);
     return this.http.post(
-        api,
+        AUTH_API_URL,
         newobj,
         httpOptions
     )
@@ -39,7 +40,7 @@ export class QuestionService {
   editQuestion(question: any): Observable<any> {
     let newobj = Object.assign({}, question);
     return this.http.put(
-        api + "/" + newobj.questionId.toString(),
+        AUTH_API_URL + newobj.questionId.toString(),
         newobj,
         httpOptions
     )
@@ -47,7 +48,7 @@ export class QuestionService {
 
   deleteQuestion(id: number): Observable<any> {
     return this.http.delete(
-      api + "/" + id.toString(),
+        AUTH_API_URL + id.toString(),
         httpOptions
     )
   }

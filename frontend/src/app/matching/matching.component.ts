@@ -1,9 +1,9 @@
 import { Component } from '@angular/core'
-import { MatchingService } from '../_services/matching.service'
 import { NgForm } from '@angular/forms'
+import { Router } from '@angular/router';
+import { MatchingService } from '../_services/matching.service'
 import { StorageService } from '../_services/storage.service'
 import { timeoutWith, throwError } from 'rxjs'
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-matching',
@@ -28,7 +28,7 @@ export class MatchingComponent {
   }
 
   getMatch(userDetails: any) {
-    this.matchingService.enqueue(userDetails).pipe(timeoutWith(2000, throwError(() => {
+    this.matchingService.enqueue(userDetails).pipe(timeoutWith(30000, throwError(() => {
       this.matchingService.dequeue(userDetails["userid"]).subscribe((res) => {
         this.match = "Your request timed out!"
         this.requested = false
@@ -61,7 +61,7 @@ export class MatchingComponent {
 
   submitMatchingForm(form: NgForm) {
     let obj = Object.assign({}, form.value)
-    obj["userid"] = this.storageService.getUser()["id"]
+    obj["userid"] = this.storageService.getUser()["username"]
     this.getMatch(obj)
     this.requested = true
     if (this.match == "You're request timed out!") {

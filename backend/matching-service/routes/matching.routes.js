@@ -2,7 +2,7 @@ module.exports = app => {
     const matching = require("../controllers/matching.controller.js");
   
     var router = require("express").Router();
-  
+
     // Enqueue a new match
     router.post("/enqueue", matching.enqueue);
   
