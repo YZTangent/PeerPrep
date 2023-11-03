@@ -16,6 +16,9 @@
           <a href="/user" class="nav-link" routerLink="user">Question Machine</a>
         </li>
         <li class="nav-item">
+          <a href="/history" class="nav-link" *ngIf="isLoggedIn" routerLink="history">History</a>
+        </li>
+        <li class="nav-item">
           <a href="/match" class="nav-link" *ngIf="isLoggedIn" routerLink="match">Match</a>
         </li>
       </ul>

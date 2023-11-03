@@ -14,12 +14,12 @@ export class HomeComponent implements OnInit{
   bottomView: boolean = false;
   currentIndex: number = -1;
   currentQuestion: any;
+  fullQuestionSet: any;
   constructor(private userService: UserService, private questionService: QuestionService) { }
 
   ngOnInit(): void {
     this.userService.getPublicContent().subscribe({
       next: data => {
-        this.getQuestions();
         if (!this.questions) {
           this.questions = [];
           this.counter = 0;
@@ -34,12 +34,14 @@ export class HomeComponent implements OnInit{
         }
       }
     });
+    this.getQuestions();
   }
 
   getQuestions() {
     this.questionService.getAllQuestions().subscribe((res) => {
-      this.questions = res;
-      this.counter = this.questions.length;
+    this.questions = res;
+    this.counter = this.questions.length;
+    this.fullQuestionSet = this.questions;
     })
   }
 
@@ -53,5 +55,17 @@ export class HomeComponent implements OnInit{
       this.currentIndex = -1
       this.currentQuestion = null;
     }
+  }
+
+  updateSearchResults(s: string) {
+    if (s.length == 0) {
+      this.questions = this.fullQuestionSet;
+      return;
+    }
+    this.questionService.searchQuestions(s).subscribe(res => {
+      this.questions = res;
+    }, err => {
+      console.log(err);
+    })
   }
 }

@@ -64,7 +64,6 @@ export class CollabComponent implements OnInit, AfterViewInit {
   getHistory() {
     this.historyService.readHistory({questionId: this.question.questionId, userId: this.currUser}).subscribe(res => {
       this.attempts = res
-      console.log(res)
     }, err => {
       console.log("An error occurred while retrieving past attempts: " + err.message)
       this.attempts = []
@@ -127,14 +126,12 @@ export class CollabComponent implements OnInit, AfterViewInit {
   }
 
   saveAttempt() {
-    console.log(this.editor.getValue());
     // save code with userId and questionId
-    var currUser = JSON.parse(window.sessionStorage.getItem(this.storageService.USER_KEY) || '').username
     var attempt = {questionId: this.question.questionId,
-      userId: currUser,
+      userId: this.currUser,
       solution: this.editor.getValue(),
       language: this.language,
-      user_id1: currUser,
+      user_id1: this.currUser,
       user_id2: this.matchingService.matchId
     }
     this.historyService.saveHistory(attempt).subscribe(res => {

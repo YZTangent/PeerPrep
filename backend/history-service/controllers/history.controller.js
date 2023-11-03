@@ -6,7 +6,6 @@ exports.findOne = (req, res) => {
   const userId = req.params.userId;
   var condition = questionId ? { questionId: questionId, userId: userId } : {};
 
-  console.log(condition);
   History.find(condition)
     .then(data => {
       res.send(data);
@@ -117,9 +116,9 @@ exports.findAll = (req, res) => {
 
 exports.findUserHistory = (req, res) => {
   const userId = req.params.userId;
-  var condition = questionId ? { userId: userId } : {};
+  var condition = userId ? { userId: userId } : {};
 
-  History.findOne(condition)
+  History.find(condition)
     .then(data => {
       res.send(data);
       return;

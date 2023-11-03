@@ -18,6 +18,8 @@ export class MatchingComponent {
 
   queueLength: number = -1
 
+  currUser = this.storageService.getUser().username
+
   constructor(
     private router: Router,
     private matchingService: MatchingService,
@@ -73,6 +75,10 @@ export class MatchingComponent {
     if (this.match == "You're request timed out!") {
       this.match = "We're trying to match you..."
     }
+  }
+
+  goToSolo(userDetails: any) {
+    this.router.navigate(["/collab", this.currUser, "Easy", "Javascript"])
   }
 
 }

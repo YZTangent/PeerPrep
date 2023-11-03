@@ -1,1 +1,44 @@
-<p>history works!</p>
+<div class="container">
+    <h1 class="mt-2">Attempt History</h1>
+    <div class="table-responsive mt-3">
+        <table class="table table-striped table-dark table-hover">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Question Title</th>
+                <th scope="col">Question Complexity</th>
+                <th scope="col">Question Category</th>
+                <th scope="col">Language</th>
+                <th scope="col">Partner</th>
+              </tr>
+            </thead>
+            <tbody style="display: block; max-height: 70vh; overflow-y: scroll;">
+              <tr *ngFor="let attempt of attempts; index as index" data-bs-target="modal" data-bs-toggle="modal">
+                <th scope="row">{{index}}</th>
+                <td>{{this.questions[attempt.questionId].questionTitle}}</td>
+                <td>{{this.questions[attempt.questionId].questionComplexity}}</td>
+                <td>{{this.questions[attempt.questionId].questionCategory}}</td>
+                <td>{{attempt.language}}</td>
+                <td>{{attempt.authors[0].user_id}}</td>
+                <div class="modal" tabindex="-1" id="modal">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Modal title</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          <p>Modal body text goes here.</p>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                          <button type="button" class="btn btn-primary">Save changes</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </tr>
+            </tbody>
+          </table>    
+    </div>
+</div>

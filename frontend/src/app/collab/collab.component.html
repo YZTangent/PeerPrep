@@ -24,7 +24,7 @@
               <tr *ngFor="let attempt of attempts; index as index" (click)="viewAttempt(attempt)">
                 <th scope="row">{{index + 1}}</th>
                 <td>{{attempt.language}}</td>
-                <td>{{attempt.authors[1].user_id}}</td>
+                <td>{{attempt.authors[0].user_id}}</td>
               </tr>
             </tbody>
           </table>

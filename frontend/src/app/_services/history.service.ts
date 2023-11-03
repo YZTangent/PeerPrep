@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
+import { StorageService } from "./storage.service";
 
 const api = "http://127.0.0.1:8005/history"
 
@@ -11,14 +12,22 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/js
 })
 
 export class HistoryService {
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private storageService: StorageService) { }
 
   readHistory(history: any): Observable<any> {
     let newobj = Object.assign({}, history);
     return this.http.get(
-        api + "/" + newobj.questionId + "/" + newobj.userId,
+        api + "/attempt/" + newobj.questionId + "/" + newobj.userId,
         httpOptions
     );
+  }
+
+  readAllHistory(): Observable<any> {
+    var user = this.storageService.getUser()
+    return this.http.get(
+      api + "/user/" + user,
+      httpOptions
+    )
   }
 
   saveHistory(history: any): Observable<any> {
