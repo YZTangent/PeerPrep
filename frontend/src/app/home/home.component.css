@@ -2,4 +2,18 @@ table thead, table tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
-  }
+}
+
+td::-webkit-scrollbar, th::-webkit-scrollbar {
+  display: none;
+}
+
+td, th {
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+button {
+  font-size: min(2vw, 16px);
+  padding: 5px;
+}

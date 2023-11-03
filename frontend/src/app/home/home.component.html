@@ -1,7 +1,11 @@
 <div class="container">
   <div class="row my-3">
-    <h1 class="col-3">Questions</h1>
-    <input type="text" class="w-25 form-control" placeholder="Search..." (keyup)="updateSearchResults(search.value)" #search>
+    <div class="col-xs-10 col-sm-4">
+      <h1>Questions</h1>
+    </div>
+    <div class="col-xs-10 col-sm-5 mt-1">
+      <input type="text" class="form-control" placeholder="Search..." (keyup)="updateSearchResults(search.value)" #search>
+    </div>
   </div>
     <div class="table-responsive">
       <table class="table table-bordered table-striped table-hover">
@@ -9,7 +13,6 @@
           <tr>
             <th>Question ID</th>
             <th>Question Title</th>
-            <th>Question Description</th>
             <th>Question Category</th>
             <th>Question Complexity</th>
             <th>Tags</th>
@@ -19,7 +22,6 @@
           <tr *ngFor="let question of questions; index as index" [attr.data-bs-target]="'#exampleModal' + question.questionId" data-bs-toggle="modal">
             <td (click)="toggleView(index)">{{question.questionId}}</td>
             <td>{{question.questionTitle}}</td>
-            <td>{{question.questionDescription}}</td>
             <td>{{question.questionCategory}}</td>
             <td>{{question.questionComplexity}}</td>
             <td>
@@ -34,10 +36,11 @@
                   </div>
                   <div class="modal-body">
                           <h2>{{question.questionTitle}}</h2>
-                          <button class="btn btn-secondary m-1" *ngFor="let tag of question.questionTags">{{tag}}</button>
-                          <p>{{question.questionDescription}}</p>
                           <p>Category: {{question.questionCategory}}</p>
                           <p>Complexity: {{question.questionComplexity}}</p>
+                          <p class="m-0">Tags:</p>
+                          <button class="btn btn-secondary m-1" *ngFor="let tag of question.questionTags">{{tag}}</button>
+                          <p>{{question.questionDescription}}</p>
                           <br>
                   </div>
                   <div class="modal-footer">
