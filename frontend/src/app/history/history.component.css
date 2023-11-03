@@ -2,4 +2,17 @@ table thead, table tbody tr {
     display: table;
     width: 100%;
     table-layout: fixed;
-  }
+}
+
+td::-webkit-scrollbar, th::-webkit-scrollbar {
+  display: none;
+}
+
+td, th {
+  overflow: scroll;
+  scrollbar-width: none;
+}
+
+.modal.show {
+  background-color: rgba(0,0,0,.0001) !important;
+}

@@ -17,3 +17,7 @@ button {
   font-size: min(2vw, 16px);
   padding: 5px;
 }
+
+.modal.show {
+  background-color: rgba(0,0,0,.0001) !important;
+}

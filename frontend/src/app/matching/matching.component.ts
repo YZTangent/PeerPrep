@@ -78,8 +78,7 @@ export class MatchingComponent {
   }
 
   goToSolo(userDetails: any) {
-    console.log(userDetails.value.difficulty);
-    this.router.navigate(["/collab", this.currUser, userDetails.value.difficulty, userDetails.value.language])
+    this.router.navigate(["/collab", this.currUser, "Easy", "Javascript"])
   }
 
 }

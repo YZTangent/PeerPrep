@@ -36,7 +36,7 @@ export class CollabComponent implements OnInit, AfterViewInit {
     private matchingService: MatchingService
   ) {}
 
-  currUser = JSON.parse(window.sessionStorage.getItem(this.storageService.USER_KEY) || '').username
+  currUser = this.storageService.getUser().username;
 
   ngOnInit(): void {
     console.log(`Set complexity to ${this.complexity}.`);

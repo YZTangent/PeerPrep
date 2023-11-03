@@ -21,7 +21,6 @@ export class HistoryComponent implements OnInit {
       });
       this.completeUserHistory();
     })
-    
   }
 
   completeUserHistory() {
