@@ -135,7 +135,13 @@ export class CollabComponent implements OnInit, AfterViewInit {
       user_id2: this.matchingService.matchId
     }
     this.historyService.saveHistory(attempt).subscribe(res => {
-      console.log(res)
+      var newAttempt = {questionId: this.question.questionId,
+        userId: this.currUser,
+        solution: this.editor.getValue(),
+        language: this.language,
+        authors: [this.matchingService.matchId]
+      }
+      this.attempts.push(newAttempt)
     },
     err => {
       console.log("An error occurred while saving attempt: " + err.message)
