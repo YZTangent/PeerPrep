@@ -21,5 +21,8 @@
     </form>
     <div *ngIf="requested">
         <h2 class="mt-3">{{ match ? match : "We're trying to match you right now..."}}</h2>
+        <div class="progress">
+            <div class="progress-bar" role="progressbar" style="width: 0%;" id="bar" [attr.aria-valuenow]="timer.s" aria-valuemin="0" aria-valuemax="30">{{timer.s}}s</div>
+        </div>
     </div>
 </div>
