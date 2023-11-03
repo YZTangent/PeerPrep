@@ -42,8 +42,6 @@ export class MatchingComponent {
       }
     }, 1000);
 
-    // setTimeout(() => clearInterval(countDown), 30000);
-
     this.matchingService.enqueue(userDetails).pipe(timeoutWith(30000, throwError(() => {
       this.matchingService.dequeue(userDetails["userid"]).subscribe((res) => {
         this.match = "Your request timed out!"

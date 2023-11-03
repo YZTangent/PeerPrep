@@ -25,6 +25,7 @@ export class CollabComponent implements OnInit, AfterViewInit {
 
   searchResults: any;
   questionView: boolean = true;
+  solo: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -48,9 +49,11 @@ export class CollabComponent implements OnInit, AfterViewInit {
     console.log(`Joining room ${this.roomId}.`)
     this.roomId = this.route.snapshot.paramMap.get('roomId');
     this.collabService.joinRoom(this.roomId);
+    this.roomId == this.currUser ? this.solo = true : this.solo = false;
     this.collabService.getQuestion().subscribe((question: any) => {
       console.log(`Updating question ${question}`);
       this.question = question;
+      this.questionView = true;
       this.getHistory();
     })
     this.getQuestion();
@@ -95,6 +98,20 @@ export class CollabComponent implements OnInit, AfterViewInit {
       }        
     })
 
+    this.collabService.getRequest().subscribe((request: any) => {
+      console.log(request)
+      console.log(request[0] == 1)
+      if (request[0] == 1) {
+        const response = confirm("Your partner requested to change to this question - " + request[1].questionTitle)
+
+        if (response) {
+          this.collabService.emitQuestion(request[1]);
+        } else {
+          this.collabService.emitMessage(this.currUser + " rejected your request to change question!");
+        }
+      }
+    })
+
     this.editor.onDidDispose((e: any) => {
       console.log(`Disposing monaco-editor ${this.editor}.`);
     })
@@ -105,6 +122,7 @@ export class CollabComponent implements OnInit, AfterViewInit {
   }
 
   public leaveRoom(): void {
+    this.collabService.emitMessage("Your partner has left the room");
     this.router.navigate(["/home"])
   }
 
@@ -121,8 +139,11 @@ export class CollabComponent implements OnInit, AfterViewInit {
   }
 
   pullUpQuestion(q: Object) {
-    this.collabService.emitQuestion(q);
-    this.toggleQuestionView();
+    if (this.solo) {
+      this.collabService.emitQuestion(q);
+    } else {
+      this.collabService.requestChangeOfQuestion(q);
+    }
   }
 
   saveAttempt() {
