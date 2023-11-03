@@ -22,6 +22,8 @@ export class MatchingComponent {
 
   timer = {s: 0, mn: 0};
 
+  countDown: any = undefined
+
   constructor(
     private router: Router,
     private matchingService: MatchingService,
@@ -31,22 +33,28 @@ export class MatchingComponent {
     this.getQueueLength()
   }
 
+  stopTimer() {
+    this.timer.s = 0;
+    this.timer.mn += 1;
+    clearInterval(this.countDown)
+    this.countDown = undefined
+  }
+
   getMatch(userDetails: any) {
-    var countDown = setInterval(() => {
-      this.timer.s += 1;
-      document.getElementById("bar")!.style.width = (this.timer.s/30)*100+"%";
-      document.getElementById("bar")!.innerHTML = this.timer.s + "s";
-      if (this.timer.s > 30) {
-        this.timer.s = 0;
-        this.timer.mn += 1;
-      }
-    }, 1000);
+    // this.countDown = setInterval(() => {
+    //   this.timer.s += 1;
+    //   document.getElementById("bar")!.style.width = (this.timer.s/30)*100+"%";
+    //   document.getElementById("bar")!.innerHTML = this.timer.s + "s";
+    //   if (this.timer.s > 30) {
+    //     this.stopTimer()
+    //   }
+    // }, 1000);
 
     this.matchingService.enqueue(userDetails).pipe(timeoutWith(30000, throwError(() => {
       this.matchingService.dequeue(userDetails["userid"]).subscribe((res) => {
         this.match = "Your request timed out!"
         setTimeout(() => this.requested = false, 5000);
-        clearInterval(countDown)
+        this.stopTimer()
         this.getQueueLength()
       })
     }))).subscribe((res) => {
@@ -55,11 +63,13 @@ export class MatchingComponent {
         this.match = res.message
         this.getQueueLength()
         this.matchingService.updateMatchId(res.match);
+        this.stopTimer()
         this.router.navigate(["/collab", res.roomId, res.difficulty, res.language]);
       }
     }, (err) => {
       this.match = "We encountered a problem. Please try again later."
       this.getQueueLength()
+      this.stopTimer()
       setTimeout(() => this.requested = false, 15000);
     })
     this.getQueueLength()
@@ -69,6 +79,7 @@ export class MatchingComponent {
     let userid = this.storageService.getUser()["id"]
     this.matchingService.dequeue(userid).subscribe((res) => {
       this.getQueueLength()
+      this.stopTimer()
       this.requested = false
       this.match = undefined
     })
@@ -91,6 +102,7 @@ export class MatchingComponent {
   }
 
   goToSolo(userDetails: any) {
+    this.stopTimer()
     var details = userDetails.value;
     this.router.navigate(["/collab", this.currUser, details.difficulty, details.language])
   }
