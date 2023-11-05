@@ -11,12 +11,19 @@ on:
 jobs:
 
   build:
-
     runs-on: ubuntu-latest
+    name: Build
     steps:
     - uses: actions/checkout@v3
     - name: Build the service
       run: docker-compose up -d
+  
+  test:
+    runs-on: ubuntu-latest
+    name: Frontend Tests
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
     - name: Frontend
       working-directory: ./frontend
       run: |
