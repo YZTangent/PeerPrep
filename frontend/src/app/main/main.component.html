@@ -66,7 +66,7 @@
               <tr *ngFor="let question of questions; index as index">
                 <td (click)="toggleView(index)">{{question.questionId}}</td>
                 <td>{{question.questionTitle}}</td>
-                <td>{{question.questionDescription}}</td>
+                <td class="question-description-id">{{question.questionDescription}}</td>
                 <td>{{question.questionCategory}}</td>
                 <td>{{question.questionComplexity}}</td>
                 <td>
