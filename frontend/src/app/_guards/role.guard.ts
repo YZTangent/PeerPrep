@@ -15,7 +15,7 @@ export class RoleGuard implements CanActivate  {
         if (!isExpectedRole) {
           this.router.navigate(['/home'])
           //replace with something better thanks
-          alert("This page does not exist for you!")
+          alert("You are unauthorized to view this page!")
         }
         return isExpectedRole;
     }
