@@ -80,7 +80,9 @@ export class MatchingComponent implements OnInit, OnDestroy {
   }
 
   cancelMatch() {
-    this.enqueueSubscription.unsubscribe()
+    if (this.enqueueSubscription) {
+      this.enqueueSubscription.unsubscribe()
+    }
     this.matchingService.dequeue(this.currUser).subscribe((res) => {
       // this.getQueueLength()
       this.requested = false

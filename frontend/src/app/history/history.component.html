@@ -31,9 +31,7 @@
                       </div>
                       <div class="modal-body">
                         <h3>{{this.questions[attempt.questionId].questionTitle}}</h3>
-                        <div class="scrollable-container" style="height: 30%;">
-                          {{this.questions[attempt.questionId].questionDescription}}
-                        </div>
+                        <div class="scrollable-container" style="height: 30%;" [innerHTML]="this.questions[attempt.questionId].questionDescription"></div>
                         <h5>Your solution:</h5>
                         <div class="scrollable-container" style="height: 30%;" style="background: gainsboro;">
                           <code>

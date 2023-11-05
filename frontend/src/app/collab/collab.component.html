@@ -8,9 +8,7 @@
         <mat-card-content class="h-75 overflow-y-scroll">
           <p style="color: gray">Complexity: {{question.questionComplexity}}</p>
           <p style="color: gray">Category: {{question.questionCategory}}</p>
-          <div class="overflow-scroll p-1" style="max-height: 50%;">
-            {{question.questionDescription}}
-          </div>
+          <div class="overflow-scroll p-1" style="max-height: 50%;" [innerHTML]="question.questionDescription"></div>
           <h4>Past Attempts:</h4>
           <table class="table table-dark table-striped">
             <thead>

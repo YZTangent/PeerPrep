@@ -25,7 +25,6 @@ import { AuthGuard } from './_guards/auth.guard';
 import { RoleGuard } from './_guards/role.guard';
 import { CollabComponent } from './collab/collab.component';
 import { ChatComponent } from './collab/chat/chat.component';
-import { MultiSelectComponent } from './main/multi-select/multi-select.component';
 import { HistoryComponent } from './history/history.component';
 
 @NgModule({
@@ -43,8 +42,7 @@ import { HistoryComponent } from './history/history.component';
     ChatComponent,
     HistoryComponent,
     ChangePasswordComponent,
-    DeleteAccountComponent,
-    MultiSelectComponent
+    DeleteAccountComponent
   ],
   imports: [
     BrowserModule,

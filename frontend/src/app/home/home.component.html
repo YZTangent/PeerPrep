@@ -43,7 +43,7 @@
                           <button class="btn btn-secondary m-1" *ngFor="let tag of question.questionTags">{{tag}}</button>
                           <p>Category: {{question.questionCategory}}</p>
                           <p>Complexity: {{question.questionComplexity}}</p>
-                          <p>{{question.questionDescription}}</p>
+                          <div class="scrollable-container" [innerHTML]="question.questionDescription"></div>
                           <br>
                   </div>
                   <div class="modal-footer">

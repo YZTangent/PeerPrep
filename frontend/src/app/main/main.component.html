@@ -5,7 +5,7 @@
         <div class="question" *ngIf="currentIndex >= 0">
             <h2>Question Title: {{currentQuestion.questionTitle}}</h2>
             <h4>Question Description:</h4>
-            <p>{{currentQuestion.questionDescription}}</p>
+            <div [innerHTML]="currentQuestion.questionDescription"></div>
             <h4>Question Category: {{currentQuestion.questionCategory}}</h4>
             <h4>Quesiton Complexity: {{currentQuestion.questionComplexity}}</h4>
             <button class="btn btn-primary" type="button" (click)="toggleView(-1)">Input Questions</button>
@@ -22,7 +22,22 @@
             <input type="text" name="questionTitle" id="qtitle" ngModel class="form-control" required>
             <br>
             <label for="questionDescription" class="mb-3">Question Description :</label>
-            <textarea type="text" name="questionDescription" id="description" class="form-control" ngModel required></textarea>
+            <div class="row">
+              <div class="col-6">
+                <textarea
+                  type="text"
+                  name="questionDescription"
+                  id="description"
+                  class="form-control"
+                  ngModel
+                  required
+                  placeholder="Write your description in HTML..."
+                  #desc>
+              </textarea>
+              </div>
+              <div class="col-6" [innerHTML]="desc.value">
+              </div>
+            </div>
             <br>
             <label for="questionCategory" class="mb-3">Question Category :</label>
             <div class="row p-3">

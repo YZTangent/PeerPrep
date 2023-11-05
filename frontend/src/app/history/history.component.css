@@ -4,11 +4,11 @@ table thead, table tbody tr {
     table-layout: fixed;
 }
 
-td::-webkit-scrollbar, th::-webkit-scrollbar {
+td::-webkit-scrollbar, th::-webkit-scrollbar, tbody::-webkit-scrollbar {
   display: none;
 }
 
-td, th {
+td, th, tbody {
   overflow: scroll;
   scrollbar-width: none;
 }
