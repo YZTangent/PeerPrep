@@ -5,7 +5,7 @@ const matchObject = require('../models/match.object.js');
 exports.enqueue = (req, res) => {
     try {    
         if(typeof(mQueue.checkUserId(req.body.userid)) != 'undefined') { //check if user is already in queue
-            res.send({ message: 'User already in queue.'});
+            mQueue.deleteMatch(userid);
         } else {
             let match = new matchObject(
                 req.body.userid,

@@ -1,16 +1,16 @@
-import { Component } from '@angular/core'
+import { Component, OnDestroy, OnInit } from '@angular/core'
 import { NgForm } from '@angular/forms'
 import { Router } from '@angular/router';
 import { MatchingService } from '../_services/matching.service'
 import { StorageService } from '../_services/storage.service'
-import { timeoutWith, throwError, count, interval } from 'rxjs'
+import { timeoutWith, throwError, count, interval, range, timer, takeWhile, scan } from 'rxjs'
 
 @Component({
   selector: 'app-matching',
   templateUrl: './matching.component.html',
   styleUrls: ['./matching.component.css']
 })
-export class MatchingComponent {
+export class MatchingComponent implements OnInit, OnDestroy {
 
   match: any = undefined
 
@@ -20,9 +20,11 @@ export class MatchingComponent {
 
   currUser = this.storageService.getUser().username
 
-  timer = {s: 0, mn: 0};
+  timer = {s: 0};
 
   countDown: any = undefined
+
+  enqueueSubscription: any = undefined
 
   constructor(
     private router: Router,
@@ -30,79 +32,78 @@ export class MatchingComponent {
     private storageService: StorageService){}
 
   ngOnInit() {
-    this.getQueueLength()
+    // this.getQueueLength()
   }
 
-  stopTimer() {
-    this.timer.s = 0;
-    this.timer.mn += 1;
-    clearInterval(this.countDown)
-    this.countDown = undefined
+  ngOnDestroy(): void {
+      this.cancelMatch()
   }
 
   getMatch(userDetails: any) {
-    // this.countDown = setInterval(() => {
-    //   this.timer.s += 1;
-    //   document.getElementById("bar")!.style.width = (this.timer.s/30)*100+"%";
-    //   document.getElementById("bar")!.innerHTML = this.timer.s + "s";
-    //   if (this.timer.s > 30) {
-    //     this.stopTimer()
-    //   }
-    // }, 1000);
-
-    this.matchingService.enqueue(userDetails).pipe(timeoutWith(30000, throwError(() => {
-      this.matchingService.dequeue(userDetails["userid"]).subscribe((res) => {
+    if (this.countDown) {
+      this.countDown.unsubscribe();
+    }
+    this.countDown = timer(0, 1000).pipe(
+      scan(i => --i, 31),
+      takeWhile(i => i >= 0 && this.requested)
+    ).subscribe((i: number) => {
+      this.timer.s = 30 - i;
+      if (this.requested) {
+        document.getElementById("bar")!.style.width = (this.timer.s/30)*100+"%";
+        document.getElementById("bar")!.innerHTML = this.timer.s + "s";
+      }
+    });
+    this.enqueueSubscription = this.matchingService.enqueue(userDetails)
+    .pipe(timeoutWith(30000, throwError(() => {
+      this.matchingService.dequeue(this.currUser).subscribe((res) => {
         this.match = "Your request timed out!"
         setTimeout(() => this.requested = false, 5000);
-        this.stopTimer()
-        this.getQueueLength()
+        // this.getQueueLength()
       })
     }))).subscribe((res) => {
-      console.log(res);
       if (res.message.includes("Matched users:")) {
         this.match = res.message
-        this.getQueueLength()
+        // this.getQueueLength()
         this.matchingService.updateMatchId(res.match);
-        this.stopTimer()
         this.router.navigate(["/collab", res.roomId, res.difficulty, res.language]);
+      } else {
+        // this.getQueueLength();
       }
     }, (err) => {
-      this.match = "We encountered a problem. Please try again later."
-      this.getQueueLength()
-      this.stopTimer()
-      setTimeout(() => this.requested = false, 15000);
+      if (err) {
+        this.match = "We encountered a problem. Please try again later."
+        // this.getQueueLength()
+        this.cancelMatch()
+      }
     })
-    this.getQueueLength()
+    // this.getQueueLength()
   }
 
   cancelMatch() {
-    let userid = this.storageService.getUser()["id"]
-    this.matchingService.dequeue(userid).subscribe((res) => {
-      this.getQueueLength()
-      this.stopTimer()
+    this.enqueueSubscription.unsubscribe()
+    this.matchingService.dequeue(this.currUser).subscribe((res) => {
+      // this.getQueueLength()
       this.requested = false
       this.match = undefined
     })
   }
 
-  getQueueLength() {
-    this.matchingService.getQueueLength().subscribe((res) => {
-      this.queueLength = res.length
-    })
-  }
+  // getQueueLength() {
+  //   this.matchingService.getQueueLength().subscribe((res) => {
+  //     this.queueLength = res.length
+  //   })
+  // }
 
   submitMatchingForm(form: NgForm) {
     let obj = Object.assign({}, form.value)
-    obj["userid"] = this.storageService.getUser()["username"]
+    obj["userid"] = this.currUser
     this.getMatch(obj)
     this.requested = true
-    if (this.match == "You're request timed out!") {
-      this.match = "We're trying to match you..."
-    }
+    this.match = "We're trying to match you..."
   }
 
   goToSolo(userDetails: any) {
-    this.stopTimer()
+    this.cancelMatch()
     var details = userDetails.value;
     this.router.navigate(["/collab", this.currUser, details.difficulty, details.language])
   }
