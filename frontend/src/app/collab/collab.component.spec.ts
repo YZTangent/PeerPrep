@@ -5,7 +5,15 @@ import { CollabService } from '../_services/collab.service';
 import { RouterTestingModule } from "@angular/router/testing";
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MonacoEditorModule } from 'ngx-monaco-editor-v2';
+import { MonacoEditorModule, NGX_MONACO_EDITOR_CONFIG } from 'ngx-monaco-editor-v2';
+import { ChatComponent } from './chat/chat.component';
+
+const mockMonacoEditorConfig = {
+  defaultOptions: {
+    theme: 'vs-dark',
+    language: 'javascript',
+  },
+};
 
 describe('CollabComponent', () => {
   let component: CollabComponent;
@@ -14,8 +22,14 @@ describe('CollabComponent', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [HttpClientModule, RouterTestingModule, MatCardModule, MatIconModule, MonacoEditorModule],
-      declarations: [CollabComponent],
-      providers: [CollabService]
+      declarations: [CollabComponent, ChatComponent],
+      providers: [
+        CollabService,
+        {
+          provide: NGX_MONACO_EDITOR_CONFIG,
+          useValue: mockMonacoEditorConfig,
+        },
+      ],
     });
     fixture = TestBed.createComponent(CollabComponent);
     component = fixture.componentInstance;
