@@ -1,11 +1,8 @@
-process.env.JASMINE = true;
-
 const request = require('supertest');
-const app = require('../index.js');
+const app = require('./app.spec.js');
 const db = require("../models");
-const e = require('express');
 
-const Question = db.questions;
+const Question = db.questions;  
 
 describe('create function', () => {
   let question;
@@ -279,11 +276,11 @@ describe ('findRandomByComplexity function', () => {
       .get('/question/random/' + "Easy");
     
       expect(res.statusCode).toEqual(200);
-      expect(res.body.questionId).toBe(String(question1.questionId) || String(question2.questionId));
-      expect(res.body.questionTitle).toBe(question1.questionTitle || question2.questionTitle);
-      expect(res.body.questionDescription).toBe(question1.questionDescription || question2.questionDescription);
-      expect(res.body.questionCategory).toBe(question1.questionCategory || question2.questionCategory);
-      expect(res.body.questionComplexity).toBe(question1.questionComplexity || question2.questionComplexity);
+      expect([String(question1.questionId), String(question2.questionId)]).toContain(res.body.questionId);
+      expect([question1.questionTitle, question2.questionTitle]).toContain(res.body.questionTitle);
+      expect([question1.questionDescription, question2.questionDescription]).toContain(res.body.questionDescription);
+      expect([question1.questionCategory, question2.questionCategory]).toContain(res.body.questionCategory);
+      expect([question1.questionComplexity, question2.questionComplexity]).toContain(res.body.questionComplexity);
   });
 });
 

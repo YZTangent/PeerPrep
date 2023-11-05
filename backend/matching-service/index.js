@@ -34,5 +34,3 @@ require('./routes/matching.routes')(app);
 app.listen(PORT, () => {
   console.log(`matching-service listening on port ${PORT}`);
 });
-
-module.exports = app;

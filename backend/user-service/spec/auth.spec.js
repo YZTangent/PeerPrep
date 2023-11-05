@@ -1,8 +1,6 @@
-process.env.JASMINE = true;
-
 const request = require('supertest');
 const db = require('../models');
-const app = require('../index.js');
+const app = require('./app.spec.js');
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 

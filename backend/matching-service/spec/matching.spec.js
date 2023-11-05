@@ -1,7 +1,6 @@
-process.env.JASMINE = true;
-
 const request = require('supertest');
-const app = require('../index.js');
+const app = require('./app.spec.js');
+const { set } = require('lodash');
 
 describe('enqueue function', () => {
   let match1;
@@ -21,11 +20,15 @@ describe('enqueue function', () => {
   });
   
   it('should enqueue a user', async () => {
+    
     var res = request(app)
       .post('/matching/enqueue')
       .send(match1)
       .end((err) => {});
-    
+
+    //timeout to ensure the previous request is received by server
+    await new Promise(resolve => setTimeout(resolve, 1000));
+
     res = await request(app)
       .get('/matching/getLength')
       .send();
@@ -43,6 +46,9 @@ describe('enqueue function', () => {
       .send(match1)
       .end((err) => {});
 
+    //timeout to ensure the previous request is received by server
+    await new Promise(resolve => setTimeout(resolve, 1000));
+    
     var res = await request(app)
       .post('/matching/enqueue')
       .send(match1);
@@ -59,6 +65,9 @@ describe('enqueue function', () => {
       .post('/matching/enqueue')
       .send(match1)
       .end((err) => {});
+
+    //timeout to ensure the previous request is received by server
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     var res2 = await request(app)
       .post('/matching/enqueue')
@@ -97,8 +106,10 @@ describe('dequeue function', () => {
     var res = request(app)
       .post('/matching/enqueue')
       .send(match1)
-      .end((err) => {})
-      .timeout(2000);
+      .end((err) => {});
+
+    //timeout to ensure the previous request is received by server
+    await new Promise(resolve => setTimeout(resolve, 1000));
 
     res = await request(app)
       .post('/matching/dequeue')

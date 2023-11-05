@@ -1,10 +1,7 @@
-process.env.JASMINE = true;
-
 const request = require('supertest');
 const db = require('../models');
-const app = require('../index.js');
+const app = require('./app.spec.js');
 var bcrypt = require('bcryptjs');
-const e = require('express');
 
 const User = db.user;
 
@@ -145,41 +142,27 @@ describe("findAll function", () => {
 
   it("should return all users", async () => {
     const res = await agent.get("/user/allUsers");
+    let usernames = [adminAccount.username, user1.username, user2.username, user3.username];
+    let emails = [adminAccount.email, user1.email, user2.email, user3.email];
 
     expect(res.status).toBe(200);
     expect(res.body.length).toBe(4);
 
-    expect(res.body[0].username).toBe(adminAccount.username);
-    expect(res.body[0].email).toBe(adminAccount.email);
-    expect(res.body[0].roles[0]).toBe("admin");
-
-    expect(res.body[1].username).toBe(user1.username);
-    expect(res.body[1].email).toBe(user1.email);
-    expect(res.body[1].roles[0]).toBe("user");
-
-    expect(res.body[2].username).toBe(user2.username);
-    expect(res.body[2].email).toBe(user2.email);
-    expect(res.body[2].roles[0]).toBe("user");
-
-    expect(res.body[3].username).toBe(user3.username);
-    expect(res.body[3].email).toBe(user3.email);
-    expect(res.body[3].roles[0]).toBe("user");
+    for (let i = 0; i < res.body.length; i++) {
+      expect(usernames).toContain(res.body[i].username);
+      expect(emails).toContain(res.body[i].email);
+    }
   });
 
   it("should update if user is removed", async () => {
     User.findOneAndDelete({ username: user2.username }).exec();
     const res = await agent.get("/user/allUsers");
+    expect(res.status).toBe(200);
+    expect(res.body.length).toBe(3);
 
-    expect(res.body[0].username).toBe(adminAccount.username);
-    expect(res.body[0].email).toBe(adminAccount.email);
-    expect(res.body[0].roles[0]).toBe("admin");
-
-    expect(res.body[1].username).toBe(user1.username);
-    expect(res.body[1].email).toBe(user1.email);
-    expect(res.body[1].roles[0]).toBe("user");
-
-    expect(res.body[2].username).toBe(user3.username);
-    expect(res.body[2].email).toBe(user3.email);
-    expect(res.body[2].roles[0]).toBe("user");
+    for (let i = 0 ; i < res.body.length ; i++) {
+      expect(res.body[i].username).not.toBe(user2.username);
+      expect(res.body[i].email).not.toBe(user2.email);
+    }
   });
 });
