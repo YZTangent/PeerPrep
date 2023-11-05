@@ -1,4 +1,4 @@
-name: Docker Compose CI
+name: PeerPrep CI
 
 on:
   push:
