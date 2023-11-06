@@ -24,6 +24,7 @@ exports.enqueue = (req, res) => {
                 res.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language, match: userid});
                 firstUserRes.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language, match: match.userid});
             }
+            console.log(req.body.userid + " has entered the queue.");
         }
     } catch (error) {
         res.status(500).send({
@@ -41,6 +42,7 @@ exports.dequeue = (req, res) => {
         } else {
             userid = req.body.userid;
             mQueue.deleteMatch(userid);
+            console.log(req.body.userid + " has left the queue.")
             existingMatch.firstUserRes.send({ message: 'Successfully removed from queue.'});
             res.send({ message: 'Successfully removed from queue.'});
         }
