@@ -18,7 +18,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent},
   { path: 'register', component: RegisterComponent },
   { path: 'profile', component: ProfileComponent, canActivate: [AuthGuard] },
-  { path: 'questionMachine', component: UserComponent, canActivate: [AuthGuard, RoleGuard]  },
+  { path: 'question-creation', component: UserComponent, canActivate: [AuthGuard, RoleGuard]  },
   { path: 'match', component: MatchingComponent, canActivate: [AuthGuard] },
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuard]},
   { path: 'collab/:roomId/:difficulty/:language', component: CollabComponent, canActivate: [AuthGuard] },

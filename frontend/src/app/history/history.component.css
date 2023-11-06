@@ -16,3 +16,7 @@ td, th, tbody {
 .modal.show {
   background-color: rgba(0,0,0,.0001) !important;
 }
+
+.scrollable-container {
+  white-space: pre-line !important;
+}

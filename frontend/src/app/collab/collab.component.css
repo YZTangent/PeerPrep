@@ -14,6 +14,9 @@
   align-items: start;
 }
 
+div{
+  white-space: pre-line !important;
+}
 .question-description {
   height: calc(99vh - 86px);
   width: 100%;
