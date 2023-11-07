@@ -19,6 +19,7 @@ export class MainComponent {
   categories = new FormControl('')
   categoriesList: string[] = ["Algorithms", "Brain Teasers", "Hashing", "Dynamic Programming"]
   tagsList: string[] = ['Popular', 'NeetCode 150', 'Top 50', 'Top 10']
+  successMessage: string = ""
 
   constructor(private questionService: QuestionService) {}
   
@@ -72,10 +73,19 @@ export class MainComponent {
       if (!dup) {
         this.questionService.saveQuestion(obj).subscribe((res) => {
           obj["questionId"] = res.questionId;
+          this.counter++;
+          this.questions?.push(obj)
+          this.saveQuestions();
+          this.successMessage = "Successfully added your question as question " + res.questionId
+        }, (err) => {
+          var errorMessage = "An error occurred while adding your question!"
+          if (err.error) {
+            if (err.error.message.includes("duplicate key error")) {
+              errorMessage = errorMessage + " Error: " + err.error.message
+            }
+          }
+          alert(errorMessage)
         })
-        this.counter++;
-        this.questions?.push(obj)
-        this.saveQuestions();
         formData.reset()
       }
   }
@@ -86,19 +96,37 @@ export class MainComponent {
     console.log(obj)
     this.questions[index] = obj;
     this.questionService.editQuestion(obj).subscribe((res) => {
-      // log error
+      this.successMessage = "Successfully edited question " + qid
+    }, (err) => {
+      var errorMessage = "An error occurred while editing question " + qid + "!"
+      if (err.error) {
+        if (err.error.message.contains("duplicate key error")) {
+          errorMessage = errorMessage + " Error: " + "You inputted a duplicate question title"
+        }
+      }
+      alert(errorMessage)
     })
   }
 
   deleteItem(index: number, i: number) {
     this.questions.splice(index, 1);
     this.questionService.deleteQuestion(i).subscribe((res) => {
-      // log error
+      this.successMessage = "Successfully deleted question " + i
+    }, (err) => {
+      var errorMessage = "An error occurred while deleting question " + i + "!"
+      if (err.error) {
+        errorMessage = errorMessage + " Error: " + err.error.message
+      }
+      alert(errorMessage)
     })
   }
 
   addTag(s: string) {
     this.tagsList.push(s);
+  }
+
+  clearSuccessMessage() {
+    this.successMessage = ""
   }
   
 }
