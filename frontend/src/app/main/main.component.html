@@ -20,6 +20,7 @@
         <form id="questionForm" #questionForm="ngForm">
             <label for="questionTitle" class="mb-3">Question Title :</label>
             <input type="text" name="questionTitle" id="qtitle" ngModel class="form-control" required>
+            <!-- <div class="alert alert-danger" *ngIf="questionTitle.errors['required']">Please fill in the fields in red.</div> -->
             <br>
             <label for="questionDescription" class="mb-3">Question Description :</label>
             <div class="row">
@@ -59,8 +60,8 @@
                 </mat-select>
             </div>
             <br>
-            <!-- <div class="alert alert-danger" *ngIf="questionForm.touched && questionForm.invalid">Please fill in the fields in red.</div> -->
             <button type="button" (click)="addItem(questionForm)" class="btn btn-primary" [disabled]="!questionForm.valid">Save Question</button>
+            <div class="alert alert-success mt-2" *ngIf="successMessage != ''"><mark (click)="clearSuccessMessage()">&cross;</mark> &nbsp; {{ successMessage }}</div>
             <!-- <button type="button" class="btn btn-secondary">Add Category</button>
             <button type="button" class="btn btn-secondary">Add Tag</button> -->
         </form>

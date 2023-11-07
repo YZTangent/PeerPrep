@@ -14,3 +14,7 @@ div{
 .form-control {
   white-space: pre-line;
 }
+
+mark {
+  background: none;
+}
