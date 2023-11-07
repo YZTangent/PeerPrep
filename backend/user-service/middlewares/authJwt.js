@@ -7,7 +7,7 @@ verifyToken = (req,res,next) => {
     let token = req.session.token; 
     if (!token) {
         console.log("No token found.");
-        return res.status(403).send({ message: "No token provided." });
+        return res.status(401).send({ message: "No token provided." });
     }
     jwt.verify(token, config.secret, (err, decoded) => {
         if (err) {
@@ -30,7 +30,7 @@ isAdmin = (req,res,next) => {
     let token = req.session.token; 
     if (!token) {
         console.log("No token found.");
-        return res.status(403).send({ message: "No token provided." });
+        return res.status(401).send({ message: "No token provided." });
     }
     jwt.verify(token, config.secret, (err,decoded) => {
         if (err) {
