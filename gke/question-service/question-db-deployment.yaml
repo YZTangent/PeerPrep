@@ -28,9 +28,9 @@ spec:
             memory: 2Gi
         volumeMounts:
             - mountPath: /data/db
-              name: question-db-data
+              name: question-db-data-claim
       restartPolicy: Always
       volumes:
-        - name: question-db-data
+        - name: question-db-data-claim
           persistentVolumeClaim:
-            claimName: question-db-data
+            claimName: question-db-data-claim
