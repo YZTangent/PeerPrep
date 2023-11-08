@@ -11,8 +11,8 @@ module.exports = app => {
 
   // Retrieve all history
   router.get("/all", history.findAll);
-  router.get("/user/:id", history.findUserHistory);
-  router.get("/question/:id", history.findQuestionHistory);
+  router.get("/user/:userId", history.findUserHistory);
+  router.get("/question/:questionId", history.findQuestionHistory);
 
   // Delete all history
   router.delete("/", history.deleteAll);

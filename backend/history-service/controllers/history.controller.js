@@ -117,7 +117,6 @@ exports.findAll = (req, res) => {
 exports.findUserHistory = (req, res) => {
   const userId = req.params.userId;
   var condition = userId ? { userId: userId } : {};
-
   History.find(condition)
     .then(data => {
       res.send(data);
