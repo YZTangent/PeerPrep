@@ -3,7 +3,7 @@ name: Build and Deploy api-gateway to GKE
 on:
   push:
     branches:
-      - main
+      - deploy2
     paths:
       - api-gateway/**
 

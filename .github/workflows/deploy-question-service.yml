@@ -3,7 +3,7 @@ name: Build and Deploy question-service to GKE
 on:
   push:
     branches:
-      - main
+      - deploy2
     paths:
       - backend/question-service/**
 
