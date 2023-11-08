@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: collab-service-deployment
+  name: collab-service
   labels:
     app: collab-service
 spec:
