@@ -26,4 +26,19 @@ spec:
             cpu: 500m
             ephemeral-storage: 1Gi
             memory: 2Gi
+        ports:
+          - name: question-db
+            containerPort: 27017
+        volumeMounts:
+            - mountPath: /data/db
+              name: question-db-data
+            - mountPath: /data/configdb
+              name: question-configdb-data
       restartPolicy: Always
+      volumes:
+        - name: question-db-data
+          persistentVolumeClaim:
+            claimName: question-db-data
+        - name: question-configdb-data
+          persistentVolumeClaim:
+            claimName: question-configdb-data
