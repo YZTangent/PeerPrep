@@ -38,22 +38,3 @@ require('./routes/history.routes')(app);
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
-
-
-
-
-// const cors = require('cors');
-
-
-// var corsOptions = {
-//   origin: 'http://127.0.0.1:8000',
-//   methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
-//   allowedHeaders: 'Origin, Authorization, Content-Type, Accept',
-//   credentials: true,
-//   optionsSuccessStatus: 200
-// };
-// 
-// app.use(cors(corsOptions));
-// app.use(express.json());
-// app.use(express.urlencoded({ extended: true }));
-

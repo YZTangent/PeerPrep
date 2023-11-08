@@ -24,22 +24,16 @@ exports.create = (req, res) => {
     res.status(400).send({message: 'History missing.'});
     return;
   }
-
+  console.log("from create history");
+  console.log(req.body);
   const history = new History({
     questionId: req.body.questionId,
     language: req.body.language,
     solution: req.body.solution,
     userId: req.body.userId,
-    authors: [
-      {
-        user_id: req.body.user_id1
-      },
-      {
-        user_id: req.body.user_id2
-      }
-    ]
+    userId2: req.body.user_id2,
   });
-
+  console.log(history);
   history
     .save(history)
     .then(data => {

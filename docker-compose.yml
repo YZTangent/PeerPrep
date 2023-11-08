@@ -71,10 +71,9 @@ services:
     build: ./backend/history-service
     container_name: history-service
     restart: unless-stopped
-    ports:
-      - 8005:8005
+    expose:
+      - "8005"
     networks:
-      - frontend
       - backend
 
   user-db:
@@ -107,9 +106,8 @@ services:
     volumes:
       - history-db-data:/data/db
       - history-db-data:/data/configdb
-
-    ports:
-      - 27003:27017
+    expose:
+      - "27001"
     networks:
       - backend
 
