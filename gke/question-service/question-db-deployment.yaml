@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: question-db
+  labels:
+    app: question-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: question-db
+  template:
+    metadata:
+      labels:
+        app: question-db
+    spec:
+      containers:
+        - name: question-db
+          image: mongodb/mongodb-community-server:latest
+          ports:
+            - name: question-db
+              containerPort: 27017
+      restartPolicy: Always
