@@ -36,6 +36,7 @@ jobs:
     # helper for authentication
     - run: |-
         gcloud --quiet auth configure-docker
+        gcloud auth configure-docker $GKE_ZONE-docker.pkg.dev
 
     - uses: 'google-github-actions/auth@v1'
       with:
