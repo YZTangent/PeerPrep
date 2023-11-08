@@ -10,7 +10,7 @@ spec:
     app: question-db
   template:
     metadata:
-      labels:
+      matchLabels:
         app: question-db
     spec:
       containers:
