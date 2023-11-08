@@ -13,7 +13,7 @@ env:
   GKE_CLUSTER: prod
   GKE_ZONE: asia-southeast1
   DEPLOYMENT_NAME: api-gateway
-  REPOSITORY_NAME: peeprep
+  REPOSITORY_NAME: peerprep
   IMAGE: gateway
 
 jobs:
