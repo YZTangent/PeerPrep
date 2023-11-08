@@ -5,11 +5,7 @@ const historySchema = new mongoose.Schema({
     language: String,
     solution: String,
     userId: String,
-    authors: [
-        {
-            user_id: String,
-        },
-    ],
+    userId2: String,
 });
 
 const History = mongoose.model('History', historySchema);

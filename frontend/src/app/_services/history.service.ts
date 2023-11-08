@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { StorageService } from "./storage.service";
 
-const api = "http://127.0.0.1:8005/history"
+const api = "http://127.0.0.1:8080/history"
 
 const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
