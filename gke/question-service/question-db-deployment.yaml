@@ -17,6 +17,9 @@ spec:
       containers:
         - name: question-db
           image: mongodb/mongodb-community-server:latest
+          command:
+            - "--bind_ip"
+            - "0.0.0.0"
           ports:
             - name: question-db
               containerPort: 27017
