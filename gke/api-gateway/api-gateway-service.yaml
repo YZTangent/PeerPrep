@@ -7,7 +7,7 @@ metadata:
 spec:
   selector:
     app: api-gateway
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - name: api-gateway
       port: 8080
