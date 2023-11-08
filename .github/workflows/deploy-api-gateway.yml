@@ -34,7 +34,6 @@ jobs:
       name: 'Authenticate to Google Cloud'
       uses: 'google-github-actions/auth@v1'
       with:
-        token_format: 'id_token'
         credentials_json: ${{ secrets.GKE_SA_KEY }}
 
     # Setup gcloud CLI
