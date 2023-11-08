@@ -61,7 +61,8 @@
             </div>
             <br>
             <button type="button" (click)="addItem(questionForm)" class="btn btn-primary" [disabled]="!questionForm.valid">Save Question</button>
-            <div class="alert alert-success mt-2" *ngIf="successMessage != ''"><mark (click)="clearSuccessMessage()">&cross;</mark> &nbsp; {{ successMessage }}</div>
+            <div class="alert alert-success mt-2" *ngIf="successMessage != ''"><mark (click)="clearSuccessMessage()" class="text-end">&cross;</mark> &nbsp; {{ successMessage }}</div>
+            <div class="alert alert-danger mt-2" *ngIf="errorMessage != ''"><mark (click)="clearErrorMessage()">&cross;</mark> &nbsp; {{ errorMessage }}</div>
             <!-- <button type="button" class="btn btn-secondary">Add Category</button>
             <button type="button" class="btn btn-secondary">Add Tag</button> -->
         </form>
