@@ -1,0 +1,45 @@
+name: Deploy user-service to GKE
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - backend/user-service/**
+  pull-request:
+    branches:
+      - master
+    paths:
+      - backend/user-service/**
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+
+    - name: Build image
+      uses: docker/build-push-action@v2
+      with:
+        context: ./backend/user-service
+        push: true
+        tags: asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/user:latest
+
+    - name: Deploy user-service to GKE
+      uses: GoogleCloudPlatform/github-actions/setup-gcloud@master
+      with:
+        version: '>= 363.0.0'
+        project_id: crucial-mender-402111
+        service_account_key: ${{ secrets.GCLOUD_AUTH }}
+
+    - name: Configure kubectl
+      run: |
+        gcloud config set project crucial-mender-402111
+        gcloud config set compute/zone asia-southeast1
+        gcloud container clusters get-credentials prod
+    
+    - name: Apply deployment
+      run: |
+        kubectl apply -f gke/user-service/

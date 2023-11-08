@@ -1,0 +1,82 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  id: APIGatewayBuild
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/gateway:latest'
+  - './api-gateway'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: APIGatewayPush
+  args:
+  - 'push'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/gateway:latest'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: UserServiceBuild
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/user:latest'
+  - './backend/user-service'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: UserServicePush
+  args:
+  - 'push'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/user:latest'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: QuestionServiceBuild
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/question:latest'
+  - './backend/question-service'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: QuestionServicePush
+  args:
+  - 'push'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/question:latest'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: MatchingServiceBuild
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/matching:latest'
+  - './backend/matching-service'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: MatchingServicePush
+  args:
+  - 'push'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/matching:latest'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: CollabServiceBuild
+  args:
+  - 'build'
+  - '-t'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/collab:latest'
+  - './backend/collab-service'
+
+- name: 'gcr.io/cloud-builders/docker'
+  id: CollabServicePush
+  args:
+  - 'push'
+  - 'asia-southeast1-docker.pkg.dev/crucial-mender-402111/peerprep/collab:latest'
+
+- name: 'gcr.io/cloud-builders/gcloud'
+  id: Deploy
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+         PROJECT=$$(gcloud config get-value core/project)          
+         gke-gcloud-auth-plugin --version
+         export USE_GKE_GCLOUD_AUTH_PLUGIN=True
+         gcloud container clusters get-credentials "prod" --project "crucial-mender-402111"  --zone "asia-southeast1"  
+         kubectl apply -f ./gke
