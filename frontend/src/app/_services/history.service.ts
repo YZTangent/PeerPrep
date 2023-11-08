@@ -23,7 +23,7 @@ export class HistoryService {
   }
 
   readAllHistory(): Observable<any> {
-    var user = this.storageService.getUser()
+    var user = this.storageService.getUser().username;
     return this.http.get(
       api + "/user/" + user,
       httpOptions
