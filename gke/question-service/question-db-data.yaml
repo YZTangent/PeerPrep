@@ -24,6 +24,3 @@ spec:
   accessModes:
     - ReadWriteOnce
   persistentVolumeReclaimPolicy: Retain
-  gcePersistentDisk:
-    pdName: question-db-data-clone
-    fsType: ext4
