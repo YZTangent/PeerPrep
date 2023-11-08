@@ -28,8 +28,10 @@ const PORT = 8002;
 const db = require("./models");
 const dbConfig = require("./config/db.config.js");
 
+require('dotenv').config();
+
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+  .connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@peerprep.rrvvdr1.mongodb.net/?retryWrites=true&w=majority`, {
     useNewUrlParser:true,
     useUnifiedTopology:true
   }).then(() => {

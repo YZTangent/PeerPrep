@@ -6,6 +6,12 @@
 /out-tsc
 /bazel-out
 
+# Environment files
+.env
+
+# Cloud Secrets
+*-secret.yaml
+
 # Node
 node_modules
 npm-debug.log

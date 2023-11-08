@@ -20,4 +20,15 @@ spec:
           ports:
             - name: qn-service
               containerPort: 8002
+          env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-admin
+                key: db-username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-admin
+                key: db-password
       restartPolicy: Always

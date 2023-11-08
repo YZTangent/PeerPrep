@@ -20,4 +20,16 @@ spec:
           ports:
             - name: user-service
               containerPort: 8001
+          env:
+          - name: DB_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: db-admin
+                key: db-username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: db-admin
+                key: db-password
       restartPolicy: Always
+
