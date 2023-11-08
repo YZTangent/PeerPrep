@@ -13,7 +13,7 @@ services:
       - question
 
   gateway:
-    image: nginx:alpine
+    build: ./api-gateway
     container_name: api-gateway
     restart: unless-stopped
     volumes:
