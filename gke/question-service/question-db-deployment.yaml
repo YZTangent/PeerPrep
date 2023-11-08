@@ -7,10 +7,11 @@ metadata:
 spec:
   replicas: 1
   selector:
-    app: question-db
+    matchLabels:
+      app: question-db
   template:
     metadata:
-      matchLabels:
+      labels:
         app: question-db
     spec:
       containers:
