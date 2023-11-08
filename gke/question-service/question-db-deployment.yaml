@@ -26,9 +26,6 @@ spec:
             cpu: 500m
             ephemeral-storage: 1Gi
             memory: 2Gi
-        ports:
-          - name: question-db
-            containerPort: 27017
         volumeMounts:
             - mountPath: /data/db
               name: question-db-data
