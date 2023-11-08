@@ -20,6 +20,7 @@ export class MainComponent {
   categoriesList: string[] = ["Algorithms", "Brain Teasers", "Hashing", "Dynamic Programming"]
   tagsList: string[] = ['Popular', 'NeetCode 150', 'Top 50', 'Top 10']
   successMessage: string = ""
+  errorMessage: string = ""
 
   constructor(private questionService: QuestionService) {}
   
@@ -76,17 +77,20 @@ export class MainComponent {
           this.counter++;
           this.questions?.push(obj)
           this.saveQuestions();
+          this.clearErrorMessage()
           this.successMessage = "Successfully added your question as question " + res.questionId
+          formData.reset()
         }, (err) => {
-          var errorMessage = "An error occurred while adding your question!"
+          var errMessage = "An error occurred while adding your question!"
           if (err.error) {
             if (err.error.message.includes("duplicate key error")) {
-              errorMessage = errorMessage + " Error: " + err.error.message
+              errMessage = errMessage + " Error: " + err.error.message
             }
           }
-          alert(errorMessage)
+          this.clearSuccessMessage()
+          this.errorMessage = errMessage
         })
-        formData.reset()
+
       }
   }
 
@@ -96,28 +100,32 @@ export class MainComponent {
     console.log(obj)
     this.questions[index] = obj;
     this.questionService.editQuestion(obj).subscribe((res) => {
+      this.clearErrorMessage()
       this.successMessage = "Successfully edited question " + qid
     }, (err) => {
-      var errorMessage = "An error occurred while editing question " + qid + "!"
+      var errMessage = "An error occurred while editing question " + qid + "!"
       if (err.error) {
-        if (err.error.message.contains("duplicate key error")) {
-          errorMessage = errorMessage + " Error: " + "You inputted a duplicate question title"
+        if (err.error.message.includes("duplicate key error")) {
+          errMessage = errMessage + " Error: " + "You inputted a duplicate question title"
         }
       }
-      alert(errorMessage)
+      this.clearSuccessMessage()
+      this.errorMessage = errMessage
     })
   }
 
   deleteItem(index: number, i: number) {
     this.questions.splice(index, 1);
     this.questionService.deleteQuestion(i).subscribe((res) => {
+      this.clearErrorMessage()
       this.successMessage = "Successfully deleted question " + i
     }, (err) => {
-      var errorMessage = "An error occurred while deleting question " + i + "!"
+      var errMessage = "An error occurred while deleting question " + i + "!"
       if (err.error) {
-        errorMessage = errorMessage + " Error: " + err.error.message
+        errMessage = errMessage + " Error: " + err.error.message
       }
-      alert(errorMessage)
+      this.clearSuccessMessage()
+      this.errorMessage = errMessage
     })
   }
 
@@ -127,6 +135,10 @@ export class MainComponent {
 
   clearSuccessMessage() {
     this.successMessage = ""
+  }
+
+  clearErrorMessage() {
+    this.errorMessage = ""
   }
   
 }
