@@ -61,6 +61,7 @@ jobs:
     # Push the Docker image to Google Container Registry
     - name: Publish
       run: |-
+        docker login -u _json_key_base64 --password-stdin https://$GKE_ZONE-docker.pkg.dev < ${{ secrets.GKE_SA_KEY }}
         docker push "$GKE_ZONE-docker.pkg.dev/$PROJECT_ID/$REPOSITORY_NAME/$IMAGE:latest"
 
     # Deploy the Docker image to the GKE cluster
