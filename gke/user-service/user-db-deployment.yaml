@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
         - name: user-db
-          image: mongodb/mongodb-community-server:6.0-ubi8
+          image: mongodb/mongodb-community-server:latest
           ports:
             - containerPort: 27017
           volumeMounts:
