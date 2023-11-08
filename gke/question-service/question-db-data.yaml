@@ -1,26 +1,13 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: question-db-data-claim
+  name: question-db-data
 spec:
   accessModes:
     - ReadWriteOnce
   storageClassName: standard
-  volumeName: question-db-data
   resources:
     requests:
       storage: 5Gi
 
 ---
-
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: question-db-data
-spec:
-  storageClassName: standard
-  capacity:
-    storage: 5Gi
-  accessModes:
-    - ReadWriteOnce
-  persistentVolumeReclaimPolicy: Retain
