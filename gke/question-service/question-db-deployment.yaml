@@ -1,10 +1,28 @@
-apiVersion: mongodbcommunity.mongodb.com/v1
-kind: MongoDBCommunity
+apiVersion: apps/v1
+kind: Deployment
 metadata:
   name: question-db
+  labels:
+    app: question-db
 spec:
-  members: 1
-  type: ReplicaSet
-  version: "6.0.5"
-  additionalMongodConfig:
-    storage.wiredTiger.engineConfig.journalCompressor: zlib
+  replicas: 1
+  selector:
+    app: question-db
+  template:
+    metadata:
+      labels:
+        app: question-db
+    spec:
+      containers:
+      - image: mongodb/mongodb-community-server:6.0-ubi8
+        name: question-db
+        resources:
+          limits:
+            cpu: 500m
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+          requests:
+            cpu: 500m
+            ephemeral-storage: 1Gi
+            memory: 2Gi
+      restartPolicy: Always
