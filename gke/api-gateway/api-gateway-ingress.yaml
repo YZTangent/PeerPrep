@@ -4,6 +4,8 @@ metadata:
   name: gateway-ingress
   labels:
     app: gateway-ingress
+  annotations:
+    kubernetes.io/ingress.class: "gce"
 spec:
   rules:
   - http:
