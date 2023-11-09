@@ -31,6 +31,6 @@ metadata:
 spec:
   healthCheck:
     timeoutSec: 1
-    type: HTTP
-    requestPath: /healthcheck
+    type: TCP
+    requestPath: /healthchecks
     port: 8080
