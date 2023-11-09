@@ -8,14 +8,15 @@
   width: 25vw;
   position: relative;
   flex: 1;
-  justify-content: center;
-  align-items: center;
 }
 
 .question-title {
   align-items: start;
 }
 
+div{
+  white-space: pre-line !important;
+}
 .question-description {
   height: calc(99vh - 86px);
   width: 100%;

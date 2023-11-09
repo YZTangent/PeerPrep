@@ -1,21 +1,19 @@
 const express = require("express");
 const cors = require("cors");
 const cookieSession = require("cookie-session");
-
 const app = express();
 
 var corsOptions = {
   origin: 'http://127.0.0.1:8000',
-  methods: 'GET, HEAD, PUT, PATCH, POST, DELETE',
-  allowedHeaders: 'Origin, Authorization, Content-Type, Accept',
+  methods: 'PUT, PATCH, POST, DELETE',
+  allowedHeaders: 'Origin, Authorization, Content-Type, Accept, Cookie',
   credentials: true,
-  optionsSuccessStatus: 200
+  optionsSuccessStatus: 200,
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
-
 app.use(cookieSession({
     name:"a_session",
     keys:["COOKIE_SECRET"],
@@ -26,6 +24,7 @@ app.use(cookieSession({
 app.get("/", (req, res) => {
     res.json({message:"route_message says hi!"});
 });
+
 require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-const API_URL = 'http://127.0.0.1:8001/api/test/';
+const API_URL = 'http://127.0.0.1:8080/user/';
+
+const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/json' }) };
 
 @Injectable({
   providedIn: 'root'
@@ -21,5 +23,22 @@ export class UserService {
 
   getAdminPage(): Observable<any> {
     return this.http.get(API_URL + 'admin', { responseType: 'text' });
+  }
+
+  register(username: string, email: string, password: string): Observable<any> {
+    return this.http.post(
+      API_URL + 'signup',
+      { username, email, password }, httpOptions
+    );
+  }
+
+  changePw(newPassword: string): Observable<any> {
+    return this.http.post(
+      API_URL + 'updateUser', {newPassword}, httpOptions);
+  }
+  
+  deleteAcc(): Observable<any> {
+    return this.http.post(
+      API_URL + 'deleteUser', {}, httpOptions);
   }
 }

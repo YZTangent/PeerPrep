@@ -1,38 +1,10 @@
 const config = require('../config/auth.config');
 const db = require('../models');
 const User = db.user;
-const Role = db.role;
 
 var jwt = require('jsonwebtoken');
 var bcrypt = require('bcryptjs');
 
-exports.signup = (req, res) => {
-    const user = new User({
-        username: req.body.username,
-        email: req.body.email,
-        password: bcrypt.hashSync(req.body.password, 8)
-    });
-    user.save().then((user) => {
-    if (req.body.roles) {
-        Role.find({name: { $in: req.body.roles }}).then((err, roles) => {
-            user.roles = roles.map(role => role._id);
-            user.save().then(() => {
-                res.send({ message: "User was registered successfully!" });
-            }).catch((err) => { res.status(500).send({ message: err }); });
-        }).catch((err) => { res.status(500).send({ message: err }); })
-    } else {    
-        Role.findOne({ name: "user" }).then((role) => {
-            user.roles = [role._id];
-            user.save().then(() => {
-                res.send({ message: "User was registered successfully!" });
-            }).catch((err) => { res.status(500).send({ message: err });})})
-            .catch((err) => { res.status(500).send({ message: err }); });
-        }
-})
-    .catch((err) => {
-        res.status(500).send({ message: err.message });
-    })
-;};
 
 exports.signin = (req, res) => {
     User.findOne({
@@ -54,18 +26,26 @@ exports.signin = (req, res) => {
                     message: "Invalid Credentials!"
                 });
             }
-            const token = jwt.sign({ id: user.id }, config.secret, {
+            var authorities = [];
+            let isAdmin = false;
+            for (let i = 0; i < user.roles.length; i++) {
+                if (user.roles[i].name.toUpperCase() === "ADMIN") {
+                    isAdmin = true;
+                }
+                authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
+            }
+
+            const token = jwt.sign({ id: user.id, isAdmin: isAdmin }, config.secret, {
                 algorithm: "HS256",
                 allowInsecureKeySizes: true,
                 expiresIn: 86400 // 24 hours
             });
-        var authorities = [];
 
-        for (let i = 0; i < user.roles.length; i++) {
-            authorities.push("ROLE_" + user.roles[i].name.toUpperCase());
-        }
         req.session.token = token;
+        req.session.username = user.username;
+        req.session.authorities = authorities;
         res.status(200).send({
+            token: token,
             id: user._id,
             username: user.username,
             email: user.email,

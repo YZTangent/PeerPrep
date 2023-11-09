@@ -1,42 +1,61 @@
 const jwt = require("jsonwebtoken");
 const config = require("../config/auth.config.js");
 const db = require("../models/index.js");
-const User = db.user;
-const Role = db.role;
 
 verifyToken = (req,res,next) => {
-    let token = req.session.token;
-
+    console.log("Authenticating with verifyToken.");
+    let token = req.session.token; 
     if (!token) {
-        return res.status(403).send({message:"No token provided!"});
+        console.log("No token found.");
+        return res.status(401).send({ message: "No token provided." });
     }
-    
-    jwt.verify(token, config.secret, (err,decoded) => {
-        if(err) {
-            return res.status(401).send({message:"sir stop sir, u are unauthorized!"});
+    jwt.verify(token, config.secret, (err, decoded) => {
+        if (err) {
+            console.log(err.message);
+            return res.status(401).send({ message: "Authorization failed." });
         }
-        req.userId = decoded.id;
-        next();
+        req.userId = decoded.id; 
+        console.log("Authorization success.");
+        if (!req.headers['x-original-uri']) { // if this is not a request from the gateway, i.e. a request from user-service
+            next();                           // note: this implies gateway set an x-original-uri header when routing here from other services
+            return;
+        }
+        return res.status(200).send({ message: "Authorization succeeded." });
     });
 };
 
+
 isAdmin = (req,res,next) => {
-    User.findById(req.userId).exec().then((user) => {
-        Role.find({_id:{$in:user.roles}}).then((roles) => {
-            for(let i=0; i<roles.length; i++) {
-                if(roles[i].name === "admin") {
-                    next();
-                    return;
-                }
+    console.log("Authenticating with verifyAdmin.")
+    let token = req.session.token; 
+    if (!token) {
+        console.log("No token found.");
+        return res.status(401).send({ message: "No token provided." });
+    }
+    jwt.verify(token, config.secret, (err,decoded) => {
+        if (err) {
+            console.log(err.message);
+            return res.status(401).send({ message: "Authorization failed." });
+        }
+        if (decoded.isAdmin) {
+            if (!req.session.token) {
+                req.userId = decoded.id;
             }
-            res.status(403).send({message:"sir stop sir, you require admin role!"});
-            return;
-        }).catch((err) => { res.status(500).send({message:err});});
-    }).catch((err) => { res.status(500).send({message:err});});
+            console.log("Admin authorization success.");
+            if (!req.headers['x-original-uri']) { // if this is not a request from the gateway, i.e. a request from user-service
+                next();                           // note: this implies gateway set an x-original-uri header when routing here from other services
+                return;
+            }
+            return res.status(200).send({ message: "Admin authorization succeeded." });
+        }
+        console.log("No admin authorization. Forbidden.");
+        return res.status(403).send({ message: "Admin authorization needed. Forbidden." });
+    });
 };
+
 
 const authJwt = {
     verifyToken,
-    isAdmin
+    isAdmin,
 }; 
 module.exports = authJwt;
