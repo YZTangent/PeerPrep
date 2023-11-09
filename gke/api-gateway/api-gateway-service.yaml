@@ -4,14 +4,11 @@ metadata:
   name: api-gateway
   labels:
     app: api-gateway
-  annotations:
-    cloud.google.com/neg: '{"ingress": true}'
-    beta.cloud.google.com/backend-config: '{"default": "api-gateway-hc"}'
 spec:
   selector:
     app: api-gateway
-  type: NodePort
+  type: ClusterIP
   ports:
-    - protocol: TCP
+    - name: api-gateway
       port: 8080
       targetPort: 8080
