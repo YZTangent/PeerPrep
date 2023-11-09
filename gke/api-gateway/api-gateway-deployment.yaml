@@ -20,4 +20,10 @@ spec:
           ports:
             - name: api-gateway
               containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: "/health-check"
+              port: 8080
+            initialDelaySeconds: 10
+            timeoutSeconds: 5
       restartPolicy: Always
