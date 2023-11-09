@@ -4,9 +4,8 @@ metadata:
   name: question-db-data-claim
 spec:
   accessModes:
-    - ReadWriteOnce
-  storageClassName: standard
-  volumeName: question-db-data
+    - ReadWriteMany
   resources:
     requests:
       storage: 5Gi
+  storageClassName: standard-rwm

@@ -17,6 +17,9 @@ spec:
       containers:
       - image: mongodb/mongodb-community-server:6.0-ubi8
         name: question-db
+        volumeMounts:
+        - mountPath: /data/db
+          name: question-db-data
         resources:
           limits:
             cpu: 500m
@@ -26,4 +29,8 @@ spec:
             cpu: 500m
             ephemeral-storage: 1Gi
             memory: 2Gi
+      volumes:
+      - name: question-db-data
+        persistentVolumeClaim:
+          claimName: question-db-data-claim
       restartPolicy: Always
