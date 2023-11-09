@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { HttpClientModule } from '@angular/common/http';
 import { HistoryComponent } from './history.component';
 
 describe('HistoryComponent', () => {
@@ -8,6 +8,7 @@ describe('HistoryComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
+      imports: [HttpClientModule],
       declarations: [HistoryComponent]
     });
     fixture = TestBed.createComponent(HistoryComponent);
