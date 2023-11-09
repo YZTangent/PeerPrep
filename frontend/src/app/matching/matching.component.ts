@@ -32,7 +32,6 @@ export class MatchingComponent implements OnInit, OnDestroy {
     private storageService: StorageService){}
 
   ngOnInit() {
-    // this.getQueueLength()
   }
 
   ngOnDestroy(): void {
@@ -58,25 +57,19 @@ export class MatchingComponent implements OnInit, OnDestroy {
       this.matchingService.dequeue(this.currUser).subscribe((res) => {
         this.match = "Your request timed out!"
         setTimeout(() => this.requested = false, 5000);
-        // this.getQueueLength()
       })
     }))).subscribe((res) => {
       if (res.message.includes("Matched users:")) {
         this.match = res.message
-        // this.getQueueLength()
         this.matchingService.updateMatchId(res.match);
         this.router.navigate(["/collab", res.roomId, res.difficulty, res.language]);
-      } else {
-        // this.getQueueLength();
-      }
+      } 
     }, (err) => {
       if (err) {
         this.match = "We encountered a problem. Please try again later."
-        // this.getQueueLength()
         this.cancelMatch()
       }
     })
-    // this.getQueueLength()
   }
 
   cancelMatch() {
@@ -84,17 +77,10 @@ export class MatchingComponent implements OnInit, OnDestroy {
       this.enqueueSubscription.unsubscribe()
     }
     this.matchingService.dequeue(this.currUser).subscribe((res) => {
-      // this.getQueueLength()
       this.requested = false
       this.match = undefined
     })
   }
-
-  // getQueueLength() {
-  //   this.matchingService.getQueueLength().subscribe((res) => {
-  //     this.queueLength = res.length
-  //   })
-  // }
 
   submitMatchingForm(form: NgForm) {
     let obj = Object.assign({}, form.value)
