@@ -20,17 +20,10 @@ spec:
           ports:
             - name: api-gateway
               containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /healthcheck
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 10
       restartPolicy: Always
-
----
-
-apiVersion: cloud.google.com/v1
-kind: BackendConfig
-metadata:
-  name: api-gateway-hc
-spec:
-  healthCheck:
-    timeoutSec: 1
-    type: HTTP
-    requestPath: /health-check
-    port: 8080

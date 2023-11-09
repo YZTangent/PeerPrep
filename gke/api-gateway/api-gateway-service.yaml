@@ -4,8 +4,6 @@ metadata:
   name: api-gateway
   labels:
     app: api-gateway
-  annotations:
-      cloud.google.com/backend-config: '{"default": "api-gateway-hc"}'
 spec:
   selector:
     app: api-gateway
