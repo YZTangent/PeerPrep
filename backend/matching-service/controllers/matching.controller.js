@@ -5,7 +5,7 @@ const matchObject = require('../models/match.object.js');
 exports.enqueue = (req, res) => {
     try {    
         if(typeof(mQueue.checkUserId(req.body.userid)) != 'undefined') { //check if user is already in queue
-            res.send({ message: 'User already in queue.'});
+            mQueue.deleteMatch(userid);
         } else {
             let match = new matchObject(
                 req.body.userid,
@@ -21,8 +21,10 @@ exports.enqueue = (req, res) => {
                 let roomId = `${userid}&${match.userid}&${Date.now()}` // to improve roomId generation
                 console.log(`${msg} with roomId ${roomId}`)
                 mQueue.deleteMatch(userid);
-                res.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language });
-                firstUserRes.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language });
+                res.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language, match: userid});
+                firstUserRes.send({ message: msg, roomId: roomId, difficulty: match.difficulty, language: match.language, match: match.userid});
+            } else {
+                console.log(req.body.userid + " has entered the queue. Queue Length: " + mQueue.getQueueLen());
             }
         }
     } catch (error) {
@@ -41,6 +43,7 @@ exports.dequeue = (req, res) => {
         } else {
             userid = req.body.userid;
             mQueue.deleteMatch(userid);
+            console.log(req.body.userid + " has left the queue. Queue Length: " + mQueue.getQueueLen())
             existingMatch.firstUserRes.send({ message: 'Successfully removed from queue.'});
             res.send({ message: 'Successfully removed from queue.'});
         }

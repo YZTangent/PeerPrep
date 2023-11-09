@@ -20,13 +20,6 @@ export class AuthService {
     );
   }
 
-  register(username: string, email: string, password: string): Observable<any> {
-    return this.http.post(
-      API_URL + 'signup',
-      { username, email, password }, httpOptions
-    );
-  }
-
   signout(): Observable<any> {
     return this.http.post(
       API_URL + 'signout',

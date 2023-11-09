@@ -1,8 +1,12 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { MaterialModule } from './shared/material.module';
+import { MatSelectModule } from '@angular/material/select';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -21,6 +25,7 @@ import { AuthGuard } from './_guards/auth.guard';
 import { RoleGuard } from './_guards/role.guard';
 import { CollabComponent } from './collab/collab.component';
 import { ChatComponent } from './collab/chat/chat.component';
+import { HistoryComponent } from './history/history.component';
 
 @NgModule({
   declarations: [
@@ -35,6 +40,7 @@ import { ChatComponent } from './collab/chat/chat.component';
     MatchingComponent,
     CollabComponent,
     ChatComponent,
+    HistoryComponent,
     ChangePasswordComponent,
     DeleteAccountComponent
   ],
@@ -44,7 +50,12 @@ import { ChatComponent } from './collab/chat/chat.component';
     FormsModule,
     HttpClientModule,
     MaterialModule,
-    MonacoEditorModule.forRoot()
+    MatSelectModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+    BrowserAnimationsModule,
+    MonacoEditorModule.forRoot(),
+    CodemirrorModule
   ],
   providers: [httpInterceptorProviders, AuthGuard, RoleGuard],
   bootstrap: [AppComponent]

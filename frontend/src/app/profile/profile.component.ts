@@ -80,14 +80,15 @@ export class DeleteAccountComponent {
   constructor(public dialogRef: MatDialogRef<DeleteAccountComponent>,
     @Inject(MAT_DIALOG_DATA) data: string,
     private userService: UserService,
-    private authService: AuthService) {}
+    private authService: AuthService,
+    private storageService: StorageService) {}
 
   deleteAcc() {
     this.userService.deleteAcc().subscribe((res) => {
       console.log(res);
     });
     this.authService.signout().subscribe((res) => {
-      sessionStorage.clear();
+      this.storageService.clean();
       window.location.reload();
       window.location.href = '/';
     });
