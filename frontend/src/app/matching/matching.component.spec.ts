@@ -2,6 +2,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatchingComponent } from './matching.component';
 import { FormsModule } from '@angular/forms';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 
 describe('MatchingComponent', () => {
   let component: MatchingComponent;
@@ -9,7 +10,7 @@ describe('MatchingComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [HttpClientModule, FormsModule],
+      imports: [HttpClientModule, HttpClientTestingModule, FormsModule],
       declarations: [MatchingComponent]
     });
     fixture = TestBed.createComponent(MatchingComponent);

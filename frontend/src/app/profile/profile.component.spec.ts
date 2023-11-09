@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ProfileComponent } from './profile.component';
 import { MatDialogModule } from '@angular/material/dialog';
@@ -8,7 +9,7 @@ describe('ProfileComponent', () => {
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [MatDialogModule],
+      imports: [HttpClientModule, MatDialogModule],
       declarations: [ProfileComponent]
     });
     fixture = TestBed.createComponent(ProfileComponent);
