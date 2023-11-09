@@ -20,6 +20,10 @@ spec:
           ports:
             - name: api-gateway
               containerPort: 8080
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
           resources:
             limits:
               cpu: 500m
