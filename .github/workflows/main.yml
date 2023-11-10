@@ -20,7 +20,7 @@ jobs:
       run: |
           npm install
           npm install jasmine
-          npx jasmine --random=false .\spec\question.spec.js
+          npx jasmine --random=false ./spec/question.spec.js
 
   build:
     runs-on: ubuntu-latest
