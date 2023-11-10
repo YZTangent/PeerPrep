@@ -59,7 +59,7 @@ jobs:
           --build-arg GITHUB_REF="$GITHUB_REF" \
           ./backend/user-service
 
-    # Push the Docker image to Google Container Registry
+    # Push the Docker image to Google Artifact Registry
     - name: Publish
       run: |-
         docker push "$GKE_ZONE-docker.pkg.dev/$PROJECT_ID/$REPOSITORY_NAME/$IMAGE:$GITHUB_SHA"
