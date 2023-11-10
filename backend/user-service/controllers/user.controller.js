@@ -25,7 +25,7 @@ exports.signup = (req, res) => {
   });
   user.save().then((user) => {
   if (req.body.roles) {
-      Role.find({name: { $in: req.body.roles }}).then((err, roles) => {
+      Role.find({name: { $in: req.body.roles }}).then((roles) => {
           user.roles = roles.map(role => role._id);
           user.save().then(() => {
               res.send({ message: "User was registered successfully!" });

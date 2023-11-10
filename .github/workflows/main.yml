@@ -10,6 +10,18 @@ on:
 
 jobs:
 
+  backend-test:
+    runs-on: ubuntu-latest
+    name: Backend Tests
+    steps:
+    - uses: actions/checkout@v3
+    - name: Question Service Test
+      working-directory: ./backend/question-service
+      run: |
+          npm install
+          npm install jasmine
+          npx jasmine --random=false .\spec\question.spec.js
+
   build:
     runs-on: ubuntu-latest
     name: Build
@@ -18,7 +30,7 @@ jobs:
     - name: Build the service
       run: docker-compose up -d
   
-  test:
+  frontend-test:
     runs-on: ubuntu-latest
     name: Frontend Tests
     needs: build

@@ -24,8 +24,6 @@ exports.create = (req, res) => {
     res.status(400).send({message: 'History missing.'});
     return;
   }
-  console.log("from create history");
-  console.log(req.body);
   const history = new History({
     questionId: req.body.questionId,
     language: req.body.language,
@@ -33,7 +31,6 @@ exports.create = (req, res) => {
     userId: req.body.userId,
     userId2: req.body.user_id2,
   });
-  console.log(history);
   history
     .save(history)
     .then(data => {
@@ -128,7 +125,7 @@ exports.findQuestionHistory = (req, res) => {
   const questionId = req.params.questionId;
   var condition = questionId ? { questionId: questionId } : {};
 
-  History.findOne(condition)
+  History.find(condition)
     .then(data => {
       res.send(data);
       return;

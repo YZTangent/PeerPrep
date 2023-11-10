@@ -23,7 +23,7 @@ describe('signup function', () => {
 
   it('should register a new user with default role', async () => {
     var res = await request(app)
-      .post('/auth/signup')
+      .post('/user/signup')
       .send(user);
 
     expect(res.status).toBe(200);
@@ -41,7 +41,7 @@ describe('signup function', () => {
   it('should create admin account', async () => {
     user.roles = ['admin'];
     var res = await request(app)
-      .post('/auth/signup')
+      .post('/user/signup')
       .send(user);
 
     expect(res.status).toBe(200);
@@ -58,11 +58,11 @@ describe('signup function', () => {
 
   it('should stop duplicate usernames', async () => {
     var res = await request(app)
-      .post('/auth/signup')
+      .post('/user/signup')
       .send(user);
 
     res = await request(app)
-      .post('/auth/signup')
+      .post('/user/signup')
       .send(user);
 
     expect(res.status).toBe(400);
@@ -72,13 +72,13 @@ describe('signup function', () => {
 
   it('should stop duplicate emails', async () => {
       var res = await request(app)
-        .post('/auth/signup')
+        .post('/user/signup')
         .send(user);
 
       user.username = 'testuser2';
 
       res = await request(app)
-        .post('/auth/signup')
+        .post('/user/signup')
         .send(user);
 
       expect(res.status).toBe(400);
@@ -95,7 +95,7 @@ describe('signin function', () => {
       email: 'testuser@example.com'
     };
     var res = await request(app)
-      .post('/auth/signup')
+      .post('/user/signup')
       .send(user);
   });
 
@@ -158,7 +158,7 @@ describe('signout function', () => {
     };
 
     var res = await request(app)
-      .post('/auth/signup')
+      .post('/user/signup')
       .send(user);
     res = await request(app)
       .post('/auth/signin')

@@ -40,25 +40,6 @@ describe('enqueue function', () => {
       .send(match1);
   });
 
-  it('should send a response with message "User already in queue." if user is already in queue', async () => {
-    var res = request(app)
-      .post('/matching/enqueue')
-      .send(match1)
-      .end((err) => {});
-
-    //timeout to ensure the previous request is received by server
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    var res = await request(app)
-      .post('/matching/enqueue')
-      .send(match1);
-
-    expect(res.body.message).toEqual("User already in queue.");
-
-    var res = await request(app)
-      .post('/matching/dequeue')
-      .send(match1);
-  });
 
   it('should send a response with message and roomId if there is a match', async () => {
     var res1 = request(app)

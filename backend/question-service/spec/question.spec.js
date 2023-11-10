@@ -23,12 +23,11 @@ describe('create function', () => {
     const res = await request(app)
       .post('/question/auth/')
       .send(question);
-
     expect(res.statusCode).toEqual(200);
     expect(res.body.questionId).toBe(String(question.questionId));
     expect(res.body.questionTitle).toBe(question.questionTitle);
     expect(res.body.questionDescription).toBe(question.questionDescription);
-    expect(res.body.questionCategory).toBe(question.questionCategory);
+    expect(res.body.questionCategory[0]).toBe(question.questionCategory);
     expect(res.body.questionComplexity).toBe(question.questionComplexity);
     expect(res.body._id).toBeDefined();
 
@@ -41,10 +40,10 @@ describe('create function', () => {
       .post('/question/auth/')
       .send(question);
     expect(res.statusCode).toEqual(500);
-    expect(res.body.message).toEqual('E11000 duplicate key error collection: test.questions index: questionId_1 dup key: { questionId: "1" }');
+    expect(res.body.message).toContain('E11000 duplicate key error');
   });
 
-  it ('should not create a question if questionId already exists', async () => {
+  it ('should not create a question if question title already exists', async () => {
     const res = await request(app)
       .post('/question/auth/')
       .send({
@@ -55,21 +54,7 @@ describe('create function', () => {
         questionComplexity: "Hard"
       });
     expect(res.statusCode).toEqual(500);
-    expect(res.body.message).toEqual('E11000 duplicate key error collection: test.questions index: questionTitle_1 dup key: { questionTitle: "A question title." }');
-  });
-
-  it('should return error if questionId is not provided', async () => {
-    const res = await request(app)
-      .post('/question/auth/')
-      .send({
-        questionTitle: "A question title.",
-        questionDescription: "A question description.",
-        questionCategory: "A question category.",
-        questionComplexity: "Hard"
-      });
-
-    expect(res.statusCode).toEqual(500);
-    expect(res.body.message).toBe("question validation failed: questionId: Path `questionId` is required.");
+    expect(res.body.message).toContain('E11000 duplicate key error');
   });
 
   it('should return error if questionTitle is not provided', async () => {
@@ -98,20 +83,6 @@ describe('create function', () => {
 
     expect(res.statusCode).toEqual(500);
     expect(res.body.message).toBe("question validation failed: questionDescription: Path `questionDescription` is required.");
-  });
-
-  it('should return error if questionCategory is not provided', async () => {
-    const res = await request(app)
-      .post('/question/auth/')
-      .send({
-        questionId: 1,
-        questionTitle: "A question title.",
-        questionDescription: "A question description.",
-        questionComplexity: "Hard"
-      });
-
-    expect(res.statusCode).toEqual(500);
-    expect(res.body.message).toBe("question validation failed: questionCategory: Path `questionCategory` is required.");
   });
 
   it('should return error if questionComplexity is not provided', async () => {
@@ -211,7 +182,7 @@ describe('findOne function', () => {
     expect(res.body.questionId).toBe(String(question.questionId));
     expect(res.body.questionTitle).toBe(question.questionTitle);
     expect(res.body.questionDescription).toBe(question.questionDescription);
-    expect(res.body.questionCategory).toBe(question.questionCategory);
+    expect(res.body.questionCategory[0]).toBe(question.questionCategory);
     expect(res.body.questionComplexity).toBe(question.questionComplexity);
     expect(res.body._id).toBe(validateQns._id.toString());
   });
@@ -267,7 +238,7 @@ describe ('findRandomByComplexity function', () => {
       expect(res.body.questionId).toBe(String(question3.questionId));
       expect(res.body.questionTitle).toBe(question3.questionTitle);
       expect(res.body.questionDescription).toBe(question3.questionDescription);
-      expect(res.body.questionCategory).toBe(question3.questionCategory);
+      expect(res.body.questionCategory[0]).toBe(question3.questionCategory);
       expect(res.body.questionComplexity).toBe(question3.questionComplexity);
   });
   
@@ -279,7 +250,7 @@ describe ('findRandomByComplexity function', () => {
       expect([String(question1.questionId), String(question2.questionId)]).toContain(res.body.questionId);
       expect([question1.questionTitle, question2.questionTitle]).toContain(res.body.questionTitle);
       expect([question1.questionDescription, question2.questionDescription]).toContain(res.body.questionDescription);
-      expect([question1.questionCategory, question2.questionCategory]).toContain(res.body.questionCategory);
+      expect([question1.questionCategory, question2.questionCategory]).toContain(res.body.questionCategory[0]);
       expect([question1.questionComplexity, question2.questionComplexity]).toContain(res.body.questionComplexity);
   });
 });

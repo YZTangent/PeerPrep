@@ -17,9 +17,9 @@ describe("updateUser function", () => {
     };
 
     var res = await request(app)
-      .post("/auth/signup")
+      .post("/user/signup")
       .send(user);
-    
+
     agent = request.agent(app, {withCredentials: true});
 
     res = await agent
@@ -57,7 +57,7 @@ describe("deleteUser function", () => {
     };
 
     var res = await request(app)
-      .post("/auth/signup")
+      .post("/user/signup")
       .send(user);
     
     agent = request.agent(app, {withCredentials: true});
@@ -98,7 +98,7 @@ describe("findAll function", () => {
     };
 
     var res = await request(app)
-      .post("/auth/signup")
+      .post("/user/signup")
       .send(adminAccount);
     
     agent = request.agent(app, {withCredentials: true})
@@ -126,13 +126,13 @@ describe("findAll function", () => {
     };
 
     res = await request(app)
-      .post("/auth/signup")
+      .post("/user/signup")
       .send(user1);
     res = await request(app)
-      .post("/auth/signup")
+      .post("/user/signup")
       .send(user2);
     res = await request(app)
-      .post("/auth/signup")
+      .post("/user/signup")
       .send(user3);
   });
 
@@ -142,6 +142,7 @@ describe("findAll function", () => {
 
   it("should return all users", async () => {
     const res = await agent.get("/user/allUsers");
+
     let usernames = [adminAccount.username, user1.username, user2.username, user3.username];
     let emails = [adminAccount.email, user1.email, user2.email, user3.email];
 
