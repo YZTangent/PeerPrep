@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { QuestionService } from '../_services/question.service';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-main',
@@ -13,7 +14,13 @@ export class MainComponent {
   currentQuestion: any = null;
   counter!: number;
   bottomView = true;
-selector: any;
+  selector: any;
+  tags = new FormControl('')
+  categories = new FormControl('')
+  categoriesList: string[] = ["Algorithms", "Brain Teasers", "Hashing", "Dynamic Programming"]
+  tagsList: string[] = ['Popular', 'NeetCode 150', 'Top 50', 'Top 10']
+  successMessage: string = ""
+  errorMessage: string = ""
 
   constructor(private questionService: QuestionService) {}
   
@@ -55,7 +62,6 @@ selector: any;
 
   addItem(formData: any) {
       let obj = Object.assign({}, formData.value);
-      obj["questionId"] = this.counter;
       let dup = false
       // this is not right below
       this.questions.forEach((q) => {
@@ -67,13 +73,25 @@ selector: any;
       })
       if (!dup) {
         this.questionService.saveQuestion(obj).subscribe((res) => {
-          // log error
+          obj["questionId"] = res.questionId;
+          this.counter++;
+          this.questions?.push(obj)
+          this.saveQuestions();
+          this.clearErrorMessage()
+          this.successMessage = "Successfully added your question as question " + res.questionId
+          formData.reset()
+        }, (err) => {
+          var errMessage = "An error occurred while adding your question!"
+          if (err.error) {
+            if (err.error.message.includes("duplicate key error")) {
+              errMessage = errMessage + " Error: " + err.error.message
+            }
+          }
+          this.clearSuccessMessage()
+          this.errorMessage = errMessage
         })
-        this.counter++;
-        this.questions?.push(obj)
-        this.saveQuestions();
+
       }
-      
   }
 
   editItem(index: number, qid: number, formData: any) {
@@ -82,15 +100,45 @@ selector: any;
     console.log(obj)
     this.questions[index] = obj;
     this.questionService.editQuestion(obj).subscribe((res) => {
-      // log error
+      this.clearErrorMessage()
+      this.successMessage = "Successfully edited question " + qid
+    }, (err) => {
+      var errMessage = "An error occurred while editing question " + qid + "!"
+      if (err.error) {
+        if (err.error.message.includes("duplicate key error")) {
+          errMessage = errMessage + " Error: " + "You inputted a duplicate question title"
+        }
+      }
+      this.clearSuccessMessage()
+      this.errorMessage = errMessage
     })
   }
 
-  deleteItem(index:number, i: number) {
+  deleteItem(index: number, i: number) {
     this.questions.splice(index, 1);
     this.questionService.deleteQuestion(i).subscribe((res) => {
-      // log error
+      this.clearErrorMessage()
+      this.successMessage = "Successfully deleted question " + i
+    }, (err) => {
+      var errMessage = "An error occurred while deleting question " + i + "!"
+      if (err.error) {
+        errMessage = errMessage + " Error: " + err.error.message
+      }
+      this.clearSuccessMessage()
+      this.errorMessage = errMessage
     })
+  }
+
+  addTag(s: string) {
+    this.tagsList.push(s);
+  }
+
+  clearSuccessMessage() {
+    this.successMessage = ""
+  }
+
+  clearErrorMessage() {
+    this.errorMessage = ""
   }
   
 }

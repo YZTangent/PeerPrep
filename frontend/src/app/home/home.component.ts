@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserService } from '../_services/user.service';
+import { QuestionService } from '../_services/question.service';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +9,21 @@ import { UserService } from '../_services/user.service';
 })
 export class HomeComponent implements OnInit{
   content?: string;
-  constructor(private userService: UserService) { }
+  questions: any;
+  counter: any;
+  bottomView: boolean = false;
+  currentIndex: number = -1;
+  currentQuestion: any;
+  fullQuestionSet: any;
+  constructor(private userService: UserService, private questionService: QuestionService) { }
 
   ngOnInit(): void {
     this.userService.getPublicContent().subscribe({
       next: data => {
-        this.content = data;
+        if (!this.questions) {
+          this.questions = [];
+          this.counter = 0;
+    }
       },
       error: err => {
         console.log(err)
@@ -24,5 +34,38 @@ export class HomeComponent implements OnInit{
         }
       }
     });
+    this.getQuestions();
+  }
+
+  getQuestions() {
+    this.questionService.getAllQuestions().subscribe((res) => {
+    this.questions = res;
+    this.counter = this.questions.length;
+    this.fullQuestionSet = this.questions;
+    })
+  }
+
+  toggleView(i: any) {
+    // to improve
+    this.bottomView = !this.bottomView;
+    if (i >= 0) {
+      this.currentIndex = i;
+      this.currentQuestion = this.questions[i]
+    } else {
+      this.currentIndex = -1
+      this.currentQuestion = null;
+    }
+  }
+
+  updateSearchResults(s: string) {
+    if (s.length == 0) {
+      this.questions = this.fullQuestionSet;
+      return;
+    }
+    this.questionService.searchQuestions(s).subscribe(res => {
+      this.questions = res;
+    }, err => {
+      console.log(err);
+    })
   }
 }

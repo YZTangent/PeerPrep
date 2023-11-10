@@ -13,6 +13,7 @@ export class CollabService implements OnInit, OnDestroy {
   public change$: BehaviorSubject<any> = new BehaviorSubject(null);
   public message$: BehaviorSubject<any> = new BehaviorSubject([]);
   public question$: BehaviorSubject<any> = new BehaviorSubject({});
+  public request$: BehaviorSubject<any> = new BehaviorSubject([]);
 
   ngOnInit(): void {
     this.socket.on("connect", () => {
@@ -40,6 +41,10 @@ export class CollabService implements OnInit, OnDestroy {
       console.log(`Emitting random question:\n${res}`);
       this.socket.emit("question", res);
     })
+  }
+
+  public emitQuestion(question: Object) {
+    this.socket.emit("question", question);
   }
 
   public getQuestion = () => {
@@ -86,5 +91,18 @@ export class CollabService implements OnInit, OnDestroy {
     })
 
     return this.message$.asObservable();
+  }
+
+  public requestChangeOfQuestion(question: Object) {
+    this.socket.emit("request", question);
+    this.request$.next([0, question]);
+  }
+
+  public getRequest = () => {
+    this.socket.on("request", (question) => {
+      this.request$.next([1, question]);
+    })
+    
+    return this.request$.asObservable();
   }
 }
