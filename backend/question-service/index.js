@@ -26,10 +26,10 @@ app.use(cookieSession({
 const PORT = 8002;
 
 const db = require("./models");
-require('dotenv').config();
+const dbConfig = require('./config/db.config');
 
 db.mongoose
-  .connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@peerprep.rrvvdr1.mongodb.net/?retryWrites=true&w=majority`, {
+  .connect(dbConfig.CONNECTION_STRING, {
     useNewUrlParser:true,
     useUnifiedTopology:true
   }).then(() => {

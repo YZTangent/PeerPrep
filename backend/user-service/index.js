@@ -29,14 +29,12 @@ require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 
 //db
-const db = require("./models");
-
 const Role = db.role;
-
-require('dotenv').config();
+const db = require("./models");
+const dbConfig = require('./config/db.config');
 
 db.mongoose
-  .connect(`mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@peerprep.rrvvdr1.mongodb.net/?retryWrites=true&w=majority`, {
+  .connect(dbConfig.CONNECTION_STRING, {
       useNewUrlParser:true,
       useUnifiedTopology:true
   }).then(() => {
