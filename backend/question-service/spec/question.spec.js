@@ -12,7 +12,8 @@ describe('create function', () => {
       questionTitle: "A question title.",
       questionDescription: "A question description.",
       questionCategory: "A question category.",
-      questionComplexity: "Hard"
+      questionComplexity: "Hard",
+      questionTags: "A question tag."
     };
   });
   afterAll(async () => {
@@ -29,10 +30,19 @@ describe('create function', () => {
     expect(res.body.questionDescription).toBe(question.questionDescription);
     expect(res.body.questionCategory[0]).toBe(question.questionCategory);
     expect(res.body.questionComplexity).toBe(question.questionComplexity);
+    expect(res.body.questionTags[0]).toBe(question.questionTags);
     expect(res.body._id).toBeDefined();
 
-    const newQuestion = Question.findOne({ questionId: question.questionId })
-    expect(newQuestion).toBeDefined();
+    Question.findOne({ questionId: question.questionId }).then(data => {
+      expect(data.questionId.toString()).toBe(String(question.questionId));
+      expect(data.questionTitle.toString()).toBe(question.questionTitle);
+      expect(data.questionDescription.toString()).toBe(question.questionDescription);
+      expect(data.questionCategory.toString()).toBe(question.questionCategory);
+      expect(data.questionComplexity.toString()).toBe(question.questionComplexity);
+      expect(data.questionTags.toString()).toBe(question.questionTags);
+      expect(data._id.toString()).toBe(res.body._id);
+    });
+    
   });
 
   it ('should not create a question if questionId already exists', async () => {
@@ -153,7 +163,8 @@ describe('findOne function', () => {
       questionTitle: "A question title.",
       questionDescription: "A question description.",
       questionCategory: "A question category.",
-      questionComplexity: "Hard"
+      questionComplexity: "Hard",
+      questionTags: "A question tag."
     };
   });
   
@@ -184,6 +195,7 @@ describe('findOne function', () => {
     expect(res.body.questionDescription).toBe(question.questionDescription);
     expect(res.body.questionCategory[0]).toBe(question.questionCategory);
     expect(res.body.questionComplexity).toBe(question.questionComplexity);
+    expect(res.body.questionTags[0]).toBe(question.questionTags);
     expect(res.body._id).toBe(validateQns._id.toString());
   });
 
@@ -199,21 +211,24 @@ describe ('findRandomByComplexity function', () => {
       questionTitle: "A question title.",
       questionDescription: "A question description.",
       questionCategory: "A question category.",
-      questionComplexity: "Easy"
+      questionComplexity: "Easy",
+      questionTags: "A question tag."
     };
     question2 = {
       questionId: 2,
       questionTitle: "A question title2.",
       questionDescription: "A question description2.",
       questionCategory: "A question category2.",
-      questionComplexity: "Easy"
+      questionComplexity: "Easy",
+      questionTags: "A question tag."
     };
     question3 = {
       questionId: 3,
       questionTitle: "A question title3.",
       questionDescription: "A question description3.",
       questionCategory: "A question category3.",
-      questionComplexity: "Hard"
+      questionComplexity: "Hard",
+      questionTags: "A question tag."
     };
     await (new Question(question1)).save();
     await (new Question(question2)).save();
@@ -240,6 +255,7 @@ describe ('findRandomByComplexity function', () => {
       expect(res.body.questionDescription).toBe(question3.questionDescription);
       expect(res.body.questionCategory[0]).toBe(question3.questionCategory);
       expect(res.body.questionComplexity).toBe(question3.questionComplexity);
+      expect(res.body.questionTags[0]).toBe(question3.questionTags);
   });
   
   it('should return question 1 or 2', async () => {
@@ -252,6 +268,7 @@ describe ('findRandomByComplexity function', () => {
       expect([question1.questionDescription, question2.questionDescription]).toContain(res.body.questionDescription);
       expect([question1.questionCategory, question2.questionCategory]).toContain(res.body.questionCategory[0]);
       expect([question1.questionComplexity, question2.questionComplexity]).toContain(res.body.questionComplexity);
+      expect([question1.questionTags, question2.questionTags]).toContain(res.body.questionTags[0]);
   });
 });
 
@@ -264,7 +281,8 @@ describe ('update function', () => {
       questionTitle: "A question title.",
       questionDescription: "A question description.",
       questionCategory: "A question category.",
-      questionComplexity: "Hard"
+      questionComplexity: "Hard",
+      questionTags: "A question tag."
     };
   });
 
@@ -281,7 +299,8 @@ describe ('update function', () => {
       questionTitle: "A new question title2.",
       questionDescription: "A new question description2.",
       questionCategory: "A new question category2.",
-      questionComplexity: "Hard"
+      questionComplexity: "Hard",
+      questionTags: "A question tag."
     };
 
     const res = await request(app)
@@ -296,6 +315,7 @@ describe ('update function', () => {
     expect(validateQns.questionDescription.toString()).toBe(newQuestion.questionDescription);
     expect(validateQns.questionCategory.toString()).toBe(newQuestion.questionCategory);
     expect(validateQns.questionComplexity.toString()).toBe(newQuestion.questionComplexity);
+    expect(validateQns.questionTags.toString()).toBe(newQuestion.questionTags);
     expect(validateQns._id.toString()).toBe(validateQns._id.toString());
   });
   
