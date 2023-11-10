@@ -29,15 +29,16 @@ const db = require("./models");
 const dbConfig = require("./config/db.config.js");
 
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+.connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
     useNewUrlParser:true,
     useUnifiedTopology:true
-  }).then(() => {
-    console.log('Connected to the database.');
-  }).catch(err => {
-    console.log('Connection failed.', err);
+}).then(() => {
+    console.log("Successfully connected to MongoDB.");
+
+}).catch(err => {
+    console.error("Connection error", err);
     process.exit();
-  });
+});
 
 app.get('/', (_, res) => {
   res.json({ message: 'Hello World from question-service.' });
