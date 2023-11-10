@@ -21,6 +21,26 @@ jobs:
           npm install
           npm install jasmine
           npx jasmine --random=false ./spec/question.spec.js
+    - name: User Service Test
+      working-directory: ./backend/user-service
+      run: |
+          npm install
+          npm install jasmine
+          npx jasmine --random=false ./spec/user.spec.js
+          npx jasmine --random=false ./spec/auth.spec.js
+    - name: Matching Service Test
+      working-directory: ./backend/matching-service
+      run: |
+          npm install
+          npm install jasmine
+          npx jasmine --random=false ./spec/matching-queue.spec.js
+          npx jasmine --random=false ./spec/matching.spec.js
+    - name: History Service Test
+      working-directory: ./backend/history-service
+      run: |
+          npm install
+          npm install jasmine
+          npx jasmine --random=false ./spec/history.spec.js
 
   build:
     runs-on: ubuntu-latest
