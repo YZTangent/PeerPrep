@@ -44,7 +44,11 @@ export class CollabComponent implements OnInit, AfterViewInit {
     this.complexity = this.route.snapshot.paramMap.get('difficulty');
     console.log(`Set language to ${this.language}`);
     this.language = this.route.snapshot.paramMap.get('language');
-    this.language = this.language.toLowerCase();
+    if (this.language) {
+      this.language = this.language.toLowerCase();
+    } else {
+      this.language = 'default';
+    }
     this.editorOptions.language = this.language;
     console.log(`Joining room ${this.roomId}.`)
     this.roomId = this.route.snapshot.paramMap.get('roomId');

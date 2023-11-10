@@ -33,17 +33,18 @@ const db = require("./models");
 const dbConfig = require("./config/db.config.js");
 
 const Role = db.role;
+
 db.mongoose
-  .connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
-      useNewUrlParser:true,
-      useUnifiedTopology:true
-  }).then(() => {
-      console.log("Successfully connected to MongoDB.");
-      initial();
-  }).catch(err => {
-      console.error("Connection error", err);
-      process.exit();
-  });
+.connect(`mongodb://${dbConfig.HOST}:${dbConfig.PORT}/${dbConfig.DB}`, {
+    useNewUrlParser:true,
+    useUnifiedTopology:true
+}).then(() => {
+    console.log("Successfully connected to MongoDB.");
+    initial();
+}).catch(err => {
+    console.error("Connection error", err);
+    process.exit();
+});
 
 
 //set port & listen for requests
