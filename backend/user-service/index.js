@@ -29,8 +29,8 @@ require('./routes/auth.routes')(app);
 require('./routes/user.routes')(app);
 
 //db
-const Role = db.role;
 const db = require("./models");
+const Role = db.role;
 const dbConfig = require('./config/db.config');
 
 db.mongoose
