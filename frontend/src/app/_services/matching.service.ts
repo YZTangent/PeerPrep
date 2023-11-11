@@ -13,6 +13,8 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/js
   
   export class MatchingService {
     
+    matchId = ""
+
     constructor(private http: HttpClient){}
 
     enqueue(obj: any): Observable<any> {
@@ -25,5 +27,13 @@ const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/js
 
     getQueueLength(): Observable<any> {
         return this.http.get(API_URL + "getLength", httpOptions)
+    }
+
+    updateMatchId(id: string) {
+        this.matchId = id
+    }
+
+    getMatchId(id: string) {
+        this.matchId = id
     }
   }

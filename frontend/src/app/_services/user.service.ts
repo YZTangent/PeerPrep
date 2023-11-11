@@ -26,6 +26,13 @@ export class UserService {
     return this.http.get(API_URL + 'admin', { responseType: 'text' });
   }
 
+  register(username: string, email: string, password: string): Observable<any> {
+    return this.http.post(
+      API_URL + 'signup',
+      { username, email, password }, httpOptions
+    );
+  }
+
   changePw(newPassword: string): Observable<any> {
     return this.http.post(
       API_URL + 'updateUser', {newPassword}, httpOptions);

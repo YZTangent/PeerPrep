@@ -55,4 +55,9 @@ io.on("connection", (socket) => {
     console.log(`${socket.id} disconnected.`);
     console.log(`Existing rooms: ${Array.from(io.sockets.adapter.rooms.keys())}.`);
   })
+
+  socket.on("request", (question) => {
+    console.log(`${socket.id} requested a change of question to ${question.questionId}`);
+    socket.broadcast.to(matchedRoomId).emit("request", question);
+  })
 });

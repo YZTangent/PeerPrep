@@ -54,4 +54,11 @@ export class QuestionService {
     )
   }
 
+  searchQuestions(s: string): Observable<any> {
+    return this.http.get(
+      API_URL + "search/" + s,
+      httpOptions
+    )
+  }
+
 }
