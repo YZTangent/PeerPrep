@@ -5,8 +5,6 @@ import { MatchingService } from '../_services/matching.service'
 import { StorageService } from '../_services/storage.service'
 import { timeoutWith, throwError, count, interval, range, timer, takeWhile, scan } from 'rxjs'
 
-
-
 @Component({
   selector: 'app-matching',
   templateUrl: './matching.component.html',
