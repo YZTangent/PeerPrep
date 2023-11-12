@@ -11,7 +11,7 @@
 .env
 
 # Cloud secrets
-*-secret.yaml
+*-secret.*
 
 # Node
 node_modules
