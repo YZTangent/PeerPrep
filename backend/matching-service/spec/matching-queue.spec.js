@@ -8,14 +8,14 @@ describe('MatchingQueue', () => {
     queue = new MatchingQueue();
   });
 
-  describe('#enqueue', () => {
-    it('adds a match to the queue', () => {
+  describe('enqueue function', () => {
+    it('should add a match to the queue', () => {
       const match = new Match("User", "Hard", "Python", null);
       queue.enqueue(match);
       expect(queue.getQueueLen()).toEqual(1);
     });
 
-    it('returns undefined if the user already exists in the queue', () => {
+    it('should return undefined if the user already exists in the queue', () => {
       const match = new Match("User", "Hard", "Python", null);
       const match2 = new Match("User", "Easy", "Java", null);
       queue.enqueue(match);
@@ -24,8 +24,8 @@ describe('MatchingQueue', () => {
     });
   });
 
-  describe('#deleteMatch', () => {
-    it('removes a match from the queue', () => {
+  describe('deleteMatch function', () => {
+    it('should remove a match from the queue', () => {
       const match = new Match("User", "Hard", "Python", null);
       queue.enqueue(match);
       queue.deleteMatch("User");
@@ -33,8 +33,8 @@ describe('MatchingQueue', () => {
     });
   });
 
-  describe('#checkMatch', () => {
-    it('returns the matching match if it exists in the queue', () => {
+  describe('checkMatch function', () => {
+    it('should return the matching match if it exists in the queue', () => {
       const match1 = new Match("User1", "Hard", "Python", null);
       const match2 = new Match("User2", "Hard", "Python", null);
       queue.enqueue(match1);
@@ -42,29 +42,29 @@ describe('MatchingQueue', () => {
       expect(result).toEqual(match1);
     });
 
-    it('returns undefined if the match does not exist in the queue', () => {
+    it('should return undefined if the match does not exist in the queue', () => {
       const match = { userid: 1, name: 'John' };
       const result = queue.checkMatch(match);
       expect(result).toBeUndefined();
     });
   });
 
-  describe('#checkUserId', () => {
-    it('returns the matching match if it exists in the queue', () => {
+  describe('checkUserId function', () => {
+    it('should return the matching match if it exists in the queue', () => {
       const match = new Match("User1", "Hard", "Python", null);
       queue.enqueue(match);
       const result = queue.checkUserId("User1");
       expect(result).toEqual(match);
     });
 
-    it('returns undefined if the match does not exist in the queue', () => {
+    it('should return undefined if the match does not exist in the queue', () => {
       const result = queue.checkUserId(1);
       expect(result).toBeUndefined();
     });
   });
 
-  describe('#getQueueLen', () => {
-    it('returns the length of the queue', () => {
+  describe('getQueueLen function', () => {
+    it('should return the length of the queue', () => {
       const match1 = new Match("User1", "Hard", "Python", null);
       const match2 = new Match("User2", "Easy", "Java", null);
       queue.enqueue(match1);
