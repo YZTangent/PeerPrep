@@ -172,4 +172,10 @@ export class CollabComponent implements OnInit, AfterViewInit {
   viewAttempt(attempt: any) {
     this.editor.getModel().setValue(attempt.solution);
   }
+
+  isSecondPanelClosed: boolean = true;
+
+  handleAccordionClick(): void {
+    this.isSecondPanelClosed = !this.isSecondPanelClosed;
+  }
 }
