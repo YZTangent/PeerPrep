@@ -40,18 +40,18 @@ export class CollabComponent implements OnInit, AfterViewInit {
   currUser = this.storageService.getUser().username;
 
   ngOnInit(): void {
-    console.log(`Set complexity to ${this.complexity}.`);
     this.complexity = this.route.snapshot.paramMap.get('difficulty');
-    console.log(`Set language to ${this.language}`);
+    console.log(`Set complexity to ${this.complexity}.`);
     this.language = this.route.snapshot.paramMap.get('language');
+    console.log(`Set language to ${this.language}`);
     this.language = this.language.toLowerCase();
     this.editorOptions.language = this.language;
-    console.log(`Joining room ${this.roomId}.`)
     this.roomId = this.route.snapshot.paramMap.get('roomId');
+    console.log(`Joining room ${this.roomId}.`)
     this.collabService.joinRoom(this.roomId);
     this.roomId == this.currUser ? this.solo = true : this.solo = false;
     this.collabService.getQuestion().subscribe((question: any) => {
-      console.log(`Updating question ${question}`);
+      console.log(`Updating question ${question.questionTitle}`);
       this.question = question;
       this.questionView = true;
       this.getHistory();
@@ -102,13 +102,14 @@ export class CollabComponent implements OnInit, AfterViewInit {
       console.log(request)
       console.log(request[0] == 1)
       if (request[0] == 1) {
-        const response = confirm("Your partner requested to change to this question - " + request[1].questionTitle)
-
-        if (response) {
-          this.collabService.emitQuestion(request[1]);
-        } else {
-          this.collabService.emitMessage(this.currUser + " rejected your request to change question!");
-        }
+        setTimeout(() => {
+          const response = confirm("Your partner requested to change to this question - " + request[1].questionTitle)
+          if (response) {
+            this.collabService.emitQuestion(request[1]);
+          } else {
+            this.collabService.emitMessage(this.currUser + " rejected your request to change question!");
+          }
+      }, 100)
       }
     })
 
@@ -117,8 +118,19 @@ export class CollabComponent implements OnInit, AfterViewInit {
     })
   }
 
-  public getQuestion() {
+  public async getQuestion() {
     this.collabService.emitRandomQuestion(this.complexity);
+  }
+
+  public async getNewQuestion() {
+    // has issues if two sessions are both on Chrome
+    if (this.solo) {
+      this.collabService.emitRandomQuestion(this.complexity);
+    } else {
+      this.collabService.getRandomQuestion(this.complexity).then(question => {
+        this.collabService.requestChangeOfQuestion(question);
+      });
+    }
   }
 
   public leaveRoom(): void {
@@ -155,12 +167,16 @@ export class CollabComponent implements OnInit, AfterViewInit {
       user_id1: this.currUser,
       user_id2: this.matchingService.matchId
     }
+    if (this.solo) {
+      attempt.user_id2 = "";
+    }
     this.historyService.saveHistory(attempt).subscribe(res => {
-      var newAttempt = {questionId: this.question.questionId,
+      var newAttempt = {
+        questionId: this.question.questionId,
         userId: this.currUser,
         solution: this.editor.getValue(),
         language: this.language,
-        authors: [this.matchingService.matchId]
+        userId2: this.matchingService.matchId
       }
       this.attempts.push(newAttempt)
     },

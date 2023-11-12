@@ -22,14 +22,14 @@
               <tr *ngFor="let attempt of attempts; index as index" (click)="viewAttempt(attempt)">
                 <th scope="row">{{index + 1}}</th>
                 <td>{{attempt.language}}</td>
-                <td>{{attempt.authors[0].user_id}}</td>
+                <td>{{attempt.userId2}}</td>
               </tr>
             </tbody>
           </table>
         </mat-card-content>
         <mat-card-footer>
           <mat-card-actions class="justify-content-center mb-auto">
-            <a mat-icon-button (click)="getQuestion()">
+            <a mat-icon-button (click)="getNewQuestion()">
               <mat-icon>refresh</mat-icon>
             </a>
             <a
