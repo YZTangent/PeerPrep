@@ -10,6 +10,9 @@
 # Environment files
 .env
 
+# Cloud secrets
+*-secret.yaml
+
 # Node
 node_modules
 npm-debug.log
