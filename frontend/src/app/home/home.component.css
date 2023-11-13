@@ -20,6 +20,7 @@ button {
 
 .modal.show {
   background-color: rgba(0,0,0,.0001) !important;
+  display: inline;
 }
 
 .scrollable-container{
@@ -28,4 +29,9 @@ button {
 
 div.container{
   white-space: pre-line !important;
+}
+
+.modal-open {
+  padding-right: 0px;
+  margin-right: 0px
 }
