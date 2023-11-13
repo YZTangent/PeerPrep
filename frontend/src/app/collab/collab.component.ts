@@ -5,6 +5,7 @@ import { QuestionService } from '../_services/question.service';
 import { HistoryService } from '../_services/history.service';
 import { StorageService } from '../_services/storage.service';
 import { MatchingService } from '../_services/matching.service';
+import { HostListener } from '@angular/core';
 
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { ChangeQuestionDialogComponent } from './change-question-dialog/change-question-dialog.component';
@@ -42,6 +43,17 @@ export class CollabComponent implements OnInit, AfterViewInit {
   ) {}
 
   currUser = this.storageService.getUser().username;
+
+  @HostListener('window:popstate', ['$event']) onPopState(event: any) {
+    console.log('Back button pressed. Exiting collaboration space...');
+    this.leaveRoom();
+  }
+
+  @HostListener('window:beforeunload', ['$event']) unloadHandler(event: any) {
+    console.log('Refresh pressed. Exiting collaboration space...');
+    this.leaveRoom();
+    return "Do you want save your changes before exiting?"
+  }
 
   ngOnInit(): void {
     this.complexity = this.route.snapshot.paramMap.get('difficulty');
