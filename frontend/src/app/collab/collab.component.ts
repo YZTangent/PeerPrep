@@ -21,7 +21,7 @@ export class CollabComponent implements OnInit, AfterViewInit {
   public attempts: any;
 
   private editor: any;
-  public editorOptions = { theme: 'vs-dark', language: '' , automaticLayout: true};
+  public editorOptions = { theme: 'vs-dark', language: '' };
 
   searchResults: any;
   questionView: boolean = true;
@@ -171,11 +171,5 @@ export class CollabComponent implements OnInit, AfterViewInit {
 
   viewAttempt(attempt: any) {
     this.editor.getModel().setValue(attempt.solution);
-  }
-
-  isSecondPanelClosed: boolean = true;
-
-  handleAccordionClick(): void {
-    this.isSecondPanelClosed = !this.isSecondPanelClosed;
   }
 }

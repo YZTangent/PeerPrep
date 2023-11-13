@@ -1,85 +1,34 @@
-<div class="container-fluid h-100">
-  <div class="row h-100">
-    <!-- Left Half -->
-    <div class="col-lg-5 h-100">
-      <!-- Top Part of Left Half - Question View -->
-      <div class="accordion shadow mt-3 mb-3 ml-3 mr-1" style="height: 55vh" id="accordionExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" [disabled]="isSecondPanelClosed" (click)="handleAccordionClick()" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              {{ question.questionTitle }} 
-                <!-- <a mat-icon-button style="width: 24px; height: 24px;" (click)="getQuestion()">
-                  <mat-icon>refresh</mat-icon>
-                </a>
-                <a
-                  class="leave-room" style="width: 24px; height: 24px;"
-                  mat-icon-button (click)="leaveRoom()">
-                  <mat-icon>exit_to_app</mat-icon>
-                </a>
-                <a mat-icon-button style="width: 24px; height: 24px;" (click)="toggleQuestionView()">
-                  <mat-icon>find_in_page</mat-icon>
-                </a> --->
-            </button>
-          </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-            <div class="accordion-body overflow-y-scroll" style="height: 42vh">
-              <p style="color: gray">Complexity: {{ question.questionComplexity }}</p>
-              <p style="color: gray">Category: {{ question.questionCategory }}</p>
-              <div class="p-1" [innerHTML]="question.questionDescription"></div>
-              <div class="d-flex justify-content-center align-items-center mb-3">
-                <a mat-icon-button (click)="getQuestion()">
-                  <mat-icon>refresh</mat-icon>
-                </a>
-                <a
-                  class="leave-room"
-                  mat-icon-button (click)="leaveRoom()">
-                  <mat-icon>exit_to_app</mat-icon>
-                </a>
-                <a mat-icon-button (click)="toggleQuestionView()">
-                  <mat-icon>find_in_page</mat-icon>
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" [disabled]="!isSecondPanelClosed" (click)="handleAccordionClick()" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Past Attempts <button class="btn btn-success d-inline-block ms-5" (click)="saveAttempt()">Save Attempt</button>
-            </button>
-          </h2>
-          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body" style="height: 42vh">
-              <table class="table table-dark table-striped">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Language</th>
-                    <th scope="col">Partner</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let attempt of attempts; index as index" (click)="viewAttempt(attempt)">
-                    <th scope="row">{{ index + 1 }}</th>
-                    <td>{{ attempt.language }}</td>
-                    <td>{{ attempt.authors[0].user_id }}</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Bottom Part of Left Half - Chat (Already Included in Existing Content) -->
-      <div class="card shadow mt-1 mb-3 ml-3 mr-1" style="height: 33vh">
-        <div class="card-header">
-          <h5 class="card-title">Chat</h5>
-        </div>
-        <div class="card-body">
-          <!-- Existing content... -->
-          <app-chat></app-chat>
-          <!-- <div class="d-flex justify-content-center align-items-center mb-3">
+<div class="container d-block z-0">
+  <h1 class="mt-2 d-inline-block">Collaboration Space</h1>
+  <button class="btn btn-success d-inline-block ms-5" (click)="saveAttempt()">Save Attempt</button>
+  <div class="flex-container mt-3 p-2 overflow-x-scroll" style="height: 100vh;">
+    <div *ngIf="questionView" class="h-100">
+    <mat-card class="col h-100">
+        <mat-card-title class="m-3">{{question.questionTitle}}</mat-card-title>
+        <mat-card-content class="h-75 overflow-y-scroll">
+          <p style="color: gray">Complexity: {{question.questionComplexity}}</p>
+          <p style="color: gray">Category: {{question.questionCategory}}</p>
+          <div class="overflow-scroll p-1" style="max-height: 50%;" [innerHTML]="question.questionDescription"></div>
+          <h4>Past Attempts:</h4>
+          <table class="table table-dark table-striped">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Language</th>
+                <th scope="col">Partner</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let attempt of attempts; index as index" (click)="viewAttempt(attempt)">
+                <th scope="row">{{index + 1}}</th>
+                <td>{{attempt.language}}</td>
+                <td>{{attempt.authors[0].user_id}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </mat-card-content>
+        <mat-card-footer>
+          <mat-card-actions class="justify-content-center mb-auto">
             <a mat-icon-button (click)="getQuestion()">
               <mat-icon>refresh</mat-icon>
             </a>
@@ -91,22 +40,27 @@
             <a mat-icon-button (click)="toggleQuestionView()">
               <mat-icon>find_in_page</mat-icon>
             </a>
-          </div> -->
-        </div>
+          </mat-card-actions>
+        </mat-card-footer>
+      </mat-card>
       </div>
-    </div>
-
-    <!-- Right Half - Monaco Editor -->
-    <div class="col-lg-7 h-100">
-      <div class="card shadow mt-3 mb-3 ml-1 mr-3" style="height: 90vh">
-        <div class="card-header">
-          <h5 class="card-title">Monaco Editor</h5>
-        </div>
-        <div class="card-body">
-          <!-- Existing Monaco Editor content... -->
-          <ngx-monaco-editor style="height: 83vh" [options]="editorOptions" (onInit)="onInit($event)"></ngx-monaco-editor>
-        </div>
+      <div *ngIf="!questionView">
+        <mat-card class="col h-100">
+          <mat-card-title class="p-3"><mark (click)="toggleQuestionView()" style="background: none;">&crarr;</mark> Question</mat-card-title>
+          <mat-card-content>
+            <input type="text" #search class="form-control mt-2" placeholder="Search by index or title..." (keyup)="updateSearchResults(search.value)">
+            <button (click)="pullUpQuestion(res)" class="btn btn-outline-secondary m-1" *ngFor="let res of searchResults">{{res.questionTitle}}</button>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    <div class="col-9">
+      <div class="h-100">
+        <ngx-monaco-editor class="h-100"
+          [options]="editorOptions"
+          (onInit)="onInit($event)">
+        </ngx-monaco-editor>
       </div>
     </div>
   </div>
+  <app-chat class="d-block position-fixed z-3" style="right: 0; bottom: 0"></app-chat>
 </div>
