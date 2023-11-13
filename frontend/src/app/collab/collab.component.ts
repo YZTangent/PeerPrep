@@ -173,9 +173,32 @@ export class CollabComponent implements OnInit, AfterViewInit {
     this.editor.getModel().setValue(attempt.solution);
   }
 
-  isSecondPanelClosed: boolean = true;
+  isPanelOneOpen: boolean = true;
+  isPanelTwoOpen: boolean = false;
+  isPanelThreeOpen: boolean = false;
 
-  handleAccordionClick(): void {
-    this.isSecondPanelClosed = !this.isSecondPanelClosed;
+  handleAccordionPanelOneClick(): void {
+    this.isPanelOneOpen = true;
+    this.isPanelTwoOpen = false;
+    this.isPanelThreeOpen = false;
+    console.log("Panel one open:" + this.isPanelOneOpen);
+    console.log("Panel two open:" + this.isPanelTwoOpen);
+    console.log("Panel three open:" + this.isPanelThreeOpen);
+  }
+  handleAccordionPanelTwoClick(): void {
+    this.isPanelOneOpen = false;
+    this.isPanelTwoOpen = true;
+    this.isPanelThreeOpen = false;
+    console.log("Panel one open:" + this.isPanelOneOpen);
+    console.log("Panel two open:" + this.isPanelTwoOpen);
+    console.log("Panel three open:" + this.isPanelThreeOpen);
+  }
+  handleAccordionPanelThreeClick(): void {
+    this.isPanelOneOpen = false;
+    this.isPanelTwoOpen = false;
+    this.isPanelThreeOpen = true;
+    console.log("Panel one open:" + this.isPanelOneOpen);
+    console.log("Panel two open:" + this.isPanelTwoOpen);
+    console.log("Panel three open:" + this.isPanelThreeOpen);
   }
 }

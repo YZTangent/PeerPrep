@@ -41,10 +41,6 @@ export class ChatComponent implements OnInit {
     }
   }
 
-  toggleCollapsed(): void {
-    this.isCollapsed = !this.isCollapsed;
-  }
-
   scrollChat(): void {
     const scrollableContainer = document.getElementById("scrollable-container");
     if (scrollableContainer) {

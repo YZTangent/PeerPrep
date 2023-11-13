@@ -3,10 +3,10 @@
     <!-- Left Half -->
     <div class="col-lg-5 h-100">
       <!-- Top Part of Left Half - Question View -->
-      <div class="accordion shadow mt-3 mb-3 ml-3 mr-1" style="height: 55vh" id="accordionExample">
+      <div class="accordion shadow mt-3 mb-3 ml-3 mr-1" style="height: 90vh" id="accordionExample">
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button" type="button" [disabled]="isSecondPanelClosed" (click)="handleAccordionClick()" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            <button class="accordion-button" type="button" [disabled]="isPanelOneOpen" (click)="handleAccordionPanelOneClick()" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
               {{ question.questionTitle }} 
                 <!-- <a mat-icon-button style="width: 24px; height: 24px;" (click)="getQuestion()">
                   <mat-icon>refresh</mat-icon>
@@ -22,34 +22,22 @@
             </button>
           </h2>
           <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-            <div class="accordion-body overflow-y-scroll" style="height: 42vh">
+            <div class="accordion-body overflow-y-scroll" style="height: 67vh">
               <p style="color: gray">Complexity: {{ question.questionComplexity }}</p>
               <p style="color: gray">Category: {{ question.questionCategory }}</p>
               <div class="p-1" [innerHTML]="question.questionDescription"></div>
-              <div class="d-flex justify-content-center align-items-center mb-3">
-                <a mat-icon-button (click)="getQuestion()">
-                  <mat-icon>refresh</mat-icon>
-                </a>
-                <a
-                  class="leave-room"
-                  mat-icon-button (click)="leaveRoom()">
-                  <mat-icon>exit_to_app</mat-icon>
-                </a>
-                <a mat-icon-button (click)="toggleQuestionView()">
-                  <mat-icon>find_in_page</mat-icon>
-                </a>
-              </div>
             </div>
           </div>
         </div>
         <div class="accordion-item">
           <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" [disabled]="!isSecondPanelClosed" (click)="handleAccordionClick()" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Past Attempts <button class="btn btn-success d-inline-block ms-5" (click)="saveAttempt()">Save Attempt</button>
+            <button class="accordion-button collapsed" type="button" [disabled]="isPanelTwoOpen" (click)="handleAccordionPanelTwoClick()" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+              Past Attempts 
             </button>
           </h2>
           <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body" style="height: 42vh">
+            <div class="accordion-body justify-content-center" style="height: 67vh">
+              <button class="btn btn-primary btn-block mb-2 justify-content-center" style="width: 100%;" (click)="saveAttempt()">Save Attempt</button>
               <table class="table table-dark table-striped">
                 <thead>
                   <tr>
@@ -69,17 +57,41 @@
             </div>
           </div>
         </div>
+        <div class="accordion-item">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed" type="button" [disabled]="isPanelThreeOpen" (click)="handleAccordionPanelThreeClick()" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThre">
+              Room Chat
+            </button>
+          </h2>
+          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0" style="height: 67vh">
+              <app-chat></app-chat>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center align-items-center mb-3">
+          <a mat-icon-button (click)="getQuestion()">
+            <mat-icon>refresh</mat-icon>
+          </a>
+          <a
+            class="leave-room"
+            mat-icon-button (click)="leaveRoom()">
+            <mat-icon>exit_to_app</mat-icon>
+          </a>
+          <a mat-icon-button (click)="toggleQuestionView()">
+            <mat-icon>find_in_page</mat-icon>
+          </a>
+        </div>
       </div>
 
       <!-- Bottom Part of Left Half - Chat (Already Included in Existing Content) -->
-      <div class="card shadow mt-1 mb-3 ml-3 mr-1" style="height: 33vh">
+      <!-- <div class="card shadow mt-1 mb-3 ml-3 mr-1" style="height: 33vh">
         <div class="card-header">
           <h5 class="card-title">Chat</h5>
         </div>
         <div class="card-body">
-          <!-- Existing content... -->
           <app-chat></app-chat>
-          <!-- <div class="d-flex justify-content-center align-items-center mb-3">
+          <div class="d-flex justify-content-center align-items-center mb-3">
             <a mat-icon-button (click)="getQuestion()">
               <mat-icon>refresh</mat-icon>
             </a>
@@ -91,9 +103,9 @@
             <a mat-icon-button (click)="toggleQuestionView()">
               <mat-icon>find_in_page</mat-icon>
             </a>
-          </div> -->
+          </div>
         </div>
-      </div>
+      </div> -->
     </div>
 
     <!-- Right Half - Monaco Editor -->
