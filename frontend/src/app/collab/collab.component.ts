@@ -21,7 +21,7 @@ export class CollabComponent implements OnInit, AfterViewInit {
   public attempts: any;
 
   private editor: any;
-  public editorOptions = { theme: 'vs-dark', language: '' };
+  public editorOptions = { theme: 'vs-dark', language: '' , automaticLayout: true};
 
   searchResults: any;
   questionView: boolean = true;

@@ -3,7 +3,7 @@
     <!-- Left Half -->
     <div class="col-lg-6 h-100">
       <!-- Top Part of Left Half - Question View -->
-      <div class="accordion shadow mt-3 mb-3 ml-3 mr-1 h-50" id="accordionExample">
+      <div class="accordion shadow mt-3 mb-3 ml-3 mr-1" style="height: 45vh" id="accordionExample">
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button" type="button" [disabled]="isSecondPanelClosed" (click)="handleAccordionClick()" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -48,7 +48,7 @@
       </div>
 
       <!-- Bottom Part of Left Half - Chat (Already Included in Existing Content) -->
-      <div class="card shadow mt-1 mb-3 ml-3 mr-1 h-50">
+      <div class="card shadow mt-1 mb-3 ml-3 mr-1" style="height: 43vh">
         <div class="card-header">
           <h5 class="card-title">Chat</h5>
         </div>
@@ -61,13 +61,13 @@
 
     <!-- Right Half - Monaco Editor -->
     <div class="col-lg-6 h-100">
-      <div class="card shadow mt-3 mb-3 ml-1 mr-3">
+      <div class="card shadow mt-3 mb-3 ml-1 mr-3" style="height: 90vh">
         <div class="card-header">
           <h5 class="card-title">Monaco Editor</h5>
         </div>
         <div class="card-body">
           <!-- Existing Monaco Editor content... -->
-          <ngx-monaco-editor class="h-100" [options]="editorOptions" (onInit)="onInit($event)"></ngx-monaco-editor>
+          <ngx-monaco-editor style="height: 82vh" [options]="editorOptions" (onInit)="onInit($event)"></ngx-monaco-editor>
         </div>
       </div>
     </div>
