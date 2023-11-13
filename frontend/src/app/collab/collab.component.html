@@ -22,7 +22,7 @@
             </button>
           </h2>
           <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-            <div class="accordion-body" style="height: 42vh">
+            <div class="accordion-body overflow-y-scroll" style="height: 42vh">
               <p style="color: gray">Complexity: {{ question.questionComplexity }}</p>
               <p style="color: gray">Category: {{ question.questionCategory }}</p>
               <div class="p-1" [innerHTML]="question.questionDescription"></div>
