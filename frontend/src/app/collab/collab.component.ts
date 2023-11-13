@@ -6,6 +6,9 @@ import { HistoryService } from '../_services/history.service';
 import { StorageService } from '../_services/storage.service';
 import { MatchingService } from '../_services/matching.service';
 
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ChangeQuestionDialogComponent } from './change-question-dialog/change-question-dialog.component';
+
 @Component({
   selector: 'app-collab',
   templateUrl: './collab.component.html',
@@ -34,7 +37,8 @@ export class CollabComponent implements OnInit, AfterViewInit {
     private questionService: QuestionService,
     private historyService: HistoryService,
     private storageService: StorageService,
-    private matchingService: MatchingService
+    private matchingService: MatchingService,
+    private dialog: MatDialog
   ) {}
 
   currUser = this.storageService.getUser().username;
@@ -102,20 +106,30 @@ export class CollabComponent implements OnInit, AfterViewInit {
       console.log(request)
       console.log(request[0] == 1)
       if (request[0] == 1) {
-        setTimeout(() => {
-          const response = confirm("Your partner requested to change to this question - " + request[1].questionTitle)
-          if (response) {
-            this.collabService.emitQuestion(request[1]);
-          } else {
-            this.collabService.emitMessage(this.currUser + " rejected your request to change question!");
-          }
-      }, 100)
+          this.openChangeQDialog(request[1])
       }
     })
 
     this.editor.onDidDispose((e: any) => {
       console.log(`Disposing monaco-editor ${this.editor}.`);
     })
+  }
+
+  public openChangeQDialog(question: any): void {
+    const dialogRef = this.dialog.open(ChangeQuestionDialogComponent, { 
+      minWidth: '25vw',
+      minHeight: '25vh',
+      hasBackdrop: true,
+      disableClose: true
+    });
+    dialogRef.componentInstance.confirmMessage = "Your partner requested to change to this question - " + question.questionTitle
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.collabService.emitQuestion(question);
+      } else {
+        this.collabService.emitMessage(this.currUser + " rejected your request to change question!");
+      }
+    });
   }
 
   public async getQuestion() {
