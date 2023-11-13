@@ -16,7 +16,7 @@
               <tr *ngFor="let attempt of attempts; index as index"
               [attr.data-bs-target]="'#exampleModal' + index"
               data-bs-toggle="modal">
-                <td>{{index}}</td>
+                <td>{{index + 1}}</td>
                 <td>{{this.questions[attempt.questionId].questionTitle}}</td>
                 <td>{{this.questions[attempt.questionId].questionComplexity}}</td>
                 <td>{{this.questions[attempt.questionId].questionCategory}}</td>

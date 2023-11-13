@@ -184,8 +184,4 @@ export class CollabComponent implements OnInit, AfterViewInit {
       console.log("An error occurred while saving attempt: " + err.message)
     })
   }
-
-  viewAttempt(attempt: any) {
-    this.editor.getModel().setValue(attempt.solution);
-  }
 }
