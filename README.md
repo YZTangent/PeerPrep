@@ -8,11 +8,11 @@ The cloud deployment of [**PeerPrep**](https://peerprep.yuanzheng.pro) is availa
 _PeerPrep was developed as part of **AY23/24S1 CS3219 Software Engineering Principles and Patterns** by Group 40 ([Chia Yu Hong](https://github.com/chia-yh), [Chinthakayala Jyothika Siva Sai](https://github.com/cjyothika), [Justin Widodo](https://github.com/GenFusion122), [Tan Yuan Zheng](https://github.com/YZTangent), [Xu Richard Chengji](https://github.com/itsrx))_
 
 ## Repository Structure
-The main structure of the repository consists of three sub-directories, `/frontend`, `/api-gateway`, and `/backend`.
+The main structure of the repository consists of three sub-directories, [`/frontend`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/frontend), [`/api-gateway`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/api-gateway), and [`/backend`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/backend).
 
-Additionally, [Github Actions](https://docs.github.com/en/actions) workflows for configuring the CI/CD pipeline are located under the `/.github/workflows` directory, the `/gke` directory contains the `.yaml` files for deploying on the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en), the `/question-fetcher` directory contains files for the serverless function, and the `docker-compose.yml` file for local deployment is located in the project root.
+Additionally, [Github Actions](https://docs.github.com/en/actions) workflows for configuring the CI/CD pipeline are located under the [`/.github/workflows`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/.github/workflows) directory, the [`/gke`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/gke) directory contains the `.yaml` files for deploying on the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en), the [`/question-fetcher`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/question-fetcher) directory contains files for the serverless function, and the [`docker-compose.yml`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/blob/master/docker-compose.yml) file for local deployment is located in the project root.
 
-#### `/frontend`
+#### [`/frontend`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/frontend)
 The `/frontend` sub-directory contains files relevant to the [Angular](https://angular.io/) frontend. This sub-directory has most of its config files under `/frontend/src`, while the rest of the files are under the `/frontend/src/app` directory. These files are organised as follows:
 - `/_guards`: authentication and role guards on routes
 - `/_helpers`: HTTP request interceptor helper
@@ -20,10 +20,10 @@ The `/frontend` sub-directory contains files relevant to the [Angular](https://a
 - `/<component>`: containing the `___.component.css`, `___.component.html`, `___.component.spec.ts`, `___.component.ts` files for each component
 - `app` files that define the "root" of the Angular frontend
 
-#### `/api-gateway`
+#### [`/api-gateway`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/api-gateway)
 The `/api-gateway` sub-directory contains files relevant to the API gateway, implemented with [NGINX](https://www.nginx.com/). It contains the `.conf` files necessary for configuring the API Gateway, as well as the `Dockerfile` for building the image of the API Gateway.
 
-#### `/backend`
+#### [`/backend`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/backend)
 The `/backend` sub-directory contains files relevant to the microservices that make up the backend of PeerPrep. Each `/backend/___-service` directory is generally structured as follows:
 - `/config`: the relevant config files, such as `db.config.js`
 - `/controllers`: the `___.controller.js` files defining the methods used by the microservice
@@ -34,10 +34,10 @@ The `/backend` sub-directory contains files relevant to the microservices that m
 
 The structure of each microservice may differ from this general structure in the case that some parts are not relevant to the function of the microservice.
 
-#### `/gke`
+#### [`/gke`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/gke)
 The `/gke` directory contains sub-directories for deploying the API gateway and each of the microservices on the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en). Each sub-directory contains `___-deployment.yaml` and `___.service.yaml` files for deploying a Deployment and Service respectively. The API gateway additionally has an `api-gateway-ingress.yaml` file for configuring an ingress for routing external traffic into the API gateway.
 
-#### `/question-fetcher`
+#### [`/question-fetcher`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/question-fetcher)
 The `/question-fetcher` directory contains the `function.js` file, which defines the serverless function that is deployed on Google Cloud Platform (GCP). 
 
 ## Deployment
@@ -89,7 +89,7 @@ _To elevate a user to an_ `admin` _role:_
 - Set up MongoDB Atlas account
 #### Instructions
 _Frontend Cloud Deployment:_
-1. 
+1. Instructions
 
 _Backend Cloud Deployment:_
 1. Configure the following GitHub repository secrets ("Settings" > "Security" > "Secrets and variaboles" > "Actions"):
