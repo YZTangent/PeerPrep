@@ -93,7 +93,10 @@ _To elevate a user to an_ `admin` _role:_
 - Under "Secrets & ConfigMaps" on GKE, configure a `db-admin` secret for the created cluster with `db-username` and `db-password` matching the username and password of the MongoDB Atlas account
 #### Instructions
 _Frontend Cloud Deployment:_
-1. Instructions
+1. Log in/Sign up for Vercel, and add a new project from the homepage.
+2. Under “Import Git Repository”, press “Import” on your GitHub repository containing the project. If the repository is not listed as an option, you can add it by clicking on “Adjust GitHub App Permissions →”.
+3. At the “Configure Project” page, give the project a name. Choose “Angular”, and select ``./frontend`` as the root directory.
+4. Click deploy. Vercel will now build the deployment and update it whenever a change is pushed to the repository.
 
 _Backend Cloud Deployment:_
 
