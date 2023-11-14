@@ -172,8 +172,11 @@ export class CollabComponent implements OnInit, OnDestroy {
       '',
       '/collab'
     )
-    this.collabService.leaveRoom()
-    this.router.navigate(["/match"])
+  }
+
+  public leavePage(): void {
+    this.leaveRoom();
+    this.router.navigate(['/match']);
   }
 
   updateSearchResults(s: string) {
