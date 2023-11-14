@@ -10,7 +10,7 @@ _PeerPrep was developed as part of **AY23/24S1 CS3219 Software Engineering Princ
 ## Repository Structure
 The main structure of the repository consists of three sub-directories, `/frontend`, `/api-gateway`, and `/backend`.
 
-Additionally, the `/gke` directory contains the `.yaml` files for deploying on the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en), [Github Actions](https://docs.github.com/en/actions) workflows for configuring the CI/CD pipeline are located under the `/.github/workflows` directory and the `docker-compose.yml` file for local deployment is located in the project root.
+Additionally, [Github Actions](https://docs.github.com/en/actions) workflows for configuring the CI/CD pipeline are located under the `/.github/workflows` directory, the `/gke` directory contains the `.yaml` files for deploying on the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en), the `/question-fetcher` directory contains files for the serverless function, and the `docker-compose.yml` file for local deployment is located in the project root.
 
 #### `/frontend`
 The `/frontend` sub-directory contains files relevant to the [Angular](https://angular.io/) frontend. This sub-directory has most of its config files under `/frontend/src`, while the rest of the files are under the `/frontend/src/app` directory. These files are organised as follows:
@@ -36,6 +36,9 @@ The structure of each microservice may differ from this general structure in the
 
 #### `/gke`
 The `/gke` directory contains sub-directories for deploying the API gateway and each of the microservices on the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en). Each sub-directory contains `___-deployment.yaml` and `___.service.yaml` files for deploying a Deployment and Service respectively. The API gateway additionally has an `api-gateway-ingress.yaml` file for configuring an ingress for routing external traffic into the API gateway.
+
+#### `/question-fetcher`
+The `/question-fetcher` directory contains the `function.js` file, which defines the serverless function that is deployed on Google Cloud Platform (GCP). 
 
 ## Deployment
 **PeerPrep** supports both local deployment with [Docker Compose](https://docs.docker.com/compose/), for development and testing purposes, and cloud deployment with [Vercel](https://vercel.com/) (Frontend) and [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en) (API Gateway + Microservices).
