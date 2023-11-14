@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy } from "@angular/core";
-import { BehaviorSubject, ReplaySubject } from "rxjs";
+import { BehaviorSubject, ReplaySubject, Subject } from "rxjs";
 import { io } from 'socket.io-client';
 import { QuestionService } from "./question.service";
 
@@ -10,10 +10,10 @@ export class CollabService implements OnInit, OnDestroy {
   private socket = io('http://127.0.0.1:8080', {'forceNew': true});
 
   public isLocalEvent$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  public change$: ReplaySubject<any> = new ReplaySubject();
-  public message$: ReplaySubject<any> = new ReplaySubject();
-  public question$: ReplaySubject<any> = new ReplaySubject();
-  public request$: ReplaySubject<any> = new ReplaySubject();
+  public change$: Subject<any> = new Subject();
+  public message$: Subject<any> = new Subject();
+  public question$: Subject<any> = new Subject();
+  public request$: Subject<any> = new Subject();
 
   ngOnInit(): void {
     this.socket.on("connect", () => {
