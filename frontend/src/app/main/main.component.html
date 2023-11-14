@@ -90,7 +90,7 @@
                     <button class="btn btn-primary m-2" data-bs-toggle="modal" [attr.data-bs-target]="'#exampleModal' + question.questionId">Edit</button>
                     <button class="btn btn-danger" (click)="deleteItem(index, question.questionId)">Delete</button>
                 </td>
-                <div class="modal fade" [id]="'exampleModal' + question.questionId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal" [id]="'exampleModal' + question.questionId" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                   <div class="modal-dialog">
                     <div class="modal-content">
                       <div class="modal-header">

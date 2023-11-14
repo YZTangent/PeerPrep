@@ -170,7 +170,7 @@ export class CollabComponent implements OnInit, OnDestroy {
         language: undefined 
       },
       '',
-      '/collab'
+      '/'
     )
   }
 
