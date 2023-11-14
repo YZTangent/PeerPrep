@@ -34,6 +34,7 @@ div.container{
 .modal-open {
   padding-right: 0px;
   margin-right: 0px
+}
 
 ::ng-deep img {
   padding-top: 20px;
