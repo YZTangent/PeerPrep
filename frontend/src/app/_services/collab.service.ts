@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, ReplaySubject, Subject } from "rxjs";
 import { io } from 'socket.io-client';
 import { QuestionService } from "./question.service";
 
@@ -10,10 +10,11 @@ export class CollabService implements OnInit, OnDestroy {
   private socket = io('http://127.0.0.1:8080', { path: '/collab', forceNew: true});
 
   public isLocalEvent$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  public change$: BehaviorSubject<any> = new BehaviorSubject(null);
-  public message$: BehaviorSubject<any> = new BehaviorSubject([]);
-  public question$: BehaviorSubject<any> = new BehaviorSubject({});
-  public request$: BehaviorSubject<any> = new BehaviorSubject([]);
+  public change$: Subject<any> = new Subject();
+  public message$: Subject<any> = new Subject();
+  public question$: Subject<any> = new Subject();
+  public request$: Subject<any> = new Subject();
+  public leave$: Subject<any> = new Subject();
 
   ngOnInit(): void {
     this.socket.on("connect", () => {
@@ -22,7 +23,12 @@ export class CollabService implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.socket.emit("leave");
+    this.leaveRoom()
+  }
+
+  public leaveRoom(): void {
+    this.emitMessage("Your partner has left the room.");
+    this.socket.emit("leave", "leave");
     console.log("Leaving room.");
     this.socket.disconnect();
   }
@@ -42,6 +48,19 @@ export class CollabService implements OnInit, OnDestroy {
       this.socket.emit("question", res);
     })
   }
+  
+  public async getRandomQuestion(complexity: string): Promise<Object> {
+    return new Promise((resolve, reject) => {
+      this.questionService.getRandomQuestionWithComplexity(complexity).subscribe((res) => {
+          console.log(`Consuming random question:\n${res.questionTitle}`);
+          resolve(res);
+        }, (err) => {
+          console.log(`Error getting random question:\n${err}`);
+          reject(err);
+        }
+      );
+    });
+  }
 
   public emitQuestion(question: Object) {
     this.socket.emit("question", question);
@@ -49,7 +68,7 @@ export class CollabService implements OnInit, OnDestroy {
 
   public getQuestion = () => {
     this.socket.on("question", (question) => {
-      console.log(`Consuming question:\n${question}`);
+      console.log(`Consuming question:\n${question.questionTitle}`);
       this.question$.next(question);
     })
 
@@ -95,14 +114,14 @@ export class CollabService implements OnInit, OnDestroy {
 
   public requestChangeOfQuestion(question: Object) {
     this.socket.emit("request", question);
-    this.request$.next([0, question]);
   }
 
   public getRequest = () => {
     this.socket.on("request", (question) => {
-      this.request$.next([1, question]);
+      this.request$.next(question);
     })
     
     return this.request$.asObservable();
   }
+
 }

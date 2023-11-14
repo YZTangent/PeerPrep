@@ -97,11 +97,11 @@ export class MainComponent {
   editItem(index: number, qid: number, formData: any) {
     let obj = Object.assign({}, formData.value);
     obj["questionId"] = qid;
-    console.log(obj)
-    this.questions[index] = obj;
     this.questionService.editQuestion(obj).subscribe((res) => {
       this.clearErrorMessage()
       this.successMessage = "Successfully edited question " + qid
+      console.log(obj)
+      this.questions[index] = obj;
     }, (err) => {
       var errMessage = "An error occurred while editing question " + qid + "!"
       if (err.error) {
@@ -111,6 +111,8 @@ export class MainComponent {
       }
       this.clearSuccessMessage()
       this.errorMessage = errMessage
+      var cq = this.questions[index]
+      formData.reset(cq)
     })
   }
 

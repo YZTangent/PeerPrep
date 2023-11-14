@@ -13,22 +13,35 @@ export class HistoryComponent implements OnInit {
   questions: any;
   constructor(public historyService: HistoryService, public questionService: QuestionService){}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.questions = {};
+    await this.completeUserHistory();
     this.questionService.getAllQuestions().subscribe(res => {
       res.forEach((element: { questionId: string | number; }) => {
         this.questions[element.questionId] = element;
       });
-      this.completeUserHistory();
+      for (let attempt of this.attempts) {
+        if (this.questions[attempt.questionId] == undefined) {
+          this.questions[attempt.questionId] = { 
+            questionTitle: "Deleted Question", 
+            questionCategory: "Deleted Question", 
+            questionComplexity: "Deleted Question"
+          };
+        }
+      }
     })
   }
 
   completeUserHistory() {
-    this.historyService.readAllHistory().subscribe(res => {
-      this.attempts = res;
-    }, err => {
-      this.err = err.error?.message;
-    })
+    return new Promise((resolve, reject) => {
+      this.historyService.readAllHistory().subscribe(res => {
+        this.attempts = res;
+        resolve(true);
+      }, err => {
+        this.err = err.error?.message;
+        reject(err);
+      });
+    });
   }
 
 }
