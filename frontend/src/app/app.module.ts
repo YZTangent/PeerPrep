@@ -6,7 +6,6 @@ import { MaterialModule } from './shared/material.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -57,7 +56,6 @@ import { ChangeQuestionDialogComponent } from './collab/change-question-dialog/c
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MonacoEditorModule.forRoot(),
-    CodemirrorModule
   ],
   providers: [httpInterceptorProviders, AuthGuard, RoleGuard],
   bootstrap: [AppComponent]

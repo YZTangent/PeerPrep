@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { CollabService } from '../_services/collab.service';
 import { QuestionService } from '../_services/question.service';
 import { HistoryService } from '../_services/history.service';
@@ -32,7 +32,6 @@ export class CollabComponent implements OnInit, AfterViewInit {
   solo: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private collabService: CollabService,
     private questionService: QuestionService,
@@ -56,24 +55,30 @@ export class CollabComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.complexity = this.route.snapshot.paramMap.get('difficulty');
-    console.log(`Set complexity to ${this.complexity}.`);
-    this.language = this.route.snapshot.paramMap.get('language');
-    console.log(`Set language to ${this.language}`);
-    this.language = this.language.toLowerCase();
-    this.editorOptions.language = this.language;
-    this.roomId = this.route.snapshot.paramMap.get('roomId');
-    console.log(`Joining room ${this.roomId}.`)
-    this.collabService.joinRoom(this.roomId);
-    this.roomId == this.currUser ? this.solo = true : this.solo = false;
-    this.collabService.getQuestion().subscribe((question: any) => {
-      console.log(`Updating question ${question.questionTitle}`);
-      this.question = question;
-      this.questionView = true;
-      this.getHistory();
-    })
-    this.getQuestion();
-    this.getQuestions();
+    const sessionState = history.state;
+    if (!sessionState.roomId || !sessionState.difficulty || !sessionState.language) {
+      // On refresh, or access without match
+      this.router.navigate(["/match"]);
+    } else {
+      this.complexity = sessionState.difficulty;
+      console.log(`Set complexity to ${this.complexity}.`);
+      this.language = sessionState.language;
+      console.log(`Set language to ${this.language}`);
+      this.language = this.language.toLowerCase();
+      this.editorOptions.language = this.language;
+      this.roomId = sessionState.roomId;
+      console.log(`Joining room ${this.roomId}.`)
+      this.collabService.joinRoom(this.roomId);
+      this.roomId == this.currUser ? this.solo = true : this.solo = false;
+      this.collabService.getQuestion().subscribe((question: any) => {
+        console.log(`Updating question ${question.questionTitle}`);
+        this.question = question;
+        this.questionView = true;
+        this.getHistory();
+      })
+      this.getQuestion();
+      this.getQuestions();  
+    }
   }
 
   ngAfterViewInit(): void {
@@ -161,6 +166,15 @@ export class CollabComponent implements OnInit, AfterViewInit {
 
   public leaveRoom(): void {
     this.collabService.emitMessage("Your partner has left the room");
+    history.replaceState(
+      {
+        roomId: undefined,
+        difficulty: undefined,
+        language: undefined 
+      },
+      '',
+      '/collab'
+    )
     this.router.navigate(["/home"])
   }
 

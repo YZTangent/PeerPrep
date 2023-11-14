@@ -62,7 +62,13 @@ export class MatchingComponent implements OnInit, OnDestroy {
       if (res.message.includes("Matched users:")) {
         this.match = res.message
         this.matchingService.updateMatchId(res.match);
-        this.router.navigate(["/collab", res.roomId, res.difficulty, res.language]);
+        this.router.navigate(["/collab"], {
+          state: {
+            roomId: res.roomId,
+            difficulty: res.difficulty,
+            language: res.language 
+          }
+        });
       } 
     }, (err) => {
       if (err) {
