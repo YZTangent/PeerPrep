@@ -96,6 +96,9 @@ _Frontend Cloud Deployment:_
 1. Instructions
 
 _Backend Cloud Deployment:_
+
+The instructions for configuring the deployment of the API gateway and the microservices to Google Kubernetes Engine (GKE) are as follows: 
+
 1. In each `deploy-___.yml` file of the `/.github/workflows` directory, configure each of the `GKE_CLUTER`, `GKE_ZONE`, `REPOSITORY_NAME` as per the setup in "Requirements"
 2. Configure the `image` in each of the `.yaml` files under `./gke` to point to the appropriate image in the repository on the Artifact Registry
 3. Manually trigger the deployment workflows for each component under "Actions", or have them automatically trigger on changes to the relevant files
