@@ -137,6 +137,7 @@ export class CollabComponent implements OnInit, OnDestroy {
       hasBackdrop: true,
       disableClose: true
     });
+
     dialogRef.componentInstance.confirmMessage = "Your partner requested to change the question to - " + question.questionTitle
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -225,4 +226,39 @@ export class CollabComponent implements OnInit, OnDestroy {
       console.log("An error occurred while saving attempt: " + err.message)
     })
   }
+
+
+  viewAttempt(attempt: any) {
+    this.editor.getModel().setValue(attempt.solution);
+  }
+
+  isPanelOneOpen: boolean = true;
+  isPanelTwoOpen: boolean = false;
+  isPanelThreeOpen: boolean = false;
+
+  handleAccordionPanelOneClick(): void {
+    this.isPanelOneOpen = true;
+    this.isPanelTwoOpen = false;
+    this.isPanelThreeOpen = false;
+    console.log("Panel one open:" + this.isPanelOneOpen);
+    console.log("Panel two open:" + this.isPanelTwoOpen);
+    console.log("Panel three open:" + this.isPanelThreeOpen);
+  }
+  handleAccordionPanelTwoClick(): void {
+    this.isPanelOneOpen = false;
+    this.isPanelTwoOpen = true;
+    this.isPanelThreeOpen = false;
+    console.log("Panel one open:" + this.isPanelOneOpen);
+    console.log("Panel two open:" + this.isPanelTwoOpen);
+    console.log("Panel three open:" + this.isPanelThreeOpen);
+  }
+  handleAccordionPanelThreeClick(): void {
+    this.isPanelOneOpen = false;
+    this.isPanelTwoOpen = false;
+    this.isPanelThreeOpen = true;
+    console.log("Panel one open:" + this.isPanelOneOpen);
+    console.log("Panel two open:" + this.isPanelTwoOpen);
+    console.log("Panel three open:" + this.isPanelThreeOpen);
+  }
+
 }
