@@ -10,7 +10,7 @@ _PeerPrep was developed as part of **AY23/24S1 CS3219 Software Engineering Princ
 ## Repository Structure
 The main structure of the repository consists of three sub-directories, [`/frontend`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/frontend), [`/api-gateway`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/api-gateway), and [`/backend`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/backend).
 
-Additionally, [Github Actions](https://docs.github.com/en/actions) workflows for configuring the CI/CD pipeline are located under the [`/.github/workflows`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/.github/workflows) directory, the [`/gke`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/gke) directory contains the `.yaml` files for deploying on the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en), the [`/question-fetcher`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/question-fetcher) directory contains files for the serverless function, and the [`docker-compose.yml`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/blob/master/docker-compose.yml) file for local deployment is located in the project root.
+Additionally, [Github Actions](https://docs.github.com/en/actions) workflows for configuring the CI/CD pipeline are located under the [`/.github/workflows`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/.github/workflows) directory and the [`/gke`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/gke) directory contains the `.yaml` files for deploying on the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en). Also located in the project root are the [`function.js`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/function.js) file that defines the serverless function, and the [`docker-compose.yml`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/blob/master/docker-compose.yml) file for local deployment.
 
 #### [`/frontend`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/frontend)
 The `/frontend` sub-directory contains files relevant to the [Angular](https://angular.io/) frontend. This sub-directory has most of its config files under `/frontend/src`, while the rest of the files are under the `/frontend/src/app` directory. These files are organised as follows:
@@ -36,9 +36,6 @@ The structure of each microservice may differ from this general structure in the
 
 #### [`/gke`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/gke)
 The `/gke` directory contains sub-directories for deploying the API gateway and each of the microservices on the [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en). Each sub-directory contains `___-deployment.yaml` and `___.service.yaml` files for deploying a Deployment and Service respectively. The API gateway additionally has an `api-gateway-ingress.yaml` file for configuring an ingress for routing external traffic into the API gateway.
-
-#### [`/question-fetcher`](https://github.com/CS3219-AY2324S1/ay2324s1-course-assessment-g40/tree/master/question-fetcher)
-The `/question-fetcher` directory contains the `function.js` file, which defines the serverless function that is deployed on Google Cloud Platform (GCP). 
 
 ## Deployment
 **PeerPrep** supports both local deployment with [Docker Compose](https://docs.docker.com/compose/), for development and testing purposes, and cloud deployment with [Vercel](https://vercel.com/) (Frontend) and [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en) (API Gateway + Microservices).
@@ -95,7 +92,7 @@ _To elevate a user to an_ `admin` _role:_
 _Frontend Cloud Deployment:_
 1. Log in/Sign up for Vercel, and add a new project from the homepage.
 2. Under “Import Git Repository”, press “Import” on your GitHub repository containing the project. If the repository is not listed as an option, you can add it by clicking on “Adjust GitHub App Permissions →”.
-3. At the “Configure Project” page, give the project a name. Choose “Angular”, and select ``./frontend`` as the root directory.
+3. At the “Configure Project” page, give the project a name. Choose “Angular”, and select `./frontend` as the root directory.
 4. Click deploy. Vercel will now build the deployment and update it whenever a change is pushed to the repository.
 
 _Backend Cloud Deployment:_
