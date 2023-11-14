@@ -3,7 +3,7 @@ name: Build and Deploy history-service to GKE
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - backend/history-service/**
   workflow_dispatch:
