@@ -92,7 +92,7 @@ _Frontend Cloud Deployment:_
 1. Instructions
 
 _Backend Cloud Deployment:_
-1. Configure the following GitHub repository secrets ("Settings" > "Security" > "Secrets and variaboles" > "Actions"):
+1. Configure the following GitHub repository secrets ("Settings" > "Security" > "Secrets and variables" > "Actions"):
     * `GKE_PROJECT`: the ID of the Google Cloud Project set up 
     * `GKE_SA_KEY`: the generated service account key for the service account with sufficient permissions
 2. In each `deploy-___.yml` file of the `/.github/workflows` directory, configure each of the `GKE_CLUTER`, `GKE_ZONE`, `REPOSITORY_NAME` as per the setup in "Requirements"
