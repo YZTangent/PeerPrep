@@ -4,7 +4,7 @@
   <div class="flex-container mt-3 p-2 overflow-x-scroll" style="height: 100vh;">
     <div *ngIf="questionView" class="h-100">
     <mat-card class="col h-100">
-        <mat-card-title class="m-3">{{question?.questionTitle}}</mat-card-title>
+        <mat-card-title class="m-3">{{this.question ? this.question.questionTitle : ""}}</mat-card-title>
         <mat-card-content class="h-75 overflow-y-scroll">
           <p style="color: gray">Complexity: {{question?.questionComplexity}}</p>
           <p style="color: gray">Category: {{question?.questionCategory}}</p>
@@ -54,7 +54,7 @@
             </a>
             <a
               class="leave-room"
-              mat-icon-button (click)="leaveRoom()">
+              mat-icon-button (click)="leavePage()">
               <mat-icon>exit_to_app</mat-icon>
             </a>
             <a mat-icon-button (click)="toggleQuestionView()">

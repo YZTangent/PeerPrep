@@ -35,7 +35,7 @@
           </div>
           <div class="modal-body">
             <h3>{{this.questions[attempt.questionId] ? this.questions[attempt.questionId].questionTitle : "DELETED QUESTION"}}</h3>
-            <div class="scrollable-container" style="height: 30%;" [innerHTML]="this.questions[attempt.questionId] ? this.questions[attempt.questionId] : 'DELETED QUESTION'"></div>
+            <div class="scrollable-container" style="height: 30%;" [innerHTML]="this.questions[attempt.questionId] ? this.questions[attempt.questionId].questionDescription : 'DELETED QUESTION'"></div>
             <h5>Your solution:</h5>
             <div class="scrollable-container" style="height: 30%;" style="background: gainsboro;">
               <code>
