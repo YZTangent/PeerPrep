@@ -4,13 +4,13 @@
   <div class="flex-container mt-3 p-2 overflow-x-scroll" style="height: 100vh;">
     <div *ngIf="questionView" class="h-100">
     <mat-card class="col h-100">
-        <mat-card-title class="m-3">{{question.questionTitle}}</mat-card-title>
+        <mat-card-title class="m-3">{{this.question ? this.question.questionTitle : ""}}</mat-card-title>
         <mat-card-content class="h-75 overflow-y-scroll">
-          <p style="color: gray">Complexity: {{question.questionComplexity}}</p>
-          <p style="color: gray">Category: {{question.questionCategory}}</p>
-          <div class="overflow-scroll p-1" style="max-height: 50%;" [innerHTML]="question.questionDescription"></div>
+          <p style="color: gray">Complexity: {{question?.questionComplexity}}</p>
+          <p style="color: gray">Category: {{question?.questionCategory}}</p>
+          <div class="overflow-scroll p-1" style="max-height: 50%;" [innerHTML]="question?.questionDescription"></div>
           <h4>Past Attempts:</h4>
-          <table class="table table-dark table-striped">
+          <table class="table table-dark">
             <thead>
               <tr>
                 <th scope="col">#</th>
@@ -19,22 +19,42 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let attempt of attempts; index as index" (click)="viewAttempt(attempt)">
+              <tr *ngFor="let attempt of attempts; index as index" [attr.data-bs-target]="'#exampleModal' + index" data-bs-toggle="modal">
                 <th scope="row">{{index + 1}}</th>
                 <td>{{attempt.language}}</td>
-                <td>{{attempt.authors[0].user_id}}</td>
+                <td>{{attempt.userId2}}</td>
+                <div class="modal" [id]="'exampleModal' + index" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel" style="color:black">Question attempt</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        <div class="attempt-view" style="height: 30%; background: gainsboro;">
+                          <code>
+                            {{this.attempt.solution}}
+                          </code>
+                        </div>
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </tr>
             </tbody>
           </table>
         </mat-card-content>
         <mat-card-footer>
           <mat-card-actions class="justify-content-center mb-auto">
-            <a mat-icon-button (click)="getQuestion()">
+            <a mat-icon-button (click)="getNewQuestion()">
               <mat-icon>refresh</mat-icon>
             </a>
             <a
               class="leave-room"
-              mat-icon-button (click)="leaveRoom()">
+              mat-icon-button (click)="leavePage()">
               <mat-icon>exit_to_app</mat-icon>
             </a>
             <a mat-icon-button (click)="toggleQuestionView()">
@@ -62,5 +82,5 @@
       </div>
     </div>
   </div>
-  <app-chat class="d-block position-fixed z-3" style="right: 0; bottom: 0"></app-chat>
+  <app-chat class="d-block position-fixed z-3" style="right: 0; bottom: 0" *ngIf="!solo;"></app-chat>
 </div>

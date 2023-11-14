@@ -21,7 +21,7 @@ const routes: Routes = [
   { path: 'question-creation', component: UserComponent, canActivate: [AuthGuard, RoleGuard]  },
   { path: 'match', component: MatchingComponent, canActivate: [AuthGuard] },
   { path: 'history', component: HistoryComponent, canActivate: [AuthGuard]},
-  { path: 'collab/:roomId/:difficulty/:language', component: CollabComponent, canActivate: [AuthGuard] },
+  { path: 'collab', component: CollabComponent, canActivate: [AuthGuard] },
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: '**', component: PageNotFoundComponentComponent }
 ];

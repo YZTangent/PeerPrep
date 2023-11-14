@@ -6,7 +6,6 @@ import { MaterialModule } from './shared/material.module';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CodemirrorModule } from '@ctrl/ngx-codemirror';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,6 +25,7 @@ import { RoleGuard } from './_guards/role.guard';
 import { CollabComponent } from './collab/collab.component';
 import { ChatComponent } from './collab/chat/chat.component';
 import { HistoryComponent } from './history/history.component';
+import { ChangeQuestionDialogComponent } from './collab/change-question-dialog/change-question-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,8 @@ import { HistoryComponent } from './history/history.component';
     ChatComponent,
     HistoryComponent,
     ChangePasswordComponent,
-    DeleteAccountComponent
+    DeleteAccountComponent,
+    ChangeQuestionDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -55,7 +56,6 @@ import { HistoryComponent } from './history/history.component';
     ReactiveFormsModule,
     BrowserAnimationsModule,
     MonacoEditorModule.forRoot(),
-    CodemirrorModule
   ],
   providers: [httpInterceptorProviders, AuthGuard, RoleGuard],
   bootstrap: [AppComponent]
