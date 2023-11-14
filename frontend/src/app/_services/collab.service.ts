@@ -14,6 +14,7 @@ export class CollabService implements OnInit, OnDestroy {
   public message$: Subject<any> = new Subject();
   public question$: Subject<any> = new Subject();
   public request$: Subject<any> = new Subject();
+  public leave$: Subject<any> = new Subject();
 
   ngOnInit(): void {
     this.socket.on("connect", () => {
@@ -22,8 +23,12 @@ export class CollabService implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.emitMessage("User has left the room.");
-    this.socket.emit("leave");
+    this.leaveRoom()
+  }
+
+  public leaveRoom(): void {
+    this.emitMessage("Your partner has left the room.");
+    this.socket.emit("leave", "leave");
     console.log("Leaving room.");
     this.socket.disconnect();
   }
@@ -118,4 +123,5 @@ export class CollabService implements OnInit, OnDestroy {
     
     return this.request$.asObservable();
   }
+
 }
