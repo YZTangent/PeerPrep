@@ -4,6 +4,7 @@ const { Server } = require('socket.io')
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
+  path: '/collab',
   cors: {
     origin: true,
     methods: 'PUT, PATCH, POST, DELETE',
@@ -30,14 +31,15 @@ io.on("connection", (socket) => {
     socket.join(matchedRoomId);
   })
 
-  socket.on("leave", () => {
+  socket.on("leave", (m) => {
     console.log(`${socket.id} leaving room ${matchedRoomId}`);
-    socket.leave(matchedRoomId);
+    // socket.leave(matchedRoomId);
+    socket.broadcast.to(matchedRoomId).emit("leave", `${socket.id} leaving room ${matchedRoomId}`);
     console.log(`Existing rooms: ${Array.from(io.sockets.adapter.rooms.keys())}.`);
   })
 
   socket.on("question", (question) => {
-    console.log(`${socket.id} emitting question ${question} to ${matchedRoomId}.`);
+    console.log(`${socket.id} emitting question ${question.questionTitle} to ${matchedRoomId}.`);
     io.to(matchedRoomId).emit("question", question);
   })
 
@@ -57,7 +59,10 @@ io.on("connection", (socket) => {
   })
 
   socket.on("request", (question) => {
-    console.log(`${socket.id} requested a change of question to ${question.questionId}`);
+    console.log(`${socket.id} requested a change of question to ${question.questionId} ${matchedRoomId}`);
+    if (io.engine.clientsCount == 1) {
+      io.to(matchedRoomId).emit("question", question);
+    } 
     socket.broadcast.to(matchedRoomId).emit("request", question);
   })
 });

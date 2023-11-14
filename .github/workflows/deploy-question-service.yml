@@ -3,7 +3,7 @@ name: Build and Deploy question-service to GKE
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - backend/question-service/**
   workflow_dispatch:

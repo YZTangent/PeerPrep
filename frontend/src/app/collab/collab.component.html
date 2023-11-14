@@ -7,7 +7,7 @@
         <div class="accordion-item">
           <h2 class="accordion-header">
             <button class="accordion-button" type="button" [disabled]="isPanelOneOpen" (click)="handleAccordionPanelOneClick()" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              {{ question.questionTitle }} 
+              {{ question?.questionTitle }} 
                 <!-- <a mat-icon-button style="width: 24px; height: 24px;" (click)="getQuestion()">
                   <mat-icon>refresh</mat-icon>
                 </a>
@@ -23,9 +23,9 @@
           </h2>
           <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
             <div class="accordion-body overflow-y-scroll" style="height: 67vh">
-              <p style="color: gray">Complexity: {{ question.questionComplexity }}</p>
-              <p style="color: gray">Category: {{ question.questionCategory }}</p>
-              <div class="p-1" [innerHTML]="question.questionDescription"></div>
+              <p style="color: gray">Complexity: {{ question?.questionComplexity }}</p>
+              <p style="color: gray">Category: {{ question?.questionCategory }}</p>
+              <div class="p-1" [innerHTML]="question?.questionDescription"></div>
             </div>
           </div>
         </div>
@@ -97,7 +97,7 @@
             </a>
             <a
               class="leave-room"
-              mat-icon-button (click)="leaveRoom()">
+              mat-icon-button (click)="leavePage()">
               <mat-icon>exit_to_app</mat-icon>
             </a>
             <a mat-icon-button (click)="toggleQuestionView()">

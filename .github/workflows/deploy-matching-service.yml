@@ -3,7 +3,7 @@ name: Build and Deploy matching-service to GKE
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - backend/matching-service/**
   workflow_dispatch:

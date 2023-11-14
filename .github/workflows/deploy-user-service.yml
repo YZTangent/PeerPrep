@@ -3,7 +3,7 @@ name: Build and Deploy user-service to GKE
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - backend/user-service/**
   workflow_dispatch:
