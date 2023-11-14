@@ -86,20 +86,30 @@ _To elevate a user to an_ `admin` _role:_
         - Service Account Token Creator
         - Service Usage Admin
 - Generate a service account key for the service account
+- Configure the following GitHub repository secrets ("Settings" > "Security" > "Secrets and variables" > "Actions"):
+    * `GKE_PROJECT`: the ID of the Google Cloud Project set up 
+    * `GKE_SA_KEY`: the generated service account key for the service account with sufficient permissions
 - Set up MongoDB Atlas account
+- Under "Secrets & ConfigMaps" on GKE, configure a `db-admin` secret for the created cluster with `db-username` and `db-password` matching the username and password of the MongoDB Atlas account
 #### Instructions
 _Frontend Cloud Deployment:_
 1. Instructions
 
 _Backend Cloud Deployment:_
-1. Configure the following GitHub repository secrets ("Settings" > "Security" > "Secrets and variables" > "Actions"):
-    * `GKE_PROJECT`: the ID of the Google Cloud Project set up 
-    * `GKE_SA_KEY`: the generated service account key for the service account with sufficient permissions
-2. In each `deploy-___.yml` file of the `/.github/workflows` directory, configure each of the `GKE_CLUTER`, `GKE_ZONE`, `REPOSITORY_NAME` as per the setup in "Requirements"
-3. Under "Secrets & ConfigMaps" on GKE, configure a `db-admin` secret for the created cluster with `db-username` and `db-password` matching the username and password of the MongoDB Atlas account
-4. Configure the `image` in each of the `.yaml` files under `./gke` to point to the appropriate image in the repository on the Artifact Registry
-5. Manually trigger the deployment workflows for each component under "Actions", or have them trigger on changes to the relevant files
+1. In each `deploy-___.yml` file of the `/.github/workflows` directory, configure each of the `GKE_CLUTER`, `GKE_ZONE`, `REPOSITORY_NAME` as per the setup in "Requirements"
+2. Configure the `image` in each of the `.yaml` files under `./gke` to point to the appropriate image in the repository on the Artifact Registry
+3. Manually trigger the deployment workflows for each component under "Actions", or have them automatically trigger on changes to the relevant files
 
-### Serverless Function
-#### Requirements
-#### Instructions
+_Serverless Function Deployment:_
+
+The serverless function is automatically deployed to the Google Cloud Platform on a push to the `master` branch. The instructions to manually deploy the serverless function are as follows:
+
+1. Ensure that `gcloud` is installed. Run the following command in terminal:
+    * `npm i gcloud`
+2. Log in to Google Cloud Platform. Run the following command in terminal:
+    * `gcloud auth login`
+3. Login using your Google Cloud Platform account
+4. Next, `cd`` into the function directory:
+    * `cd question-fetcher`
+5. Deploy the application using the following command:
+    * `gcloud app deploy`
