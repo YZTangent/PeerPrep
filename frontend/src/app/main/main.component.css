@@ -18,3 +18,13 @@ div{
 mark {
   background: none;
 }
+
+.modal.show {
+  background-color: rgba(0,0,0,.0001) !important;
+  display: inline;
+}
+
+.modal-open {
+  padding-right: 0px;
+  margin-right: 0px
+}

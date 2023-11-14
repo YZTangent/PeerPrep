@@ -43,6 +43,19 @@ export class CollabService implements OnInit, OnDestroy {
       this.socket.emit("question", res);
     })
   }
+  
+  public async getRandomQuestion(complexity: string): Promise<Object> {
+    return new Promise((resolve, reject) => {
+      this.questionService.getRandomQuestionWithComplexity(complexity).subscribe((res) => {
+          console.log(`Consuming random question:\n${res.questionTitle}`);
+          resolve(res);
+        }, (err) => {
+          console.log(`Error getting random question:\n${err}`);
+          reject(err);
+        }
+      );
+    });
+  }
 
   public emitQuestion(question: Object) {
     this.socket.emit("question", question);

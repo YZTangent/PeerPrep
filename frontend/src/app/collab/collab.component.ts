@@ -5,6 +5,10 @@ import { QuestionService } from '../_services/question.service';
 import { HistoryService } from '../_services/history.service';
 import { StorageService } from '../_services/storage.service';
 import { MatchingService } from '../_services/matching.service';
+import { HostListener } from '@angular/core';
+
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ChangeQuestionDialogComponent } from './change-question-dialog/change-question-dialog.component';
 
 @Component({
   selector: 'app-collab',
@@ -34,24 +38,36 @@ export class CollabComponent implements OnInit, AfterViewInit {
     private questionService: QuestionService,
     private historyService: HistoryService,
     private storageService: StorageService,
-    private matchingService: MatchingService
+    private matchingService: MatchingService,
+    private dialog: MatDialog
   ) {}
 
   currUser = this.storageService.getUser().username;
 
+  @HostListener('window:popstate', ['$event']) onPopState(event: any) {
+    console.log('Back button pressed. Exiting collaboration space...');
+    this.leaveRoom();
+  }
+
+  @HostListener('window:beforeunload', ['$event']) unloadHandler(event: any) {
+    console.log('Refresh pressed. Exiting collaboration space...');
+    this.leaveRoom();
+    return "Do you want save your changes before exiting?"
+  }
+
   ngOnInit(): void {
-    console.log(`Set complexity to ${this.complexity}.`);
     this.complexity = this.route.snapshot.paramMap.get('difficulty');
-    console.log(`Set language to ${this.language}`);
+    console.log(`Set complexity to ${this.complexity}.`);
     this.language = this.route.snapshot.paramMap.get('language');
+    console.log(`Set language to ${this.language}`);
     this.language = this.language.toLowerCase();
     this.editorOptions.language = this.language;
-    console.log(`Joining room ${this.roomId}.`)
     this.roomId = this.route.snapshot.paramMap.get('roomId');
+    console.log(`Joining room ${this.roomId}.`)
     this.collabService.joinRoom(this.roomId);
     this.roomId == this.currUser ? this.solo = true : this.solo = false;
     this.collabService.getQuestion().subscribe((question: any) => {
-      console.log(`Updating question ${question}`);
+      console.log(`Updating question ${question.questionTitle}`);
       this.question = question;
       this.questionView = true;
       this.getHistory();
@@ -102,13 +118,7 @@ export class CollabComponent implements OnInit, AfterViewInit {
       console.log(request)
       console.log(request[0] == 1)
       if (request[0] == 1) {
-        const response = confirm("Your partner requested to change to this question - " + request[1].questionTitle)
-
-        if (response) {
-          this.collabService.emitQuestion(request[1]);
-        } else {
-          this.collabService.emitMessage(this.currUser + " rejected your request to change question!");
-        }
+          this.openChangeQDialog(request[1])
       }
     })
 
@@ -117,8 +127,36 @@ export class CollabComponent implements OnInit, AfterViewInit {
     })
   }
 
-  public getQuestion() {
+  public openChangeQDialog(question: any): void {
+    const dialogRef = this.dialog.open(ChangeQuestionDialogComponent, { 
+      minWidth: '25vw',
+      minHeight: '25vh',
+      hasBackdrop: true,
+      disableClose: true
+    });
+    dialogRef.componentInstance.confirmMessage = "Your partner requested to change to this question - " + question.questionTitle
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.collabService.emitQuestion(question);
+      } else {
+        this.collabService.emitMessage(this.currUser + " rejected your request to change question!");
+      }
+    });
+  }
+
+  public async getQuestion() {
     this.collabService.emitRandomQuestion(this.complexity);
+  }
+
+  public async getNewQuestion() {
+    // has issues if two sessions are both on Chrome
+    if (this.solo) {
+      this.collabService.emitRandomQuestion(this.complexity);
+    } else {
+      this.collabService.getRandomQuestion(this.complexity).then(question => {
+        this.collabService.requestChangeOfQuestion(question);
+      });
+    }
   }
 
   public leaveRoom(): void {
@@ -155,12 +193,16 @@ export class CollabComponent implements OnInit, AfterViewInit {
       user_id1: this.currUser,
       user_id2: this.matchingService.matchId
     }
+    if (this.solo) {
+      attempt.user_id2 = "";
+    }
     this.historyService.saveHistory(attempt).subscribe(res => {
-      var newAttempt = {questionId: this.question.questionId,
+      var newAttempt = {
+        questionId: this.question.questionId,
         userId: this.currUser,
         solution: this.editor.getValue(),
         language: this.language,
-        authors: [this.matchingService.matchId]
+        userId2: this.matchingService.matchId
       }
       this.attempts.push(newAttempt)
     },
@@ -168,6 +210,7 @@ export class CollabComponent implements OnInit, AfterViewInit {
       console.log("An error occurred while saving attempt: " + err.message)
     })
   }
+
 
   viewAttempt(attempt: any) {
     this.editor.getModel().setValue(attempt.solution);
@@ -201,4 +244,5 @@ export class CollabComponent implements OnInit, AfterViewInit {
     console.log("Panel two open:" + this.isPanelTwoOpen);
     console.log("Panel three open:" + this.isPanelThreeOpen);
   }
+
 }

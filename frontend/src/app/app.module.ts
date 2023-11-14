@@ -26,6 +26,7 @@ import { RoleGuard } from './_guards/role.guard';
 import { CollabComponent } from './collab/collab.component';
 import { ChatComponent } from './collab/chat/chat.component';
 import { HistoryComponent } from './history/history.component';
+import { ChangeQuestionDialogComponent } from './collab/change-question-dialog/change-question-dialog.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { HistoryComponent } from './history/history.component';
     ChatComponent,
     HistoryComponent,
     ChangePasswordComponent,
-    DeleteAccountComponent
+    DeleteAccountComponent,
+    ChangeQuestionDialogComponent
   ],
   imports: [
     BrowserModule,
