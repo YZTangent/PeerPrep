@@ -17,9 +17,9 @@
               [attr.data-bs-target]="'#exampleModal' + index"
               data-bs-toggle="modal">
                 <td>{{index + 1}}</td>
-                <td>{{this.questions[attempt.questionId].questionTitle}}</td>
-                <td>{{this.questions[attempt.questionId].questionComplexity}}</td>
-                <td>{{this.questions[attempt.questionId].questionCategory}}</td>
+                <td>{{this.questions[attempt.questionId] ? this.questions[attempt.questionId].questionTitle : "DELETED QUESTION"}}</td>
+                <td>{{this.questions[attempt.questionId] ? this.questions[attempt.questionId].questionComplexity : "DELETED QUESTION"}}</td>
+                <td>{{this.questions[attempt.questionId] ? this.questions[attempt.questionId].questionCategory : "DELETED QUESTION"}}</td>
                 <td>{{attempt.language}}</td>
                 <td>{{attempt.userId2}}</td>
               </tr>
@@ -34,8 +34,8 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <h3>{{this.questions[attempt.questionId].questionTitle}}</h3>
-            <div class="scrollable-container" style="height: 30%;" [innerHTML]="this.questions[attempt.questionId].questionDescription"></div>
+            <h3>{{this.questions[attempt.questionId] ? this.questions[attempt.questionId].questionTitle : "DELETED QUESTION"}}</h3>
+            <div class="scrollable-container" style="height: 30%;" [innerHTML]="this.questions[attempt.questionId] ? this.questions[attempt.questionId] : 'DELETED QUESTION'"></div>
             <h5>Your solution:</h5>
             <div class="scrollable-container" style="height: 30%;" style="background: gainsboro;">
               <code>

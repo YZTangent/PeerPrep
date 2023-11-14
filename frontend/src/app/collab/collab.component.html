@@ -4,11 +4,11 @@
   <div class="flex-container mt-3 p-2 overflow-x-scroll" style="height: 100vh;">
     <div *ngIf="questionView" class="h-100">
     <mat-card class="col h-100">
-        <mat-card-title class="m-3">{{question.questionTitle}}</mat-card-title>
+        <mat-card-title class="m-3">{{question?.questionTitle}}</mat-card-title>
         <mat-card-content class="h-75 overflow-y-scroll">
-          <p style="color: gray">Complexity: {{question.questionComplexity}}</p>
-          <p style="color: gray">Category: {{question.questionCategory}}</p>
-          <div class="overflow-scroll p-1" style="max-height: 50%;" [innerHTML]="question.questionDescription"></div>
+          <p style="color: gray">Complexity: {{question?.questionComplexity}}</p>
+          <p style="color: gray">Category: {{question?.questionCategory}}</p>
+          <div class="overflow-scroll p-1" style="max-height: 50%;" [innerHTML]="question?.questionDescription"></div>
           <h4>Past Attempts:</h4>
           <table class="table table-dark">
             <thead>
