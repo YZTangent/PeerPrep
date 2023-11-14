@@ -1,10 +1,14 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CollabService } from '../_services/collab.service';
 import { QuestionService } from '../_services/question.service';
 import { HistoryService } from '../_services/history.service';
 import { StorageService } from '../_services/storage.service';
 import { MatchingService } from '../_services/matching.service';
+import { HostListener } from '@angular/core';
+
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { ChangeQuestionDialogComponent } from './change-question-dialog/change-question-dialog.component';
 
 @Component({
   selector: 'app-collab',
@@ -12,7 +16,7 @@ import { MatchingService } from '../_services/matching.service';
   styleUrls: ['./collab.component.css'],
   providers: [ CollabService ]
 })
-export class CollabComponent implements OnInit, AfterViewInit {
+export class CollabComponent implements OnInit, OnDestroy {
 
   private roomId: any;
   private complexity: any;
@@ -28,44 +32,58 @@ export class CollabComponent implements OnInit, AfterViewInit {
   solo: boolean = false;
 
   constructor(
-    private route: ActivatedRoute,
     private router: Router,
     private collabService: CollabService,
     private questionService: QuestionService,
     private historyService: HistoryService,
     private storageService: StorageService,
-    private matchingService: MatchingService
+    private matchingService: MatchingService,
+    private dialog: MatDialog
   ) {}
 
   currUser = this.storageService.getUser().username;
 
-  ngOnInit(): void {
-    console.log(`Set complexity to ${this.complexity}.`);
-    this.complexity = this.route.snapshot.paramMap.get('difficulty');
-    console.log(`Set language to ${this.language}`);
-    this.language = this.route.snapshot.paramMap.get('language');
-    if (this.language) {
-      this.language = this.language.toLowerCase();
-    } else {
-      this.language = 'default';
-    }
-    this.editorOptions.language = this.language;
-    console.log(`Joining room ${this.roomId}.`)
-    this.roomId = this.route.snapshot.paramMap.get('roomId');
-    this.collabService.joinRoom(this.roomId);
-    this.roomId == this.currUser ? this.solo = true : this.solo = false;
-    this.collabService.getQuestion().subscribe((question: any) => {
-      console.log(`Updating question ${question}`);
-      this.question = question;
-      this.questionView = true;
-      this.getHistory();
-    })
-    this.getQuestion();
-    this.getQuestions();
+  @HostListener('window:popstate', ['$event']) onPopState(event: any) {
+    console.log('Back button pressed. Exiting collaboration space...');
+    this.leaveRoom();
   }
 
-  ngAfterViewInit(): void {
-    
+  @HostListener('window:beforeunload', ['$event']) unloadHandler(event: any) {
+    console.log('Refresh pressed. Exiting collaboration space...');
+    this.leaveRoom();
+    return "Do you want save your changes before exiting?"
+  }
+
+  ngOnInit(): void {
+    const sessionState = history.state;
+    if (!sessionState.roomId || !sessionState.difficulty || !sessionState.language) {
+      // On refresh, or access without match
+      console.log('invalid access');
+      this.router.navigate(["/match"]);
+    } else {
+      this.complexity = sessionState.difficulty;
+      console.log(`Set complexity to ${this.complexity}.`);
+      this.language = sessionState.language;
+      console.log(`Set language to ${this.language}`);
+      this.language = this.language.toLowerCase();
+      this.editorOptions.language = this.language;
+      this.roomId = sessionState.roomId;
+      this.collabService.joinRoom(this.roomId);
+      this.roomId == this.currUser ? this.solo = true : this.solo = false;
+      this.collabService.getQuestion().subscribe((question: any) => {
+        console.log(`Updating question ${question.questionTitle}`);
+        this.question = question;
+        this.questionView = true;
+        this.getHistory();
+      })
+      this.getQuestion();
+      this.getQuestions();  
+    }
+  }
+
+  ngOnDestroy(): void {
+    console.log('Destroy');
+    this.leaveRoom();
   }
 
   getHistory() {
@@ -103,17 +121,8 @@ export class CollabComponent implements OnInit, AfterViewInit {
     })
 
     this.collabService.getRequest().subscribe((request: any) => {
-      console.log(request)
-      console.log(request[0] == 1)
-      if (request[0] == 1) {
-        const response = confirm("Your partner requested to change to this question - " + request[1].questionTitle)
-
-        if (response) {
-          this.collabService.emitQuestion(request[1]);
-        } else {
-          this.collabService.emitMessage(this.currUser + " rejected your request to change question!");
-        }
-      }
+      console.log(`Received request to change question to '${request.questionTitle}'`)
+      this.openChangeQDialog(request)
     })
 
     this.editor.onDidDispose((e: any) => {
@@ -121,13 +130,53 @@ export class CollabComponent implements OnInit, AfterViewInit {
     })
   }
 
-  public getQuestion() {
+  public openChangeQDialog(question: any): void {
+    const dialogRef = this.dialog.open(ChangeQuestionDialogComponent, { 
+      minWidth: '25vw',
+      minHeight: '25vh',
+      hasBackdrop: true,
+      disableClose: true
+    });
+    dialogRef.componentInstance.confirmMessage = "Your partner requested to change the question to - " + question.questionTitle
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        this.collabService.emitMessage(`${this.currUser} accepted the request to change the question to - ${question.questionTitle}`);
+        this.collabService.emitQuestion(question);
+      } else {
+        this.collabService.emitMessage(`${this.currUser} rejected the request to change the question to - ${question.questionTitle}`);
+      }
+    });
+  }
+
+  public async getQuestion() {
     this.collabService.emitRandomQuestion(this.complexity);
   }
 
+  public async getNewQuestion() {
+    if (this.solo) {
+      this.collabService.emitRandomQuestion(this.complexity);
+    } else {
+      this.collabService.getRandomQuestion(this.complexity).then(question => {
+        this.collabService.requestChangeOfQuestion(question);
+      });
+    }
+  }
+
   public leaveRoom(): void {
-    this.collabService.emitMessage("Your partner has left the room");
-    this.router.navigate(["/home"])
+    history.replaceState(
+      {
+        roomId: undefined,
+        difficulty: undefined,
+        language: undefined 
+      },
+      '',
+      '/'
+    )
+  }
+
+  public leavePage(): void {
+    this.leaveRoom();
+    this.router.navigate(['/match']);
   }
 
   updateSearchResults(s: string) {
@@ -159,21 +208,21 @@ export class CollabComponent implements OnInit, AfterViewInit {
       user_id1: this.currUser,
       user_id2: this.matchingService.matchId
     }
+    if (this.solo) {
+      attempt.user_id2 = "";
+    }
     this.historyService.saveHistory(attempt).subscribe(res => {
-      var newAttempt = {questionId: this.question.questionId,
+      var newAttempt = {
+        questionId: this.question.questionId,
         userId: this.currUser,
         solution: this.editor.getValue(),
         language: this.language,
-        authors: [this.matchingService.matchId]
+        userId2: this.matchingService.matchId
       }
       this.attempts.push(newAttempt)
     },
     err => {
       console.log("An error occurred while saving attempt: " + err.message)
     })
-  }
-
-  viewAttempt(attempt: any) {
-    this.editor.getModel().setValue(attempt.solution);
   }
 }

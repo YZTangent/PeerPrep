@@ -1,8 +1,9 @@
-import { Component, Inject, OnInit} from '@angular/core';
+import { Component, Inject, OnInit, ViewChild} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { StorageService } from '../_services/storage.service';
 import { AuthService } from '../_services/auth.service';
 import { UserService } from '../_services/user.service';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-profile',
@@ -50,21 +51,26 @@ export class ProfileComponent implements OnInit{
   styleUrls: ['./profile-dialogs/dialog-form.css']
 })
 export class ChangePasswordComponent {
+  @ViewChild('updatePwForm') updatePwForm!: NgForm;
   newPassword = '';
   response = '';
   isError = false;
+  isFormSubmitted = false;
   constructor(public dialogRef: MatDialogRef<ChangePasswordComponent>,
     @Inject(MAT_DIALOG_DATA) private data: string,
     private userService: UserService) {}
   
   changePw() {
-    this.userService.changePw(this.newPassword).subscribe({
-      next: (res) => this.response = res.message,
-      error: (err) => {
-        this.response = err.error.message
-        this.isError = true;
-      }
-    });
+    if (this.updatePwForm.valid) {
+      this.userService.changePw(this.newPassword).subscribe({
+        next: (res) => this.response = res.message,
+        error: (err) => {
+          this.response = err.error.message
+          this.isError = true;
+        }
+      });
+      this.isFormSubmitted = true;
+   }
   }
   onNoClick(): void {
     this.dialogRef.close();
