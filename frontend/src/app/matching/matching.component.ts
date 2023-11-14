@@ -99,7 +99,12 @@ export class MatchingComponent implements OnInit, OnDestroy {
   goToSolo(userDetails: any) {
     this.cancelMatch()
     var details = userDetails.value;
-    this.router.navigate(["/collab", this.currUser, details.difficulty, details.language])
-  }
+        this.router.navigate(["/collab"], {
+          state: {
+            roomId: this.currUser,
+            difficulty: details.difficulty,
+            language: details.language 
+          }
+        });  }
 
 }

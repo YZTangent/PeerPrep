@@ -1,5 +1,5 @@
 import { Injectable, OnInit, OnDestroy } from "@angular/core";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, ReplaySubject } from "rxjs";
 import { io } from 'socket.io-client';
 import { QuestionService } from "./question.service";
 
@@ -10,10 +10,10 @@ export class CollabService implements OnInit, OnDestroy {
   private socket = io('http://127.0.0.1:8080', {'forceNew': true});
 
   public isLocalEvent$: BehaviorSubject<boolean> = new BehaviorSubject(true);
-  public change$: BehaviorSubject<any> = new BehaviorSubject(null);
-  public message$: BehaviorSubject<any> = new BehaviorSubject([]);
-  public question$: BehaviorSubject<any> = new BehaviorSubject({});
-  public request$: BehaviorSubject<any> = new BehaviorSubject([]);
+  public change$: ReplaySubject<any> = new ReplaySubject();
+  public message$: ReplaySubject<any> = new ReplaySubject();
+  public question$: ReplaySubject<any> = new ReplaySubject();
+  public request$: ReplaySubject<any> = new ReplaySubject();
 
   ngOnInit(): void {
     this.socket.on("connect", () => {
@@ -22,6 +22,7 @@ export class CollabService implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
+    this.emitMessage("User has left the room.");
     this.socket.emit("leave");
     console.log("Leaving room.");
     this.socket.disconnect();
@@ -62,7 +63,7 @@ export class CollabService implements OnInit, OnDestroy {
 
   public getQuestion = () => {
     this.socket.on("question", (question) => {
-      console.log(`Consuming question:\n${question}`);
+      console.log(`Consuming question:\n${question.questionTitle}`);
       this.question$.next(question);
     })
 
@@ -108,12 +109,11 @@ export class CollabService implements OnInit, OnDestroy {
 
   public requestChangeOfQuestion(question: Object) {
     this.socket.emit("request", question);
-    this.request$.next([0, question]);
   }
 
   public getRequest = () => {
     this.socket.on("request", (question) => {
-      this.request$.next([1, question]);
+      this.request$.next(question);
     })
     
     return this.request$.asObservable();

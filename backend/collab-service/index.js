@@ -37,7 +37,7 @@ io.on("connection", (socket) => {
   })
 
   socket.on("question", (question) => {
-    console.log(`${socket.id} emitting question ${question} to ${matchedRoomId}.`);
+    console.log(`${socket.id} emitting question ${question.questionTitle} to ${matchedRoomId}.`);
     io.to(matchedRoomId).emit("question", question);
   })
 

@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CollabService } from '../_services/collab.service';
 import { QuestionService } from '../_services/question.service';
@@ -16,7 +16,7 @@ import { ChangeQuestionDialogComponent } from './change-question-dialog/change-q
   styleUrls: ['./collab.component.css'],
   providers: [ CollabService ]
 })
-export class CollabComponent implements OnInit, AfterViewInit {
+export class CollabComponent implements OnInit, OnDestroy {
 
   private roomId: any;
   private complexity: any;
@@ -58,6 +58,7 @@ export class CollabComponent implements OnInit, AfterViewInit {
     const sessionState = history.state;
     if (!sessionState.roomId || !sessionState.difficulty || !sessionState.language) {
       // On refresh, or access without match
+      console.log('invalid access');
       this.router.navigate(["/match"]);
     } else {
       this.complexity = sessionState.difficulty;
@@ -67,7 +68,6 @@ export class CollabComponent implements OnInit, AfterViewInit {
       this.language = this.language.toLowerCase();
       this.editorOptions.language = this.language;
       this.roomId = sessionState.roomId;
-      console.log(`Joining room ${this.roomId}.`)
       this.collabService.joinRoom(this.roomId);
       this.roomId == this.currUser ? this.solo = true : this.solo = false;
       this.collabService.getQuestion().subscribe((question: any) => {
@@ -81,8 +81,9 @@ export class CollabComponent implements OnInit, AfterViewInit {
     }
   }
 
-  ngAfterViewInit(): void {
-    
+  ngOnDestroy(): void {
+    console.log('Destroy');
+    this.leaveRoom();
   }
 
   getHistory() {
@@ -120,11 +121,8 @@ export class CollabComponent implements OnInit, AfterViewInit {
     })
 
     this.collabService.getRequest().subscribe((request: any) => {
-      console.log(request)
-      console.log(request[0] == 1)
-      if (request[0] == 1) {
-          this.openChangeQDialog(request[1])
-      }
+      console.log(`Received request to change question to '${request.questionTitle}'`)
+      this.openChangeQDialog(request)
     })
 
     this.editor.onDidDispose((e: any) => {
@@ -139,12 +137,13 @@ export class CollabComponent implements OnInit, AfterViewInit {
       hasBackdrop: true,
       disableClose: true
     });
-    dialogRef.componentInstance.confirmMessage = "Your partner requested to change to this question - " + question.questionTitle
+    dialogRef.componentInstance.confirmMessage = "Your partner requested to change the question to - " + question.questionTitle
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
+        this.collabService.emitMessage(`${this.currUser} accepted the request to change the question to - ${question.questionTitle}`);
         this.collabService.emitQuestion(question);
       } else {
-        this.collabService.emitMessage(this.currUser + " rejected your request to change question!");
+        this.collabService.emitMessage(`${this.currUser} rejected the request to change the question to - ${question.questionTitle}`);
       }
     });
   }
@@ -154,7 +153,6 @@ export class CollabComponent implements OnInit, AfterViewInit {
   }
 
   public async getNewQuestion() {
-    // has issues if two sessions are both on Chrome
     if (this.solo) {
       this.collabService.emitRandomQuestion(this.complexity);
     } else {
@@ -165,7 +163,6 @@ export class CollabComponent implements OnInit, AfterViewInit {
   }
 
   public leaveRoom(): void {
-    this.collabService.emitMessage("Your partner has left the room");
     history.replaceState(
       {
         roomId: undefined,
