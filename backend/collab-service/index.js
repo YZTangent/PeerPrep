@@ -2,7 +2,7 @@ const cors = require('cors');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 
-const httpServer = createServer();
+const httpServer = createServer().setTimeout(120000);
 const io = new Server(httpServer, {
   path: '/collab',
   cors: {
