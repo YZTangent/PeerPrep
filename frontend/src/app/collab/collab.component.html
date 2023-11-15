@@ -104,9 +104,9 @@
                 Question Search
               </button>
             </h2>
-            <div class="accordion-body p-0 overflow-y-scroll" style="height: 78vh">
+            <div class="accordion-body p-0" style="height: 79vh">
               <mat-card class="col h-100">
-                <mat-card-content>
+                <mat-card-content class="overflow-y-scroll">
                   <input type="text" #search class="form-control mt-2" placeholder="Search by index or title..." (keyup)="updateSearchResults(search.value)">
                   <button (click)="pullUpQuestion(res)" class="btn btn-outline-secondary m-1" *ngFor="let res of searchResults">{{res.questionTitle}}</button>
                 </mat-card-content>
@@ -165,5 +165,4 @@
       </div>
     </div>
   </div>
-  <app-chat class="d-block position-fixed z-3" style="right: 0; bottom: 0" *ngIf="!solo;"></app-chat>
 </div>
