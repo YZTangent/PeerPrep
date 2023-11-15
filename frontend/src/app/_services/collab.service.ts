@@ -98,6 +98,7 @@ export class CollabService implements OnInit, OnDestroy {
     return this.change$.asObservable();
   }
 
+
   public emitMessage(message: string) {
     console.log(`Emitting message:\n${message}`);
     this.socket.emit("message", message);
@@ -123,6 +124,17 @@ export class CollabService implements OnInit, OnDestroy {
     })
     
     return this.request$.asObservable();
+  }
+
+
+  public setReconnect(roomId: string) {
+    this.socket.on("disconnect", (reason) => {
+      if (reason === "transport close") {
+        this.socket.connect()
+        this.joinRoom(roomId);
+      }
+    })
+
   }
 
 }
