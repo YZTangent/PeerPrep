@@ -180,11 +180,15 @@ export class CollabComponent implements OnInit, OnDestroy {
   }
 
   updateSearchResults(s: string) {
-    this.questionService.searchQuestions(s).subscribe(res => {
-      this.searchResults = res;
-    }, err => {
-      console.log(err);
-    })
+    if(s == "") {
+      this.getQuestions()
+    } else {
+      this.questionService.searchQuestions(s).subscribe(res => {
+        this.searchResults = res;
+      }, err => {
+        console.log(err);
+      })
+    }
   }
 
   toggleQuestionView() {
@@ -234,24 +238,15 @@ export class CollabComponent implements OnInit, OnDestroy {
     this.isPanelOneOpen = true;
     this.isPanelTwoOpen = false;
     this.isPanelThreeOpen = false;
-    console.log("Panel one open:" + this.isPanelOneOpen);
-    console.log("Panel two open:" + this.isPanelTwoOpen);
-    console.log("Panel three open:" + this.isPanelThreeOpen);
   }
   handleAccordionPanelTwoClick(): void {
     this.isPanelOneOpen = false;
     this.isPanelTwoOpen = true;
     this.isPanelThreeOpen = false;
-    console.log("Panel one open:" + this.isPanelOneOpen);
-    console.log("Panel two open:" + this.isPanelTwoOpen);
-    console.log("Panel three open:" + this.isPanelThreeOpen);
   }
   handleAccordionPanelThreeClick(): void {
     this.isPanelOneOpen = false;
     this.isPanelTwoOpen = false;
     this.isPanelThreeOpen = true;
-    console.log("Panel one open:" + this.isPanelOneOpen);
-    console.log("Panel two open:" + this.isPanelTwoOpen);
-    console.log("Panel three open:" + this.isPanelThreeOpen);
   }
 }
