@@ -91,7 +91,7 @@ _To elevate a user to an_ `admin` _role:_
 - Set up MongoDB Atlas account
 - Under "Secrets & ConfigMaps" on GKE, configure the following for the created cluster:
     * A `db-admin` secret with `db-username` and `db-password` matching the username and password of the created MongoDB Atlas account
-    * An `auth-jwt` secret with `jwt-secret` set to the desired secret for cloud deployment
+    * An `db-admin` secret with `jwt-secret` set to the desired secret for cloud deployment
 - Provision TLS certification for the domain name used by the backend
 - Reserve a global static IP on Google Cloud
 - Configure `./frontend/src/environments/environment.ts` with the certified domain name `<BACKEND_DOMAIN_NAME>` as follows:
