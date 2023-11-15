@@ -41,23 +41,23 @@ jobs:
           npm install
           npm install jasmine
           npx jasmine --random=false ./spec/history.spec.js
-  #build:
-  #  runs-on: ubuntu-latest
-  #  name: Build
-  #  steps:
-  #  - uses: actions/checkout@v3
-  #  - name: Build the service
-  #    run: docker-compose up -d
+  build:
+    runs-on: ubuntu-latest
+    name: Build
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build the service
+      run: docker-compose up -d
 
-  #frontend-test:
-  #  runs-on: ubuntu-latest
-  #  name: Frontend Tests
-  #  needs: build
-  #  steps:
-  #  - uses: actions/checkout@v3
-  #  - name: Frontend
-  #    working-directory: ./frontend
-  #    run: |
-  #        npm install
-  #        npm install -g @angular/cli
-  #        xvfb-run -a ng test --watch=false --browsers=ChromeHeadless 
+  frontend-test:
+    runs-on: ubuntu-latest
+    name: Frontend Tests
+    needs: build
+    steps:
+    - uses: actions/checkout@v3
+    - name: Frontend
+      working-directory: ./frontend
+      run: |
+          npm install
+          npm install -g @angular/cli
+          xvfb-run -a ng test --watch=false --browsers=ChromeHeadless 

@@ -1,6 +1,5 @@
 const request = require('supertest');
 const app = require('./app.spec.js');
-const { set } = require('lodash');
 
 describe('enqueue function', () => {
   let match1;
