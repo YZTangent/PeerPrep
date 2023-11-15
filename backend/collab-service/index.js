@@ -1,6 +1,6 @@
 const cors = require('cors');
 const { createServer } = require('http');
-const { Server } = require('socket.io')({ pingTimeout: 300000, pingInterval: 300000 });
+const { Server } = require('socket.io')({pingTimeout: 300000, pingInterval: 10000});
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
