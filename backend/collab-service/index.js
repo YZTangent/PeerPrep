@@ -1,6 +1,6 @@
 const cors = require('cors');
 const { createServer } = require('http');
-const { Server } = require('socket.io')
+const { Server } = require('socket.io')({pingTimeout: 300000, pingInterval: 10000});
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
@@ -12,7 +12,7 @@ const io = new Server(httpServer, {
     credentials: true,
     optionsSuccessStatus: 200
   }
-});
+}); 
 
 const PORT = 8004;
 
@@ -55,6 +55,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log(`${socket.id} disconnected.`);
+    io.to(matchedRoomId).emit("message", `User disconnected.`);
     console.log(`Existing rooms: ${Array.from(io.sockets.adapter.rooms.keys())}.`);
   })
 
