@@ -2,7 +2,7 @@ const cors = require('cors');
 const { createServer } = require('http');
 const { Server } = require('socket.io');
 
-const httpServer = createServer().setTimeout(120000);
+const httpServer = createServer();
 const io = new Server(httpServer, {
   path: '/collab',
   cors: {
@@ -13,7 +13,8 @@ const io = new Server(httpServer, {
     optionsSuccessStatus: 200
   }, 
   pingTimeout: 300000,
-  pingInterval: 100000
+  pingInterval: 100000,
+  transports: ["polling"]
 }); 
 
 const PORT = 8004;
