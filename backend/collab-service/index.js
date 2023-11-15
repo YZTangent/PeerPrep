@@ -29,6 +29,8 @@ httpServer.listen(PORT, () => {
 io.on("connection", (socket) => {
   if (socket.recovered) {
     console.log(`${socket.id} recovered connection state.`);
+    console.log(socket.rooms);
+    console.log(socket.data);
   } else {
     console.log(`${socket.id} connected.`);
   }
