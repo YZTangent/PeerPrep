@@ -16,15 +16,14 @@ export class CollabService implements OnInit, OnDestroy {
   public question$: Subject<any> = new Subject();
   public request$: Subject<any> = new Subject();
   public leave$: Subject<any> = new Subject();
-  private roomId = undefined;
+  private roomId: any = undefined;
 
   ngOnInit(): void {
     this.socket.on("connect", () => {
       console.log(`${this.socket.id} connected`);
-      console.log(`roomId is ${this.roomId}`);
-      if (this.roomId) {
-        this.joinRoom(this.roomId);
-      }
+    })
+    this.socket.on("reconnect", () => {
+      this.socket.emit("join", this.roomId);
     })
   }
 
@@ -46,6 +45,7 @@ export class CollabService implements OnInit, OnDestroy {
   public joinRoom(roomId: string) {
     console.log(`Joining room ${roomId}.`);
     this.socket.emit("join", roomId);
+    this.roomId = roomId;
   }
 
   public emitRandomQuestion(complexity: string) {
