@@ -31,5 +31,11 @@ spec:
               secretKeyRef:
                 name: db-admin
                 key: db-password
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: user-admin
+                key: jwt-secret
+          
       restartPolicy: Always
 
