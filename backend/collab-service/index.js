@@ -55,6 +55,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     console.log(`${socket.id} disconnected.`);
+    io.to(matchedRoomId).emit("message", `User disconnected.`);
     console.log(`Existing rooms: ${Array.from(io.sockets.adapter.rooms.keys())}.`);
   })
 
