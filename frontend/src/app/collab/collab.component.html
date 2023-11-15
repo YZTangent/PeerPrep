@@ -4,88 +4,90 @@
     <div class="col-lg-5 h-100">
       <!-- Top Part of Left Half - Question View -->
       <div class="accordion shadow mt-3 mb-3 ml-3 mr-1" style="height: 90vh" id="accordionExample">
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button" type="button" [disabled]="isPanelOneOpen" (click)="handleAccordionPanelOneClick()" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-              {{ question?.questionTitle }} 
-                <!-- <a mat-icon-button style="width: 24px; height: 24px;" (click)="getQuestion()">
-                  <mat-icon>refresh</mat-icon>
-                </a>
-                <a
-                  class="leave-room" style="width: 24px; height: 24px;"
-                  mat-icon-button (click)="leaveRoom()">
-                  <mat-icon>exit_to_app</mat-icon>
-                </a>
-                <a mat-icon-button style="width: 24px; height: 24px;" (click)="toggleQuestionView()">
-                  <mat-icon>find_in_page</mat-icon>
-                </a> --->
-            </button>
-          </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-            <div class="accordion-body overflow-y-scroll" style="height: 69vh">
-              <p style="color: gray">Complexity: {{ question?.questionComplexity }}</p>
-              <p style="color: gray">Category: {{ question?.questionCategory }}</p>
-              <div class="p-1" [innerHTML]="question?.questionDescription"></div>
+        <div *ngIf="questionView">
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button" type="button" [disabled]="isPanelOneOpen" (click)="handleAccordionPanelOneClick()" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                {{ question?.questionTitle }} 
+                  <!-- <a mat-icon-button style="width: 24px; height: 24px;" (click)="getQuestion()">
+                    <mat-icon>refresh</mat-icon>
+                  </a>
+                  <a
+                    class="leave-room" style="width: 24px; height: 24px;"
+                    mat-icon-button (click)="leaveRoom()">
+                    <mat-icon>exit_to_app</mat-icon>
+                  </a>
+                  <a mat-icon-button style="width: 24px; height: 24px;" (click)="toggleQuestionView()">
+                    <mat-icon>find_in_page</mat-icon>
+                  </a> --->
+              </button>
+            </h2>
+            <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+              <div class="accordion-body overflow-y-scroll" style="height: 69vh">
+                <p style="color: gray">Complexity: {{ question?.questionComplexity }}</p>
+                <p style="color: gray">Category: {{ question?.questionCategory }}</p>
+                <div class="p-1" [innerHTML]="question?.questionDescription"></div>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" [disabled]="isPanelTwoOpen" (click)="handleAccordionPanelTwoClick()" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-              Past Attempts 
-            </button>
-          </h2>
-          <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body justify-content-center" style="height: 69vh">
-              <button class="btn btn-primary btn-block mb-2 justify-content-center" style="width: 100%;" (click)="saveAttempt()">Save Attempt</button>
-              <table class="table table-dark">
-                <thead>
-                  <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">Language</th>
-                    <th scope="col">Partner</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr *ngFor="let attempt of attempts; index as index" [attr.data-bs-target]="'#exampleModal' + index" data-bs-toggle="modal">
-                    <th scope="row">{{ index + 1 }}</th>
-                    <td>{{ attempt.language }}</td>
-                    <td>{{ attempt.userId2 }}</td>
-                    <div class="modal" [id]="'exampleModal' + index" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                      <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                          <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel" style="color:black">Question attempt</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                          </div>
-                          <div class="modal-body">
-                            <div class="attempt-view" style="height: 30%; background: gainsboro;">
-                              <code>
-                                {{this.attempt.solution}}
-                              </code>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" [disabled]="isPanelTwoOpen" (click)="handleAccordionPanelTwoClick()" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                Past Attempts 
+              </button>
+            </h2>
+            <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body justify-content-center" style="height: 69vh">
+                <button class="btn btn-primary btn-block mb-2 justify-content-center" style="width: 100%;" (click)="saveAttempt()">Save Attempt</button>
+                <table class="table table-dark">
+                  <thead>
+                    <tr>
+                      <th scope="col">#</th>
+                      <th scope="col">Language</th>
+                      <th scope="col">Partner</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let attempt of attempts; index as index" [attr.data-bs-target]="'#exampleModal' + index" data-bs-toggle="modal">
+                      <th scope="row">{{ index + 1 }}</th>
+                      <td>{{ attempt.language }}</td>
+                      <td>{{ attempt.userId2 }}</td>
+                      <div class="modal" [id]="'exampleModal' + index" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-lg">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLabel" style="color:black">Question attempt</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                          </div>
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <div class="modal-body">
+                              <div class="attempt-view" style="height: 30%; background: gainsboro;">
+                                <code>
+                                  {{this.attempt.solution}}
+                                </code>
+                              </div>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  </tr>
-                </tbody>
-              </table>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="accordion-item">
-          <h2 class="accordion-header">
-            <button class="accordion-button collapsed" type="button" [disabled]="isPanelThreeOpen" (click)="handleAccordionPanelThreeClick()" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThre">
-              Room Chat
-            </button>
-          </h2>
-          <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-            <div class="accordion-body p-0" style="height: 69vh">
-              <app-chat></app-chat>
+          <div class="accordion-item">
+            <h2 class="accordion-header">
+              <button class="accordion-button collapsed" type="button" [disabled]="isPanelThreeOpen" (click)="handleAccordionPanelThreeClick()" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThre">
+                Room Chat
+              </button>
+            </h2>
+            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+              <div class="accordion-body p-0" style="height: 69vh">
+                <app-chat></app-chat>
+              </div>
             </div>
           </div>
         </div>
