@@ -1,6 +1,6 @@
 const cors = require('cors');
 const { createServer } = require('http');
-const { Server } = require('socket.io')({pingTimeout: 300000, pingInterval: 10000});
+const { Server } = require('socket.io');
 
 const httpServer = createServer();
 const io = new Server(httpServer, {
@@ -11,7 +11,9 @@ const io = new Server(httpServer, {
     allowedHeaders: 'Origin, Authorization, Content-Type, Accept',
     credentials: true,
     optionsSuccessStatus: 200
-  }
+  }, 
+  pingTimeout: 300000,
+  pingInterval: 100000
 }); 
 
 const PORT = 8004;
