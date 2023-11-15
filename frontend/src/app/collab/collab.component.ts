@@ -68,7 +68,6 @@ export class CollabComponent implements OnInit, OnDestroy {
       this.language = this.language.toLowerCase();
       this.editorOptions.language = this.language;
       this.roomId = sessionState.roomId;
-      this.collabService.setReconnect(this.roomId);
       this.collabService.joinRoom(this.roomId);
       this.roomId == this.currUser ? this.solo = true : this.solo = false;
       this.collabService.getQuestion().subscribe((question: any) => {
