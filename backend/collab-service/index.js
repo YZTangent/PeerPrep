@@ -11,10 +11,7 @@ const io = new Server(httpServer, {
     allowedHeaders: 'Origin, Authorization, Content-Type, Accept',
     credentials: true,
     optionsSuccessStatus: 200
-  }, 
-  pingTimeout: 300000,
-  pingInterval: 100000,
-  transports: ["polling"]
+  }
 }); 
 
 const PORT = 8004;
@@ -57,9 +54,14 @@ io.on("connection", (socket) => {
   })
 
   socket.on("disconnect", (reason) => {
-    console.log(`${socket.id} disconnected due to: ${reason}.`);
-    io.to(matchedRoomId).emit("message", `User disconnected.`);
-    console.log(`Existing rooms: ${Array.from(io.sockets.adapter.rooms.keys())}.`);
+    if (reason === "transport close") {
+      socket.connect();
+      socket.join(matchedRoomId);
+    } else {
+      console.log(`${socket.id} disconnected due to: ${reason}.`);
+      io.to(matchedRoomId).emit("message", `User disconnected.`);
+      console.log(`Existing rooms: ${Array.from(io.sockets.adapter.rooms.keys())}.`);  
+    }
   })
 
   socket.on("request", (question) => {
