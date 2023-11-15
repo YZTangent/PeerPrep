@@ -17,8 +17,9 @@ export class MainComponent {
   selector: any;
   tags = new FormControl('')
   categories = new FormControl('')
-  categoriesList: string[] = ["Algorithms", "Brain Teasers", "Hashing", "Dynamic Programming"]
-  tagsList: string[] = ['Popular', 'NeetCode 150', 'Top 50', 'Top 10']
+  categoriesList: string[] = ["Algorithms", "Brain Teasers", "Hashing", "Dynamic Programming", "Strings",
+  "Data Structures", "Bit Manipulation", "Recursion", "Databases", "Arrays"]
+  tagsList: string[] = ['Popular', 'NeetCode 150', 'Top 50', 'Top 10', 'Top 100']
   successMessage: string = ""
   errorMessage: string = ""
 
