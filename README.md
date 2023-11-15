@@ -43,6 +43,8 @@ The `/gke` directory contains sub-directories for deploying the API gateway and 
 ### Local Deployment
 #### Requirements
 - Install [Docker Desktop](https://www.docker.com/products/docker-desktop/)
+- Configure the `JWT_SECRET` for use in local deployment in `/backend/user-service/config/auth.config.js` if desired. The default value used is `"the-inner-machinations-of-my-mind-are-an-enigma"`
+
 #### Instructions
 _To run the project_:
 1. Ensure a Docker daemon is running
@@ -87,14 +89,18 @@ _To elevate a user to an_ `admin` _role:_
     * `GKE_PROJECT`: the ID of the Google Cloud Project set up 
     * `GKE_SA_KEY`: the generated service account key for the service account with sufficient permissions
 - Set up MongoDB Atlas account
-- Under "Secrets & ConfigMaps" on GKE, configure a `db-admin` secret for the created cluster with `db-username` and `db-password` matching the username and password of the MongoDB Atlas account
+- Under "Secrets & ConfigMaps" on GKE, configure the following for the created cluster:
+    * A `db-admin` secret with `db-username` and `db-password` matching the username and password of the created MongoDB Atlas account
+    * An `auth-jwt` secret with `JWT_SECRET` set to the desired secret for cloud deployment
 - Provision TLS certification for the domain name used by the backend
 - Reserve a global static IP on Google Cloud
 - Configure `./frontend/src/environments/environment.ts` with the certified domain name `<BACKEND_DOMAIN_NAME>` as follows:
     * `BACKEND_API: <BACKEND_DOMAIN_NAME>`
 
 #### Instructions
+
 _Frontend Cloud Deployment:_
+
 1. Log in/Sign up for Vercel, and add a new project from the homepage.
 2. Under “Import Git Repository”, press “Import” on your GitHub repository containing the project. If the repository is not listed as an option, you can add it by clicking on “Adjust GitHub App Permissions →”.
 3. At the “Configure Project” page, give the project a name. Choose “Angular”, and select `./frontend` as the root directory.
