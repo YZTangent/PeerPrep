@@ -1,3 +1,9 @@
+<style>
+  .accordion-button::after {
+    display: none; /* Hide the arrows */
+  }
+</style>
+
 <div class="container-fluid h-100">
   <div class="row h-100">
     <!-- Left Half -->
@@ -98,7 +104,7 @@
                 Question Search
               </button>
             </h2>
-            <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
+            <div class="accordion-body p-0" style="height: 69vh">
               <mat-card class="col h-100">
                 <mat-card-title class="p-3"><mark (click)="toggleQuestionView()" style="background: none;">&crarr;</mark> Question</mat-card-title>
                 <mat-card-content>
