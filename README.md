@@ -106,7 +106,7 @@ The instructions for configuring the deployment of the API gateway and the micro
 
 1. In each `deploy-___.yml` file of the `/.github/workflows` directory, configure each of the `GKE_CLUTER`, `GKE_ZONE`, `REPOSITORY_NAME` as per the setup in "Requirements"
 2. Configure the `image` in each of the `.yaml` files under `./gke` to point to the appropriate image in the repository on the Artifact Registry
-3. Configure the `global-static-ip-name` annotation in `api-gateway-ingress.yaml` to point to the global static IP you reserved
+3. Configure the `global-static-ip-name` annotation in `api-gateway-ingress.yaml` to point to the global static IP reserved
 4. Manually trigger the deployment workflows for each component under "Actions", or have them automatically trigger on changes to the relevant files
 
 _Serverless Function Deployment:_
