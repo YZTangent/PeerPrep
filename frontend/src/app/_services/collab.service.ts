@@ -8,7 +8,7 @@ import { environment } from '../../environments/environment';
 
 export class CollabService implements OnInit, OnDestroy {
 
-  private socket = io(environment.BACKEND_API, { path: '/collab', forceNew: true});
+  private socket = io(environment.BACKEND_API, { path: '/collab' });
 
   public isLocalEvent$: BehaviorSubject<boolean> = new BehaviorSubject(true);
   public change$: Subject<any> = new Subject();
