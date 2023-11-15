@@ -16,10 +16,15 @@ export class CollabService implements OnInit, OnDestroy {
   public question$: Subject<any> = new Subject();
   public request$: Subject<any> = new Subject();
   public leave$: Subject<any> = new Subject();
+  private roomId: any = undefined;
 
   ngOnInit(): void {
     this.socket.on("connect", () => {
       console.log(`${this.socket.id} connected`);
+      console.log(`roomId is ${this.roomId}`)
+      if (this.roomId) {
+        this.joinRoom(this.roomId);
+      }
     })
   }
 
@@ -130,8 +135,7 @@ export class CollabService implements OnInit, OnDestroy {
   public setReconnect(roomId: string) {
     this.socket.on("disconnect", (reason) => {
       if (reason === "transport close") {
-        this.socket.connect()
-        this.joinRoom(roomId);
+        this.roomId = roomId;
       }
     })
 
