@@ -22,9 +22,6 @@ export class CollabService implements OnInit, OnDestroy {
     this.socket.on("connect", () => {
       console.log(`${this.socket.id} connected`);
     })
-    this.socket.on("reconnect", () => {
-      this.socket.emit("join", this.roomId);
-    })
   }
 
   ngOnDestroy(): void {
@@ -46,6 +43,9 @@ export class CollabService implements OnInit, OnDestroy {
     console.log(`Joining room ${roomId}.`);
     this.socket.emit("join", roomId);
     this.roomId = roomId;
+    this.socket.io.on("reconnect", () => {
+      this.socket.emit("join", this.roomId);
+    })
   }
 
   public emitRandomQuestion(complexity: string) {
