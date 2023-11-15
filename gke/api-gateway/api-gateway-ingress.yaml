@@ -18,3 +18,12 @@ spec:
             name: api-gateway
             port:
               number: 8080
+    http:
+      paths:
+        path: /collab
+        pathType: Prefix
+        backend:
+          service:
+            name: collab-service
+            port:
+              number: 8004
