@@ -169,8 +169,7 @@ export class CollabComponent implements OnInit, OnDestroy {
         difficulty: undefined,
         language: undefined 
       },
-      '',
-      '/'
+      ''
     )
   }
 
