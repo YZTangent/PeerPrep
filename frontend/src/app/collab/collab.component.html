@@ -29,7 +29,7 @@
               </button>
             </h2>
             <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-              <div class="accordion-body overflow-y-scroll" style="height: 69vh">
+              <div class="accordion-body overflow-y-scroll" style="height: 67vh">
                 <p style="color: gray">Complexity: {{ question?.questionComplexity }}</p>
                 <p style="color: gray">Category: {{ question?.questionCategory }}</p>
                 <div class="p-1" [innerHTML]="question?.questionDescription"></div>
@@ -43,7 +43,7 @@
               </button>
             </h2>
             <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-              <div class="accordion-body justify-content-center" style="height: 69vh">
+              <div class="accordion-body justify-content-center" style="height: 67vh">
                 <button class="btn btn-primary btn-block mb-2 justify-content-center" style="width: 100%;" (click)="saveAttempt()">Save Attempt</button>
                 <table class="table table-dark">
                   <thead>
@@ -91,7 +91,7 @@
               </button>
             </h2>
             <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-              <div class="accordion-body p-0" style="height: 69vh">
+              <div class="accordion-body p-0" style="height: 67vh">
                 <app-chat></app-chat>
               </div>
             </div>
@@ -104,9 +104,8 @@
                 Question Search
               </button>
             </h2>
-            <div class="accordion-body p-0" style="height: 69vh">
+            <div class="accordion-body overflow-y-scroll" style="height: 80vh">
               <mat-card class="col h-100">
-                <mat-card-title class="p-3"><mark (click)="toggleQuestionView()" style="background: none;">&crarr;</mark> Question</mat-card-title>
                 <mat-card-content>
                   <input type="text" #search class="form-control mt-2" placeholder="Search by index or title..." (keyup)="updateSearchResults(search.value)">
                   <button (click)="pullUpQuestion(res)" class="btn btn-outline-secondary m-1" *ngFor="let res of searchResults">{{res.questionTitle}}</button>
