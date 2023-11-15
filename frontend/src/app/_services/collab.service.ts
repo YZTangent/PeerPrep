@@ -43,6 +43,7 @@ export class CollabService implements OnInit, OnDestroy {
     console.log(`Joining room ${roomId}.`);
     this.socket.emit("join", roomId);
     this.roomId = roomId;
+    // rejoin room
     this.socket.io.on("reconnect", () => {
       this.socket.emit("join", this.roomId);
     })
