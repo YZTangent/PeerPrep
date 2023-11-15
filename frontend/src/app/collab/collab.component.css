@@ -78,3 +78,9 @@ div{
 .modal.show {
   background-color: rgba(0,0,0,.0001) !important;
 }
+
+::ng-deep img {
+  padding-top: 20px;
+  padding-bottom: 20px;
+  max-width: 500px !important;
+}
