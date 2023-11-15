@@ -13,7 +13,7 @@ RUN npm install
 COPY . .
 
 # Add --prod flag for production
-RUN npm run build --configuration=development
+RUN npm run build-dev
 
 FROM nginx:alpine
 
