@@ -88,6 +88,11 @@ _To elevate a user to an_ `admin` _role:_
     * `GKE_SA_KEY`: the generated service account key for the service account with sufficient permissions
 - Set up MongoDB Atlas account
 - Under "Secrets & ConfigMaps" on GKE, configure a `db-admin` secret for the created cluster with `db-username` and `db-password` matching the username and password of the MongoDB Atlas account
+- Provision TLS certification for the domain name used by the backend
+- Reserve a global static IP on Google Cloud
+- Configure ./frontend/src/environments/environment.ts with the certified domain name <BACKEND_DOMAIN_NAME> as follows:
+    * BACKEND_API: <BACKEND_DOMAIN_NAME>
+
 #### Instructions
 _Frontend Cloud Deployment:_
 1. Log in/Sign up for Vercel, and add a new project from the homepage.
@@ -101,7 +106,8 @@ The instructions for configuring the deployment of the API gateway and the micro
 
 1. In each `deploy-___.yml` file of the `/.github/workflows` directory, configure each of the `GKE_CLUTER`, `GKE_ZONE`, `REPOSITORY_NAME` as per the setup in "Requirements"
 2. Configure the `image` in each of the `.yaml` files under `./gke` to point to the appropriate image in the repository on the Artifact Registry
-3. Manually trigger the deployment workflows for each component under "Actions", or have them automatically trigger on changes to the relevant files
+3. Configure the `global-static-ip-name` annotation in `api-gateway-ingress.yaml` to point to the global static IP you reserved
+4. Manually trigger the deployment workflows for each component under "Actions", or have them automatically trigger on changes to the relevant files
 
 _Serverless Function Deployment:_
 
