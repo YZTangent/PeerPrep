@@ -225,4 +225,33 @@ export class CollabComponent implements OnInit, OnDestroy {
       console.log("An error occurred while saving attempt: " + err.message)
     })
   }
+
+  isPanelOneOpen: boolean = true;
+  isPanelTwoOpen: boolean = false;
+  isPanelThreeOpen: boolean = false;
+
+  handleAccordionPanelOneClick(): void {
+    this.isPanelOneOpen = true;
+    this.isPanelTwoOpen = false;
+    this.isPanelThreeOpen = false;
+    console.log("Panel one open:" + this.isPanelOneOpen);
+    console.log("Panel two open:" + this.isPanelTwoOpen);
+    console.log("Panel three open:" + this.isPanelThreeOpen);
+  }
+  handleAccordionPanelTwoClick(): void {
+    this.isPanelOneOpen = false;
+    this.isPanelTwoOpen = true;
+    this.isPanelThreeOpen = false;
+    console.log("Panel one open:" + this.isPanelOneOpen);
+    console.log("Panel two open:" + this.isPanelTwoOpen);
+    console.log("Panel three open:" + this.isPanelThreeOpen);
+  }
+  handleAccordionPanelThreeClick(): void {
+    this.isPanelOneOpen = false;
+    this.isPanelTwoOpen = false;
+    this.isPanelThreeOpen = true;
+    console.log("Panel one open:" + this.isPanelOneOpen);
+    console.log("Panel two open:" + this.isPanelTwoOpen);
+    console.log("Panel three open:" + this.isPanelThreeOpen);
+  }
 }
